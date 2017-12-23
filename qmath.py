@@ -83,6 +83,18 @@ class VecNd:
 
 	def len(self):
 		return math.sqrt(len_sqr(self))
+	
+	
+	def __pos__(self):
+		return self
+	
+	
+	def __neg__(self):
+		return VecNd([map(lambda x:-x, self.v)])
+	
+	
+	def __abs__(self):
+		return VecNd([map(abs, self.v)])
 
 		
 
