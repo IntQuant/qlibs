@@ -95,6 +95,9 @@ class VecNd:
 	
 	def __abs__(self):
 		return VecNd([map(abs, self.v)])
+	
+	def to_tuple(self):
+		return tuple(self.v)
 
 		
 
