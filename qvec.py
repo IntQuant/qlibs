@@ -1,9 +1,12 @@
 import math
+from numbers import Number as number
 
-class VecNd:
+class Vec:
 	def __init__(self, verticles:iter):
 		self.v = list(verticles)
-
+		
+		for v in self.v:
+			assert isinstance(v, number)
 
 	def __eq__(self, other):
 		return hasattr(other, "v") and self.v == other.v
@@ -26,13 +29,13 @@ class VecNd:
 
 
 	def __repr__(self):
-		return "VecNd(" + ", ".join(map(str, self.v)) + ")"
+		return "Vec(" + ", ".join(map(str, self.v)) + ")"
 
 	
 	def map_by_verticle(self, other, function:callable):
-		assert isinstance(other, (VecNd, Vec2d, Vec3d)), "wrong class"
+		assert isinstance(other, Vec), "wrong class"
 		assert len(self.v) == len(other.v), "wrong dimensions"
-		return VecNd([function(x, y) for x, y in zip(self.v, other.v)])
+		return self.__class__([function(x, y) for x, y in zip(self.v, other.v)])
 
 	
 	def __add__(self, other):
@@ -52,10 +55,10 @@ class VecNd:
 	
 	
 	def __mul__(self, other):
-		if isinstance(other, (VecNd, Vec2d, Vec3d)):
+		if isinstance(other, Vec):
 			return self.map_by_verticle(other, lambda x,y:x*y)
-		elif isinstance(other, (int, float)):
-			return VecNd(map(lambda x:x*other, self.v))
+		elif isinstance(other, number):
+			return self.__class__(map(lambda x:x*other, self.v))
 		else:
 			raise TypeError("Cannot multiply vector by " + str(type(other)))
 
@@ -65,10 +68,10 @@ class VecNd:
 
 
 	def __truediv__(self, other):
-		if isinstance(other, (VecNd, Vec2d, Vec3d)):
+		if isinstance(other, (Vec)):
 			return self.map_by_verticle(other, lambda x,y:x/y)
-		elif isinstance(other, (int, float)):
-			return VecNd(map(lambda x:x/other, self.v))
+		elif isinstance(other, (number)):
+			return self.__class__(map(lambda x:x/other, self.v))
 		else:
 			raise TypeError("Cannot divide vector by " + str(type(other)))
 
@@ -90,24 +93,24 @@ class VecNd:
 	
 	
 	def __neg__(self):
-		return VecNd([map(lambda x:-x, self.v)])
+		return self.__class__(map(lambda x:-x, self.v))
 	
 	
 	def __abs__(self):
-		return VecNd([map(abs, self.v)])
+		return self.__class__(map(abs, self.v))
+	
 	
 	def to_tuple(self):
 		return tuple(self.v)
-
 		
 
-class Vec2d(VecNd):
+class Vec2d(Vec):
 	def __init__(self, x, y):
 		super.__init__([x, y])
 
 
 
-class Vec3d(VecNd):
+class Vec3d(Vec):
 	def __init__(self, x, y, z):
 		super.__init__([x, y, z])
 
@@ -116,9 +119,9 @@ class Vec3d(VecNd):
 
 
 if __name__ == "__main__":
-	v1 = VecNd([1, 2])
-	v2 = VecNd([1, 2])
-	v3 = VecNd([1, 3])
+	v1 = Vec([1, 2])
+	v2 = Vec([1, 2])
+	v3 = Vec([1, 3])
 	
 	assert v1 == v2
 	assert not (v1 == 1)
@@ -128,10 +131,11 @@ if __name__ == "__main__":
 	
 	
 	assert str(v3) == "1 3"
-	assert repr(v3) == "VecNd(1, 3)"
-	print(v1 + v2)
-	print(v1 * v2)
-	print(v3 * 10)
+	assert repr(v3) == "Vec(1, 3)"
+	print(0, v1 + v2)
+	print(1, v1 * v2)
+	print(2, v3 * 10)
+	print(3, -v3)
 	try:
 		v1 * "error"
 	except Exception as e:
