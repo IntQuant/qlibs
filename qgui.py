@@ -6,8 +6,11 @@ BORDER_COLOR = (0, 0.75, 1, 1)
 BORDER_HIGHLIGHT_COLOR = (0, 1, 0, 1)
 
 BG_COLOR = (0, 0, 0, 1)
+CARET_COLOR = (255, 255, 255)
 
 BREAK_ON_NEXT_DISPATCHER_FOUND = True
+
+INC_TEXT_HORIZONTAL_MOD = 2
 
 def make_rectangle_verticle_sequence(x1, y1, x2, y2):
 	return (x1, y1, x2, y1, x2, y2, x1, y2)
@@ -20,6 +23,11 @@ class EventTypes(Enum):
 	MOUSE_RELEASE = auto()
 	MOUSE_PRESS = auto()
 	MOUSE_DRAG = auto()
+	
+	TEXT = auto()
+	TEXT_MOTION = auto()
+	TEXT_MOTION_SELECT = auto()
+	
 	
 class GuiNode():
 	def __init__(self, parent=None, rx=0, ry=0, rwidth=1, rheight=1, window=None, **kwargs):
@@ -45,6 +53,8 @@ class GuiNode():
 		
 		if (self.window is not None) and self.window.batch is not None:
 			self.update_size()
+			if self.window.node is not None:
+				self.window.node.nodes.append(self)
 	
 	def convert_to_abs(self, rx, ry):
 		x = self.x + self.w * rx
@@ -63,7 +73,7 @@ class GuiNode():
 			#TODO
 	
 	def update_size(self):
-		print("Updating", self)
+		#print("Updating", self)
 		if self.parent is not None:
 			self.x, self.y = self.parent.convert_to_abs(self.rx, self.ry)
 			self.w, self.h = self.parent.convert_to_abs_hw(self.rw, self.rh)
@@ -81,8 +91,7 @@ class GuiNode():
 			(self.y <= y <= self.y + self.h))
 	
 	def dispatch_to_all(self, event, args):
-		for chld in self.children:
-			chld.dispatch_to_all(event, args)
+		pass
 	
 	def dispatch_event(self, event, args):
 		pass
@@ -105,12 +114,21 @@ class GuiNode():
 		self.children.append(obj)
 		if self.window is not None:
 			obj.window = self.window
+	
+	def delete(self):
+		if self.border is not None:
+			self.border.delete()
+		if self.window is not None:
+			self.window.node.nodes.remove(self)
+		del self.children
+	
+	def __del__(self):
+		self.delete()
 
 class GuiNodeHighlighted(GuiNode):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.highlighted = False
-		self.window.node.dispatch_events_to.append(self)
 	
 	def highlight(self):
 		if not self.highlighted:
@@ -123,18 +141,21 @@ class GuiNodeHighlighted(GuiNode):
 			self.highlighted = False
 			if self.border is not None:
 				self.border.colors = BORDER_COLOR * 4
+
+class GuiNodeHighlightedByHover(GuiNodeHighlighted):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
 	
-	def dispatch_event(self, event, args):
-		if self.highlighted and (event is EventTypes.MOUSE_MOTION):
-			if not self.contains(*args[0:2]):
+	def dispatch_to_all(self, event, args):
+		if self.highlighted and (event is EventTypes.PRE_DRAW):
+			if not self.contains(*self.window.mouse_pos):
 				self.unlight()
-		#super().dispatch_to_all(event, args)
 	
 	def dispatch_hover(self, x, y):
 		super().dispatch_hover(x, y)
 		self.highlight()
 
-class GuiNodeButton(GuiNodeHighlighted):
+class GuiNodeButton(GuiNodeHighlightedByHover):
 	def __init__(self, *args, **kwargs):
 		"""Has 'action' keyword - sets up button callback"""
 		super().__init__(*args, **kwargs)
@@ -144,22 +165,75 @@ class GuiNodeButton(GuiNodeHighlighted):
 		if self.action is not None:
 			self.action()
 
-class GuiNodeText(GuiNode)
+class GuiNodeIncText(GuiNodeHighlighted):
+	def __init__(self, *args, **kwargs):
+		"""
+		  Additional keywords:
+		   document - sets the document to use
+		"""
+		self.layout = None
+		
+		super().__init__(*args, **kwargs)
+		
+		self.document = kwargs["document"] if "document" in kwargs else pyglet.text.document.UnformattedDocument("")
+		if "document" not in kwargs:
+			self.document.set_style(0, len(self.document.text), dict(color=(255, 255, 255, 255)))
+		
+		self.layout = pyglet.text.layout.IncrementalTextLayout(
+			self.document, self.w, self.h, multiline=True, batch=self.window.batch)
+		self.caret = pyglet.text.caret.Caret(self.layout)
+		self.caret.color = CARET_COLOR
+
+		self.update_layout()
+	def dispatch_click(self, x, y, button, mod):
+		super().dispatch_click(x, y, button, mod)
+		self.window.node.selected = self
+	
+	def dispatch_event(self, event, args):
+		if self.window.node.selected is self:
+			if event is EventTypes.MOUSE_PRESS:
+				self.caret.on_mouse_press(*args)
+			elif event is EventTypes.MOUSE_DRAG:
+				self.caret.on_mouse_drag(*args)
+			elif event is EventTypes.TEXT:
+				self.caret.on_text(*args)
+			elif event is EventTypes.TEXT_MOTION:
+				self.caret.on_text_motion(*args)
+			elif event is EventTypes.TEXT_MOTION_SELECT:
+				self.caret.on_text_motion_select(*args)
+	
+	def update_size(self):
+		super().update_size()
+		if self.layout is not None:
+			self.update_layout()
+		
+	def update_layout(self):
+		font = self.document.get_font()
+		height = font.ascent - font.descent
+		
+		self.layout.width = self.w - INC_TEXT_HORIZONTAL_MOD
+		self.layout.height = self.h
+		self.layout.x = self.x + INC_TEXT_HORIZONTAL_MOD
+		self.layout.y = self.y# + height
+	
+	def delete(self):
+		super().delete()
+		self.layout.delete()
 
 class MainGuiNode(GuiNode):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.selected = None
 		self.dispatch_events_to = []
+		self.nodes = []
 	
 	def dispatch_to_all(self, event, args):
-		
-		
-		super().dispatch_to_all(event, args)
-	
+		for node in self.nodes:
+			node.dispatch_to_all(event, args)
+
 	def dispatch_event(self, event, args):
 		if event is EventTypes.MOUSE_MOTION:
-			self.dispatch_hover(*args[0:2])
+			self.dispatch_hover(*args[:2])
 		elif event is EventTypes.MOUSE_PRESS:
 			self.dispatch_click(*args)
 		
@@ -171,8 +245,10 @@ class MainGuiNode(GuiNode):
 class Window(pyglet.window.Window):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.node = None
 		self.batch = pyglet.graphics.Batch()
 		self.node = MainGuiNode(window=self)
+		self.mouse_pos = (0, 0)
 	
 	
 	def draw_rectangle_outline(self, x1, y1, x2, y2, color):
@@ -188,13 +264,14 @@ class Window(pyglet.window.Window):
 		self.node.update_size()
 	
 	def on_draw(self):
-		self.node.dispatch_event(EventTypes.PRE_DRAW, None)
-		pyglet.gl.glClearColor(BG_COLOR)
+		self.node.dispatch_to_all(EventTypes.PRE_DRAW, None)
+		pyglet.gl.glClearColor(*BG_COLOR)
 		self.clear()
 		self.batch.draw()
-		self.node.dispatch_event(EventTypes.POST_DRAW, None)
+		self.node.dispatch_to_all(EventTypes.POST_DRAW, None)
 	
 	def on_mouse_motion(self, *args):
+		self.mouse_pos = args[:2]
 		self.node.dispatch_event(EventTypes.MOUSE_MOTION, args)
 	
 	def on_mouse_press(self, *args):
@@ -205,13 +282,22 @@ class Window(pyglet.window.Window):
 	
 	def on_mouse_release(self, *args):
 		self.node.dispatch_event(EventTypes.MOUSE_RELEASE, args)
-		
+	
+	def on_text(self, *args):
+		self.node.dispatch_event(EventTypes.TEXT, args)
+	
+	def on_text_motion(self, *args):
+		self.node.dispatch_event(EventTypes.TEXT_MOTION, args)
+	
+	def on_text_motion_select(self, *args):
+		self.node.dispatch_event(EventTypes.TEXT_MOTION_SELECT, args)
 
 if __name__ == "__main__":
 	window = Window(resizable=True)
 	print("Created window")
 	node = GuiNode(window.node, 0.1, 0.1, 0.5, 0.4)
 	button = GuiNodeButton(node, 0, 0, 1, 0.5, action=lambda :print("Pressed"))
+	text = GuiNodeIncText(window.node, 0.1, 0.5, 0.5, 0.2)
 	#window.draw_rectangle_outline(10, 10, 200, 200, (1, 0.5, 0.5, 1))
 	pyglet.clock.schedule_interval(lambda dt:True, 1/20)
 	pyglet.app.run()
