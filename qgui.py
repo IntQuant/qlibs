@@ -68,6 +68,8 @@ class GuiNode():
             self.update_size()
             if self.window.node is not None:
                 self.window.node.nodes.append(self)
+        
+        super().__init__(**kwargs)
     def convert_to_abs(self, rx, ry):
         x = self.x + self.w * rx
         y = self.y + self.h * ry
@@ -93,6 +95,7 @@ class GuiNode():
             chld.update_size()
         
         self.update_border()
+        
     def contains(self, x, y):
         return ((self.x <= x <= self.x + self.w) and 
             (self.y <= y <= self.y + self.h))
@@ -185,6 +188,43 @@ class GuiNodeButton(GuiNodeHighlightedByHover):
         if self.action is not None:
             self.action()
 
+class GuiNodeTextLabelBehavior():
+    def __init__(self, *args, **kwargs):
+        self.document = pyglet.text.document.UnformattedDocument(kwargs["label_text"]) if "label_text" in kwargs else pyglet.text.document.UnformattedDocument("")
+        self.document.set_style(0, len(self.document.text), dict(color=(255, 255, 255, 255), align="center"))
+        
+        #self.layout = None
+        
+        #print("Initialized")
+        #super().__init__(*args, **kwargs)
+        
+        
+        self.layout = pyglet.text.layout.TextLayout(self.document, self.w, self.h, multiline=True, batch=self.window.batch)
+        self.layout.x = self.x
+        self.layout.y = self.y
+        
+    def update_size(self):
+        print("Size")
+        super().update_size()
+        if self.layout is not None:
+            self.update_layout()    
+    def update_layout(self):
+        #print("Resized")
+        
+        font = self.document.get_font()
+        height = font.ascent - font.descent
+        
+        self.layout.width = self.w - INC_TEXT_HORIZONTAL_MOD
+        self.layout.height = self.h
+        self.layout.x = self.x + INC_TEXT_HORIZONTAL_MOD
+        self.layout.y = self.y
+
+class GuiNodeTextButton(GuiNodeButton, GuiNodeTextLabelBehavior):
+    def update_size(self):
+        super().update_size()
+        if "layout" in self.__dict__ and self.layout is not None:
+            super().update_layout()
+
 class GuiNodeIncText(GuiNodeHighlighted):
     def __init__(self, *args, **kwargs):
         """
@@ -243,7 +283,7 @@ class GuiNodeIncText(GuiNodeHighlighted):
         self.layout.width = self.w - INC_TEXT_HORIZONTAL_MOD
         self.layout.height = self.h
         self.layout.x = self.x + INC_TEXT_HORIZONTAL_MOD
-        self.layout.y = self.y# + height
+        self.layout.y = self.y
     def delete(self):
         super().delete()
         self.layout.delete()
@@ -289,7 +329,7 @@ class Window(pyglet.window.Window):
             (0, 1, 1, 2, 2, 3, 3, 0),
             ('v2f', (x1, y1, x2, y1, x2, y2, x1, y2)), #make_rectangle_verticle_sequence could be used
             ('c4f', color*4)
-        )   
+        )
     def on_resize(self, x, y):
         super().on_resize(x, y)
         self.node.update_size() 
@@ -319,7 +359,7 @@ if __name__ == "__main__":
     window = Window(resizable=True)
     print("Created window")
     node = GuiNode(window.node, 1, 0.1, -0.4, 0.4)
-    button = GuiNodeButton(node, 0, 0, 1, 0.5, action=lambda :print("Pressed"))
+    button = GuiNodeTextButton(window.node, 0, 0.75, 0.5, 0.25, action=lambda :print("Pressed"), label_text="Press Me! bla-bla-bla")
     text = GuiNodeIncText(window.node, 0.1, 0.5, 0.5, 0.2)
     text2 = GuiNodeIncText(window.node, 0.1, 0, 0.5, 0.2)
     #window.draw_rectangle_outline(10, 10, 200, 200, (1, 0.5, 0.5, 1))
