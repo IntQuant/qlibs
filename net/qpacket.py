@@ -113,6 +113,8 @@ class Decoder:
         if ensure_type is not None:
             assert etp is ensure_type
         
+        #print(etp)
+        
         if etp is VALUE_TYPES.INT:
             bl = int.from_bytes(self.io.read(1), BYTE_ORDER)
             return int.from_bytes(self.io.read(bl), BYTE_ORDER)
