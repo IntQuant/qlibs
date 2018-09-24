@@ -1,4 +1,4 @@
-VERSION = "0.0.0"
+VERSION = "0.0.1"
 NAME = "QLibs"
-MODULES = ["qvec"]
+MODULES = ["qvec", "qopt", "qgui", "net.qpacket"]
 
