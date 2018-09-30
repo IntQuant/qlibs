@@ -406,9 +406,11 @@ class Window(pyglet.window.Window):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.node = None
+        self.additional_draw = None
         self.batch = pyglet.graphics.Batch()
         self.node = MainGuiNode(window=self)
         self.mouse_pos = (0, 0)
+        self.win_size = [800, 600]
 
     def draw_rectangle_outline(self, x1, y1, x2, y2, color):
         return self.batch.add_indexed(4, pyglet.gl.GL_LINES, None,
@@ -421,13 +423,18 @@ class Window(pyglet.window.Window):
 
     def on_resize(self, x, y):
         super().on_resize(x, y)
+        self.win_size[0] = x
+        self.win_size[1] = y
         self.node.update_size()
 
     def on_draw(self):
         self.node.dispatch_to_all(EventTypes.PRE_DRAW, None)
         pyglet.gl.glClearColor(*BG_COLOR)
         self.clear()
+        if self.additional_draw is not None:
+            self.additional_draw()
         self.batch.draw()
+        
         self.node.dispatch_to_all(
             EventTypes.POST_DRAW, None)
     
