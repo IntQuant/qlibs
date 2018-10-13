@@ -2,11 +2,16 @@ import math
 from numbers import Number as number
 
 VERTNAMES = {'x':0, 'y':1, 'z':2}
+NUMERICAL = (number, int)
 
 class Vec:
-    def __init__(self, verticles):
-        self.v = list(verticles)
+    def __init__(self, *args):
+        if len(args) == 1:
+            self.v = list(args[0])
+        else:
+            self.v = args
         
+            
         for v in self.v:
             assert isinstance(v, number)
 
@@ -41,8 +46,7 @@ class Vec:
         if name in VERTNAMES:
             ind = VERTNAMES[name]
             return self.v[ind]
-        else:
-            super().__getattr__(name)
+        
     
     def __setattr__(self, name, value):
         if name in VERTNAMES:
@@ -64,9 +68,10 @@ class Vec:
 
     
     def map_by_verticle(self, other, function:callable):
-        assert isinstance(other, Vec), "wrong class"
-        assert len(self.v) == len(other.v), "wrong dimensions"
-        return self.__class__([function(x, y) for x, y in zip(self.v, other.v)])
+        #assert isinstance(other, Vec), "wrong class"
+        print(len(self), len(other))
+        assert len(self) == len(other), "wrong dimensions"
+        return self.__class__([function(x, y) for x, y in zip(self, other)])
 
     
     def __add__(self, other):
@@ -88,7 +93,7 @@ class Vec:
     def __mul__(self, other):
         if isinstance(other, Vec):
             return self.map_by_verticle(other, lambda x,y:x*y)
-        elif isinstance(other, number):
+        elif isinstance(other, NUMERICAL):
             return self.__class__(map(lambda x:x*other, self.v))
         else:
             raise TypeError("Cannot multiply vector by " + str(type(other)))
@@ -97,18 +102,29 @@ class Vec:
     def __imul__(self, other):
         return self.__mul__(other)
 
-
-    def __truediv__(self, other):
-        if isinstance(other, (Vec)):
+    def __div__(self, other):        
+        if isinstance(other, Vec):
             return self.map_by_verticle(other, lambda x,y:x/y)
-        elif isinstance(other, (number)):
+        elif isinstance(other, NUMERICAL):
             return self.__class__(map(lambda x:x/other, self.v))
         else:
             raise TypeError("Cannot divide vector by " + str(type(other)))
 
     
-    def __itruediv__(self, other):
-        return self.__mul__(other)
+    def __idiv__(self, other):        
+        return self.__div__(other)
+    
+    def __floordiv__(self, other):        
+        if isinstance(other, Vec):
+            return self.map_by_verticle(other, lambda x,y:x/y)
+        elif isinstance(other, NUMERICAL):
+            return self.__class__(map(lambda x:x//other, self.v))
+        else:
+            raise TypeError("Cannot divide vector by " + str(type(other)))
+
+    
+    def __ifloordiv__(self, other):        
+        return self.__floordiv__(other)
     
 
     def len_sqr(self):
@@ -135,15 +151,8 @@ class Vec:
         return tuple(self.v)
         
 
-class Vec2(Vec):
-    def __init__(self, x, y):
-        super.__init__([x, y])
 
 
-
-class Vec3(Vec):
-    def __init__(self, x, y, z):
-        super.__init__([x, y, z])
 
 
 
