@@ -40,6 +40,9 @@ class Vec:
         return self.v[key]
     
     def __setitem__(self, key, value):
+        if isinstance(self.v, tuple):
+            self.v = list(self.v)
+            print("Vectors V was tuple")
         self.v[key] = value
 
     def __getattr__(self, name):
@@ -60,16 +63,15 @@ class Vec:
 
 
     def __str__(self):
-        return " ".join(map(str, self.v))
+        return ", ".join(map(str, self.v))
 
 
     def __repr__(self):
-        return "Vec(" + ", ".join(map(str, self.v)) + ")"
+        return "Vec([" + ", ".join(map(str, self.v)) + "])"
 
     
     def map_by_verticle(self, other, function:callable):
         #assert isinstance(other, Vec), "wrong class"
-        print(len(self), len(other))
         assert len(self) == len(other), "wrong dimensions"
         return self.__class__([function(x, y) for x, y in zip(self, other)])
 
