@@ -251,6 +251,31 @@ class GuiNodeTextLabelBehavior():
         self.layout.y = self.y
 
 
+class GuiNodeIncrementalText(GuiNode):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.document = pyglet.text.document.UnformattedDocument(
+            kwargs["label_text"]) if "label_text" in kwargs else pyglet.text.document.UnformattedDocument("")
+        self.document.set_style(0, len(self.document.text), dict(
+            color=(255, 255, 255, 255), align="center"))
+        self.layout = pyglet.text.layout.IncrementalTextLayout(
+            self.document, self.w, self.h, multiline=True, batch=self.window.batch)
+        self.layout.content_valign = "center"
+        self.update_layout()
+        
+
+    def update_size(self):
+        super().update_size()
+        if hasattr(self, "layout"):
+            self.update_layout()
+
+    def update_layout(self):
+        self.layout.width = self.w - INC_TEXT_HORIZONTAL_MOD
+        self.layout.height = self.h
+        self.layout.x = self.x + INC_TEXT_HORIZONTAL_MOD
+        self.layout.y = self.y
+
 class GuiNodeTextButton(GuiNodeButton, GuiNodeTextLabelBehavior):
     def update_size(self):
         super().update_size()

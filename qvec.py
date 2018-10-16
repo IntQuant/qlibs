@@ -50,7 +50,6 @@ class Vec:
             ind = VERTNAMES[name]
             return self.v[ind]
         
-    
     def __setattr__(self, name, value):
         if name in VERTNAMES:
             ind = VERTNAMES[name]
@@ -58,39 +57,30 @@ class Vec:
         else:
             super().__setattr__(name, value)
 
-    #def __hash__(self):
-    #    return hash(sum(map(hash, self.v)))
-
-
     def __str__(self):
         return ", ".join(map(str, self.v))
 
-
     def __repr__(self):
         return "Vec([" + ", ".join(map(str, self.v)) + "])"
-
     
     def map_by_verticle(self, other, function:callable):
-        #assert isinstance(other, Vec), "wrong class"
         assert len(self) == len(other), "wrong dimensions"
         return self.__class__([function(x, y) for x, y in zip(self, other)])
-
+    
+    def intify(self):
+        self.v = list(map(int, self.v))
     
     def __add__(self, other):
         return self.map_by_verticle(other, lambda x,y:x+y)
-
     
     def __iadd__(self, other):
         return self.__add__(other)
     
-    
     def __sub__(self, other):
         return self.map_by_verticle(other, lambda x,y:x-y)
-
     
     def __isub__(self, other):
         return self.__sub__(other)
-    
     
     def __mul__(self, other):
         if isinstance(other, Vec):
@@ -99,21 +89,19 @@ class Vec:
             return self.__class__(map(lambda x:x*other, self.v))
         else:
             raise TypeError("Cannot multiply vector by " + str(type(other)))
-
     
     def __imul__(self, other):
         return self.__mul__(other)
 
-    def __div__(self, other):        
+    def __truediv__(self, other):        
         if isinstance(other, Vec):
             return self.map_by_verticle(other, lambda x,y:x/y)
         elif isinstance(other, NUMERICAL):
             return self.__class__(map(lambda x:x/other, self.v))
         else:
             raise TypeError("Cannot divide vector by " + str(type(other)))
-
     
-    def __idiv__(self, other):        
+    def __itruediv__(self, other):        
         return self.__div__(other)
     
     def __floordiv__(self, other):        
