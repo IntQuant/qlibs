@@ -3,13 +3,14 @@ from numbers import Number as number
 
 VERTNAMES = {'x':0, 'y':1, 'z':2}
 NUMERICAL = (number, int)
+RAISE_ON_TUPLE = True
 
 class Vec:
     def __init__(self, *args):
         if len(args) == 1:
             self.v = list(args[0])
         else:
-            self.v = args
+            self.v = list(args)
         
             
         for v in self.v:
@@ -55,6 +56,8 @@ class Vec:
             ind = VERTNAMES[name]
             self[ind] = value
         else:
+            if RAISE_ON_TUPLE and name == "v" and isinstance(value, tuple):
+                raise ValueError("V set to tuple")
             super().__setattr__(name, value)
 
     def __str__(self):
@@ -69,6 +72,9 @@ class Vec:
     
     def intify(self):
         self.v = list(map(int, self.v))
+        
+    def cross_product(self, other):
+        return self.x * other.y - self.y * other.x;
     
     def __add__(self, other):
         return self.map_by_verticle(other, lambda x,y:x+y)
@@ -102,7 +108,7 @@ class Vec:
             raise TypeError("Cannot divide vector by " + str(type(other)))
     
     def __itruediv__(self, other):        
-        return self.__div__(other)
+        return self.__truediv__(other)
     
     def __floordiv__(self, other):        
         if isinstance(other, Vec):
