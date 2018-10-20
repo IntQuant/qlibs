@@ -1,5 +1,5 @@
-from gui.nodes.GuiNode import *
-from gui.nodes.GuiNodeHighlighted import *
+from .GuiNode import *
+from .GuiNodeHighlighted import *
 
 import pyglet
 

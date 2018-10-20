@@ -1,8 +1,8 @@
-from gui.constants import *
-from gui.helper import *
-from gui.enums import *
+from ..constants import *
+from ..helper import *
+from ..enums import *
 
-from gui.nodes.GuiNode import *
+from .GuiNode import *
 
 class GuiNodeHighlighted(GuiNode):
     def __init__(self, *args, **kwargs):

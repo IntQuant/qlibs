@@ -1,5 +1,5 @@
-from gui.constants import *
-from gui.helper import *
+from ..constants import *
+from ..helper import *
 
 class GuiNode():
     def __init__(self, parent=None, rx=0, ry=0, rwidth=1, rheight=1, window=None, **kwargs):

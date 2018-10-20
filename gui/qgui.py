@@ -1,11 +1,12 @@
-from gui.constants import *
-from gui.helper import *
-from gui.enums import *
+from .constants import *
+from .helper import *
+from .enums import *
 
-from gui.nodes.GuiNode import *
-from gui.nodes.GuiNodeHighlighted import *
-from gui.nodes.GuiNodeButton import *
-from gui.nodes.GuiNodeText import *
+from .nodes.GuiNode import *
+from .nodes.GuiNodeHighlighted import *
+from .nodes.GuiNodeButton import *
+from .nodes.GuiNodeText import *
+from .nodes.GuiNodeIncrementalText import *
 
 import pyglet
 

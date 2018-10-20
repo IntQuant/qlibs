@@ -1,4 +1,4 @@
-from gui.nodes.GuiNodeHighlighted import *
+from .GuiNodeHighlighted import *
 
 class GuiNodeButton(GuiNodeHighlightedByHover):
     def __init__(self, *args, **kwargs):
