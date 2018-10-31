@@ -13,17 +13,23 @@ class BinaryAuto(Enum):
         return len(last_values).to_bytes(VTYPES_LEN, 'big')
 
 class VALUE_TYPES(BinaryAuto):
-    INT = auto()
-    BYTES = auto()
-    STR = auto()
-    NONE = auto()
-    ITER = auto()
-    LIST = auto()
-    TUPLE = auto()
+    INT         = auto()
+    FLOAT       = auto()
+    BYTES       = auto()
+    STR         = auto()
+    NONE        = auto()
+    LIST        = auto()
+    TUPLE       = auto()
+    ITER        = auto()
+    SET         = auto()
+    
 
 @functools.singledispatch
 def convert(arg):
-    raise ValueError("Could not convert argument type %s" % type(arg))
+    try:
+        return arg.__convert__()
+    except Exception:
+        raise ValueError("Could not convert argument type %s" % type(arg))
             
 @convert.register
 def _(arg: int):
@@ -32,6 +38,10 @@ def _(arg: int):
     bb = byte_len.to_bytes(INT_LEN_LEN, BYTE_ORDER)
     
     return VALUE_TYPES.INT.value + bb + arg.to_bytes(byte_len, BYTE_ORDER)
+
+@convert.register
+def _(arg: float):
+    return VALUE_TYPES.FLOAT.value + convert(arg.as_integer_ratio())
         
 @convert.register
 def _(arg: str):
@@ -41,16 +51,6 @@ def _(arg: str):
 @convert.register
 def _(arg: bytes):
     return VALUE_TYPES.BYTES.value + convert(len(arg)) + arg
-
-"""
-@convert.register
-def _(arg: iter):
-    collected = []
-    for subarg in arg:
-        collected.append(convert(subarg))
-    
-    return b"".join((VALUE_TYPES.ITER.value, convert(len(collected))) + collected)
-"""
 
 @convert.register
 def _(arg: list):
@@ -68,13 +68,24 @@ def _(arg: tuple):
     
     return b"".join([VALUE_TYPES.TUPLE.value, convert(len(collected))] + collected)
 
+@convert.register
+def _(arg: set):
+    collected = []
+    for subarg in arg:
+        collected.append(convert(subarg))
+    
+    return b"".join([VALUE_TYPES.SET.value, convert(len(collected))] + collected)
+
 @convert.register(type(None))
 def _(arg):
     return VALUE_TYPES.NONE.value
 
 class ByteBuffer:
-    def __init__(self, data=b""):
-        self.data = deque((data,))
+    def __init__(self, data=None):
+        if data is not None:
+            self.data = deque((data,))
+        else:
+            self.data = deque()
     
     def read(self, read_size):
         len_found = 0
@@ -96,7 +107,8 @@ class ByteBuffer:
         self.data.appendleft(data)
     
     def has_values(self):
-        return len(self.data) > 0
+        return len(self.data) > 0 and any(map(lambda x: len(x)>0, self.data))
+
 
 class Decoder:
     def __init__(self, data=b"", custom_byte_buffer=None):
@@ -106,6 +118,7 @@ class Decoder:
             self.io = custom_byte_buffer #Some methods may not work
     def feed(self, data):
         self.io.write(data)
+    
     def get_value(self, ensure_type=None):
         tp = self.io.read(VTYPES_LEN)
         etp = VALUE_TYPES(tp)
@@ -118,6 +131,9 @@ class Decoder:
         if etp is VALUE_TYPES.INT:
             bl = int.from_bytes(self.io.read(1), BYTE_ORDER)
             return int.from_bytes(self.io.read(bl), BYTE_ORDER)
+        elif etp is VALUE_TYPES.FLOAT:
+            v = self.get_value(ensure_type=VALUE_TYPES.TUPLE)
+            return v[0] / v[1]
         elif etp is VALUE_TYPES.BYTES:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return self.io.read(ln)
@@ -133,6 +149,9 @@ class Decoder:
         elif etp is VALUE_TYPES.TUPLE:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return tuple((self.get_value() for i in range(ln)))
+        elif etp is VALUE_TYPES.SET:
+            ln = self.get_value(ensure_type=VALUE_TYPES.INT)
+            return set((self.get_value() for i in range(ln)))
         elif etp is VALUE_TYPES.NONE:
             return None
         else:
@@ -144,12 +163,13 @@ class Decoder:
 
 if __name__ == "__main__":
     
-    data = [1, 2, (3, 4, (1, 3, 5, 1, None)), [b"test", "test"]]
+    data = [1, 2, (3, 4, (1, 3, 5, 1.5, None)), [b"test", "test"]]
     
+    conv = convert(data)
     
+    d = Decoder(conv)
     
-    d = Decoder(convert(data))
-    
+    print(conv)
     
     while d.has_values():
         v = d.get_value()
