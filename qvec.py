@@ -64,7 +64,7 @@ class Vec:
         return ", ".join(map(str, self.v))
 
     def __repr__(self):
-        return "Vec([" + ", ".join(map(str, self.v)) + "])"
+        return "Vec(" + ", ".join(map(str, self.v)) + ")"
     
     def map_by_verticle(self, other, function:callable):
         assert len(self) == len(other), "wrong dimensions"
@@ -165,7 +165,8 @@ if __name__ == "__main__":
     assert v1.x == 1
     
     
-    assert str(v3) == "1 3"
+    assert str(v3) == "1, 3"
+    print(repr(v3))
     assert repr(v3) == "Vec(1, 3)"
     print(0, v1 + v2)
     print(1, v1 * v2)
