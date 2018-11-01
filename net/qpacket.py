@@ -22,7 +22,10 @@ class VALUE_TYPES(BinaryAuto):
     TUPLE       = auto()
     ITER        = auto()
     SET         = auto()
-    
+
+class SECONDARY_INT_PARAMS(BinaryAuto):
+    POSITIVE    = auto()
+    NEGATIVE    = auto()
 
 @functools.singledispatch
 def convert(arg):
@@ -33,12 +36,15 @@ def convert(arg):
             
 @convert.register
 def _(arg: int):
-    byte_len = arg.bit_length() // 8 + 1
+    byte_len = abs(arg.bit_length()) // 8 + 1
     
     bb = byte_len.to_bytes(INT_LEN_LEN, BYTE_ORDER)
     
-    return VALUE_TYPES.INT.value + bb + arg.to_bytes(byte_len, BYTE_ORDER)
-
+    if arg >= 0:
+        return VALUE_TYPES.INT.value + SECONDARY_INT_PARAMS.POSITIVE.value + bb + arg.to_bytes(byte_len, BYTE_ORDER)
+    else:
+        return VALUE_TYPES.INT.value + SECONDARY_INT_PARAMS.NEGATIVE.value + bb + abs(arg).to_bytes(byte_len, BYTE_ORDER)
+        
 @convert.register
 def _(arg: float):
     return VALUE_TYPES.FLOAT.value + convert(arg.as_integer_ratio())
@@ -129,8 +135,13 @@ class Decoder:
         #print(etp)
         
         if etp is VALUE_TYPES.INT:
+            sign = SECONDARY_INT_PARAMS(self.io.read(2))
             bl = int.from_bytes(self.io.read(1), BYTE_ORDER)
-            return int.from_bytes(self.io.read(bl), BYTE_ORDER)
+            value = int.from_bytes(self.io.read(bl), BYTE_ORDER)
+            if sign is SECONDARY_INT_PARAMS.POSITIVE:
+                return value
+            elif sign is SECONDARY_INT_PARAMS.NEGATIVE:
+                return -value
         elif etp is VALUE_TYPES.FLOAT:
             v = self.get_value(ensure_type=VALUE_TYPES.TUPLE)
             return v[0] / v[1]
@@ -163,7 +174,7 @@ class Decoder:
 
 if __name__ == "__main__":
     
-    data = [1, 2, (3, 4, (1, 3, 5, 1.5, None)), [b"test", "test"]]
+    data = [1, 2, (-3, 4, (1, 3, -5.1, 1.5, None)), [b"test", "test"]]
     
     conv = convert(data)
     
