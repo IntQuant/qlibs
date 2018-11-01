@@ -4,7 +4,7 @@ import io
 from enum import Enum, auto
 from collections import deque
 
-VTYPES_LEN = 2
+VTYPES_LEN = 1
 BYTE_ORDER = 'big'
 INT_LEN_LEN = 1
 
@@ -26,6 +26,8 @@ class VALUE_TYPES(BinaryAuto):
 class SECONDARY_INT_PARAMS(BinaryAuto):
     POSITIVE    = auto()
     NEGATIVE    = auto()
+    LP_INT      = auto() #TODO
+    LN_INT      = auto() #TODO
 
 @functools.singledispatch
 def convert(arg):
@@ -135,7 +137,7 @@ class Decoder:
         #print(etp)
         
         if etp is VALUE_TYPES.INT:
-            sign = SECONDARY_INT_PARAMS(self.io.read(2))
+            sign = SECONDARY_INT_PARAMS(self.io.read(VTYPES_LEN))
             bl = int.from_bytes(self.io.read(1), BYTE_ORDER)
             value = int.from_bytes(self.io.read(bl), BYTE_ORDER)
             if sign is SECONDARY_INT_PARAMS.POSITIVE:
