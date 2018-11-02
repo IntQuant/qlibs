@@ -20,8 +20,8 @@ class VALUE_TYPES(BinaryAuto):
     NONE        = auto()
     LIST        = auto()
     TUPLE       = auto()
-    ITER        = auto()
     SET         = auto()
+    CUSTOM      = auto()
 
 class SECONDARY_INT_PARAMS(BinaryAuto):
     POSITIVE    = auto()
@@ -134,8 +134,9 @@ class Decoder:
         if ensure_type is not None:
             assert etp is ensure_type
         
-        #print(etp)
         
+        
+        #int
         if etp is VALUE_TYPES.INT:
             sign = SECONDARY_INT_PARAMS(self.io.read(VTYPES_LEN))
             bl = int.from_bytes(self.io.read(1), BYTE_ORDER)
@@ -144,35 +145,44 @@ class Decoder:
                 return value
             elif sign is SECONDARY_INT_PARAMS.NEGATIVE:
                 return -value
+        #float
         elif etp is VALUE_TYPES.FLOAT:
             v = self.get_value(ensure_type=VALUE_TYPES.TUPLE)
             return v[0] / v[1]
+        #bytes
         elif etp is VALUE_TYPES.BYTES:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return self.io.read(ln)
+        #str
         elif etp is VALUE_TYPES.STR:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return self.io.read(ln).decode()
-        elif etp is VALUE_TYPES.ITER:
-            ln = self.get_value(ensure_type=VALUE_TYPES.INT)
-            return (self.get_value() for i in range(ln))
+        #list
         elif etp is VALUE_TYPES.LIST:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return [self.get_value() for i in range(ln)]
+        #tuple
         elif etp is VALUE_TYPES.TUPLE:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return tuple((self.get_value() for i in range(ln)))
+        #set
         elif etp is VALUE_TYPES.SET:
             ln = self.get_value(ensure_type=VALUE_TYPES.INT)
             return set((self.get_value() for i in range(ln)))
+        #None
         elif etp is VALUE_TYPES.NONE:
             return None
         else:
             raise ValueError("Wrong type byte")
-        
-            
+                    
     def has_values(self):
         return self.io.has_values()
+
+
+def decode(data):
+    dec = Decoder(data)
+    while dec.has_values():
+        yield dec.get_value()
 
 if __name__ == "__main__":
     
