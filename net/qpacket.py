@@ -29,10 +29,27 @@ class SECONDARY_INT_PARAMS(BinaryAuto):
     LP_INT      = auto() #TODO
     LN_INT      = auto() #TODO
 
+class ConvertionLookup():
+    def __init__(self):
+        self.obj_to_id = dict()
+        self.id_to_obj = dict()
+    
+    def register(self, obj: type, _id):
+        assert obj not in self.obj_to_id
+        self.obj_to_id[obj] = _id
+        self.id_to_obj[_id] = obj
+
+conv_lookup = ConvertionLookup()
+
+def make_qlibs_obj_id(shift):
+    return ord('q') << 10 + shift
+
 @functools.singledispatch
 def convert(arg):
     try:
-        return arg.__convert__()
+        obj_id = conv_lookup.obj_to_id[type(arg)]
+        data = arg.__convert__()
+        return VALUE_TYPES.CUSTOM.value + convert(obj_id) + convert(len(data)) + data
     except Exception:
         raise ValueError("Could not convert argument type %s" % type(arg))
             
@@ -124,6 +141,7 @@ class Decoder:
             self.io = ByteBuffer(data)
         else:
             self.io = custom_byte_buffer #Some methods may not work
+        self.conv_lookup = conv_lookup
     def feed(self, data):
         self.io.write(data)
     
@@ -172,6 +190,11 @@ class Decoder:
         #None
         elif etp is VALUE_TYPES.NONE:
             return None
+        elif etp is VALUE_TYPES.CUSTOM:
+            obj_id = self.get_value(ensure_type=VALUE_TYPES.INT)
+            _ = self.get_value(ensure_type=VALUE_TYPES.INT)
+            obj_type = self.conv_lookup.id_to_obj[obj_id]
+            return obj_type.__reconstruct__(self)
         else:
             raise ValueError("Wrong type byte")
                     
@@ -184,20 +207,11 @@ def decode(data):
     while dec.has_values():
         yield dec.get_value()
 
-if __name__ == "__main__":
-    
-    data = [1, 2, (-3, 4, (1, 3, -5.1, 1.5, None)), [b"test", "test"]]
-    
-    conv = convert(data)
-    
-    d = Decoder(conv)
-    
-    print(conv)
-    
-    while d.has_values():
-        v = d.get_value()
-        print(v)
-        print(v == data)
+
+
+
+
+
         
     
     
