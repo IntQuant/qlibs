@@ -1,7 +1,10 @@
 import math
 from numbers import Number as number
 
-from net.qpacket import conv_lookup, convert, make_qlibs_obj_id
+try:
+    from .net.qpacket import conv_lookup, convert, make_qlibs_obj_id
+except ImportError:
+    from net.qpacket import conv_lookup, convert, make_qlibs_obj_id
 
 VERTNAMES = {'x':0, 'y':1, 'z':2}
 NUMERICAL = (number, int)
@@ -156,7 +159,7 @@ class Vec:
         obj = cls(list(decoder.get_value()))
         return obj
 
-conv_lookup.register(Vec, make_qlibs_obj_id(1))       
+conv_lookup.register(Vec, make_qlibs_obj_id(1))
 
 if __name__ == "__main__":
     v1 = Vec([1, 2])
