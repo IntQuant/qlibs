@@ -28,9 +28,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=3
+current_page=2
 FILE_NAME_0=0;Python;0;EUTF-8;1;1;0;C%3A%5CQLibs%5C__init__.py;0;4
 FILE_NAME_1=202;Python;0;EUTF-8;1;1;0;C%3A%5CQLibs%5Cqopt.py;0;4
 FILE_NAME_2=704;Python;0;EUTF-8;1;1;0;C%3A%5CQLibs%5Cqvec.py;0;4
-FILE_NAME_3=7298;Python;0;EUTF-8;1;1;0;C%3A%5CQLibs%5Cqgui.py;0;4
+FILE_NAME_3=7121;Python;0;EUTF-8;1;1;0;C%3A%5CQLibs%5Cqgui.py;0;4
 FILE_NAME_4=355;None;0;EUTF-8;1;1;0;C%3A%5CQLibs%5CQLibs.geany;0;4
