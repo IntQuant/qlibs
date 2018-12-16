@@ -1,7 +1,7 @@
 import unittest
 
 from net.qpacket import *
-from qvec import Vec
+from vec import Vec
 
 class QPacketTestCase(unittest.TestCase):
     def test_int(self):
