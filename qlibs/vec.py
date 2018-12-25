@@ -2,18 +2,18 @@ import math
 from numbers import Number as number
 
 try:
-    from .net.qpacket import conv_lookup, convert, make_qlibs_obj_id
-except ImportError:
     from net.qpacket import conv_lookup, convert, make_qlibs_obj_id
+except ImportError:
+    from .net.qpacket import conv_lookup, convert, make_qlibs_obj_id
 
-VERTNAMES = {'x':0, 'y':1, 'z':2}
+VERTNAMES = {'x':0, 'y':1, 'z':2, 'w':3}
 NUMERICAL = (number, int)
 RAISE_ON_TUPLE = True
 
 class Vec:
     def __init__(self, *args):
         if len(args) == 1:
-            self.v = list(args[0])
+            self.v = args[0]
         else:
             self.v = list(args)
         
@@ -46,9 +46,6 @@ class Vec:
         return self.v[key]
     
     def __setitem__(self, key, value):
-        if isinstance(self.v, tuple):
-            self.v = list(self.v)
-            print("Vectors V was tuple")
         self.v[key] = value
 
     def __getattr__(self, name):
@@ -61,8 +58,6 @@ class Vec:
             ind = VERTNAMES[name]
             self[ind] = value
         else:
-            if RAISE_ON_TUPLE and name == "v" and isinstance(value, tuple):
-                raise ValueError("V set to tuple")
             super().__setattr__(name, value)
 
     def __str__(self):
@@ -77,10 +72,17 @@ class Vec:
     
     def intify(self):
         self.v = list(map(int, self.v))
-        
-    def cross_product(self, other):
-        return self.x * other.y - self.y * other.x;
     
+    def dot(self, other):
+        return sum((v1 * v2 for v1, v2 in zip(self, other)))
+                    
+    def cross(self, other):
+        vec = Vec(0, 0, 0) #TODO: change to indexes
+        vec.x = self.y * other.z - self.z * other.y
+        vec.y = self.z * other.x - self.x * other.z
+        vec.z = self.x * other.y - self.y * other.x
+        return vec
+        
     def __add__(self, other):
         return self.map_by_verticle(other, lambda x,y:x+y)
     
@@ -99,7 +101,7 @@ class Vec:
         elif isinstance(other, NUMERICAL):
             return self.__class__(map(lambda x:x*other, self.v))
         else:
-            raise TypeError("Cannot multiply vector by " + str(type(other)))
+            return NotImplemented
     
     def __imul__(self, other):
         return self.__mul__(other)
@@ -133,8 +135,11 @@ class Vec:
 
 
     def len(self):
-        return math.sqrt(len_sqr(self))
+        return math.sqrt(self.len_sqr())
     
+    def normalize(self):
+        for i, e in enumerate(self.v): 
+            self.v[i] = e / self.len()
     
     def __pos__(self):
         return self
@@ -159,15 +164,19 @@ class Vec:
         obj = cls(list(decoder.get_value()))
         return obj
 
+    def as_n_d(self, n):
+        if n <= len(self):
+            return self.__class__(self.v[:n])
+        else:
+            return self.__class__(self.v + ([0] * (n - len(self))))
+            
+
 conv_lookup.register(Vec, make_qlibs_obj_id(1))
 
 if __name__ == "__main__":
-    v1 = Vec([1, 2])
-    v2 = Vec([1, 2])
-    v3 = Vec([1, 3])
-    
-    assert v1 == v2
-    assert not (v1 == 1)
+    v1 = Vec(1, 2)
+    v2 = Vec(1, 2)
+    v3 = Vec(1, 3)
     
     assert v1.x == 1
     
@@ -182,7 +191,7 @@ if __name__ == "__main__":
     try:
         v1 * "error"
     except Exception as e:
-        assert "Cannot multiply" in str(e)
+        assert "multiply" in str(e)
     else:
         raise AssertionError("No error while multiplying")
     
@@ -193,6 +202,8 @@ if __name__ == "__main__":
         assert "Cannot divide" in str(e)
     else:
         raise AssertionError("No error while division")
+    
+    
     
     
     
