@@ -14,6 +14,7 @@ class BinaryAuto(Enum):
 
 class VALUE_TYPES(BinaryAuto):
     INT         = auto()
+    #TODO: add miniint
     FLOAT       = auto()
     BYTES       = auto()
     STR         = auto()
@@ -142,6 +143,7 @@ class Decoder:
         else:
             self.io = custom_byte_buffer #Some methods may not work
         self.conv_lookup = conv_lookup
+    
     def feed(self, data):
         self.io.write(data)
     
@@ -151,9 +153,7 @@ class Decoder:
         
         if ensure_type is not None:
             assert etp is ensure_type
-        
-        
-        
+    
         #int
         if etp is VALUE_TYPES.INT:
             sign = SECONDARY_INT_PARAMS(self.io.read(VTYPES_LEN))

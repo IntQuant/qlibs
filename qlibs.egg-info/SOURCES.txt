@@ -1,10 +1,10 @@
 README.md
 setup.py
 qlibs/__init__.py
-qlibs/qopt.py
-qlibs/qvec.py
+qlibs/opt.py
 qlibs/test.py
 qlibs/testrunner.py
+qlibs/vec.py
 qlibs.egg-info/PKG-INFO
 qlibs.egg-info/SOURCES.txt
 qlibs.egg-info/dependency_links.txt
@@ -20,6 +20,8 @@ qlibs/gui/nodes/GuiNodeHighlighted.py
 qlibs/gui/nodes/GuiNodeIncrementalText.py
 qlibs/gui/nodes/GuiNodeText.py
 qlibs/gui/nodes/__init__.py
+qlibs/net/TCPlink.py
+qlibs/net/UDPlink.py
 qlibs/net/__init__.py
 qlibs/net/connection.py
 qlibs/net/qpacket.py

@@ -1,16 +1,23 @@
-class A():
-    def t(self):
-        print("A")
+import net.connection as cn
+from socket import socketpair
 
-class B():
-    def t(self):
-        print("B-t")
-    def p(self):
-        print("B-p")
+sock0, sock1 = socketpair()
 
-class C(A, B):
-    def t(self):
-        super(A, self).t()
-        super().p()
-        
-C().t()
+print("cn0 created")
+cn0 = cn.RWConvertable(sock0)
+print("cn1 created")
+cn1 = cn.RWConvertable(sock1)
+
+print("Writing to cn0")
+cn0.write([1, 2, 3])
+cn0.write([1, 2, 3])
+cn0.write("test")
+print("Serving cn0")
+cn0.send_rep()
+#print(cn0.serve())
+print("Serving cn1")
+cn1.recv_data()
+print(cn1.debug_data())
+print(cn1.read())
+print(cn1.read())
+print(cn1.read())
