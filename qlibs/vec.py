@@ -131,15 +131,16 @@ class Vec:
     
 
     def len_sqr(self):
-        return sum(map(lambda x:x**2, self.v))
+        return math.fsum(map(lambda x:x**2, self.v))
 
 
     def len(self):
         return math.sqrt(self.len_sqr())
     
     def normalize(self):
+        ln = self.len()
         for i, e in enumerate(self.v): 
-            self.v[i] = e / self.len()
+            self.v[i] = e / ln
     
     def __pos__(self):
         return self
