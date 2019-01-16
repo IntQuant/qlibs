@@ -1,8 +1,10 @@
 README.md
 setup.py
 qlibs/__init__.py
+qlibs/matrix.py
 qlibs/opt.py
 qlibs/test.py
+qlibs/test2.py
 qlibs/testrunner.py
 qlibs/vec.py
 qlibs.egg-info/PKG-INFO

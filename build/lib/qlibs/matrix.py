@@ -60,7 +60,6 @@ class Matrix4():
             
             for i in range(4):
                 res[i] = self[i, 0] * other[0] + self[i, 1] * other[1] + self[i, 2] * other[2] + self[i, 3] * other[3]
-                #res[i] = self[0, i] * other[0] + self[1, i] * other[1] + self[2, i] * other[2] + self[3, i] * other[3]
             return res
         
         return NotImplemented
@@ -90,6 +89,7 @@ class Matrix4():
         u = Vec(up);      u.normalize()
         s = f.cross(u);   s.normalize()
         u = s.cross(f)
+        
 
         res[0, 0] = s.x
         res[1, 0] = s.y
@@ -103,7 +103,6 @@ class Matrix4():
         res[3, 0] =-s.dot(eye)
         res[3, 1] =-u.dot(eye)
         res[3, 2] = f.dot(eye)
-        
         return res
     
     @classmethod
@@ -160,7 +159,7 @@ class Matrix4():
         
         return cls([cY * cP, -cY * sP * cR + sY * sR, cY * sP * sR + sY * cR, 0, sP, cP * cR, -cP * sR, 0, sY * cP, sY * sP * cR + cY * sR, -sY * sP * sR + cY * cR, 0, 0, 0, 0, 1])
     
-    def bytes(self, dtype="f") :
+    def bytes_dtype(self, dtype="f") :
         assert self._data.typecode == dtype
         return self._data.tobytes()
         

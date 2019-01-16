@@ -1,5 +1,6 @@
 import math
 from numbers import Number as number
+from array import array
 
 try:
     from net.qpacket import conv_lookup, convert, make_qlibs_obj_id
@@ -13,7 +14,7 @@ RAISE_ON_TUPLE = True
 class Vec:
     def __init__(self, *args):
         if len(args) == 1:
-            self.v = args[0]
+            self.v = list(args[0])
         else:
             self.v = list(args)
         
@@ -170,6 +171,9 @@ class Vec:
             return self.__class__(self.v[:n])
         else:
             return self.__class__(self.v + ([0] * (n - len(self))))
+    
+    def bytes(self, dtype='f'):
+        return array('f', self.v).tobytes()
             
 
 conv_lookup.register(Vec, make_qlibs_obj_id(1))
