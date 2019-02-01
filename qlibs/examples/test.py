@@ -1,13 +1,17 @@
-from vec import Vec
-from matrix import Matrix4, IDENTITY
 import moderngl
 import sdl2
-import time
-from gui.window_provider import window_provider
-import math
 from PIL import Image
+
+import time
+import math
 from array import array
+
+from vec import Vec
+from matrix import Matrix4, IDENTITY
+from gui.window_provider import window_provider
 from util import try_write
+import modelloader
+import resource_loader
 
 width = 800
 height = 600
@@ -22,61 +26,9 @@ ctx.enable(moderngl.DEPTH_TEST)
 query = ctx.query(samples=True, time=True)
 
 prog = ctx.program(
-    vertex_shader='''
-        #version 330
-        
-        uniform mat4 mvp;
-        
-        uniform mat4 m;
-        
-        in vec3 in_vert;
-        in vec3 normal;
-        in vec2 uv;
-        
-        out vec3 v_vert;
-        out vec2 v_uv;
-        out vec3 f_normal;
-        
-        
-        
-        
-        void main() {
-            
-            vec4 t_vert = mvp * vec4(in_vert, 1.0);
-            gl_Position = t_vert;
-            v_vert = (m * vec4(in_vert, 1.0)).xyz;
-            f_normal = (m * vec4(normal, 0)).xyz;
-            
-            v_uv = uv;
-        }
-    ''',
-    fragment_shader='''
-        #version 330
-
-        uniform sampler2D text;
-        
-        in vec3 f_normal;
-        in vec2 v_uv;
-        
-        uniform vec3 light;
-        
-        in vec3 v_vert;
-        out vec3 color;
-        
-        void main() {
-            
-            vec3 ld = light-v_vert;
-            
-            float distance_sq = ld.x * ld.x + ld.y * ld.y + ld.z * ld.z;
-            
-            float lum = (clamp(dot(normalize(light - v_vert), normalize(f_normal)), 0.0, 1.0) * 200 / (distance_sq))* 0.9 + 0.1;
-            
-            color = texture(text, v_uv).xyz  * lum;
-        }
-    ''',
+    vertex_shader=resource_loader.get_res_data("shaders/basic_textures_shader.glsh"),
+    fragment_shader=resource_loader.get_res_data("shaders/basic_textures_fragment_shader.glsh"),
 )
-
-import modelloader
 
 Index = modelloader.OBJIndex
 

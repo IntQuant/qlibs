@@ -1,4 +1,12 @@
+try:
+    from .. import resource_loader
+except ImportError:
+    import resource_loader
+
 import moderngl
+
+resource_loader.ensure_sdl2_install()
+
 import sdl2 #PySDL2
 import ctypes
 
