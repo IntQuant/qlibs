@@ -58,6 +58,11 @@ class VecTestCase(unittest.TestCase):
     def test_as_n_d(self):
         self.assertTrue(len(Vec(1, 3).as_n_d(4)) == 4)
         self.assertTrue(len(Vec(1, 3).as_n_d(1)) == 1)
+    
+    def test_normalize(self):
+        v = Vec(1, 2, 3)
+        v.normalize()
+        self.assertTrue(v.len() == 1)
         
 class MatrixTestCase(unittest.TestCase):
     def test_multiply_identity(self):

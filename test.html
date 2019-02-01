@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+  </head>
+  <body>
+    <h1> QLibs documentation </h1>
+    <h2>Module matrix</h2>
+    <p>Matrix module</p>
+    <h3>Class Matrix4(data=None, dtype=&#x27;f&#x27;)</h3>
+    <p>4 by 4 Matrix class which allows [i, j] indexing</p>
+    <h4>Function __init__(self, data=None, dtype=&#x27;f&#x27;)</h4>
+    <p>Initialize matrix with 16 elements array (*data*) of *dtype* type</p>
+    <h4>Function bytes(self, dtype=&#x27;f&#x27;)</h4>
+    <p>Converts internal array to bytes</p>
+    <h4>Function look_at(eye: vec.Vec, center: vec.Vec, up: vec.Vec)</h4>
+    <p>Generates a look at matrix from *eye* to *center* with *up* up vector</p>
+    <h4>Function orthogonal_projection(fov, ratio, n, f)</h4>
+    <p>Does not work... Most likely</p>
+    <h4>Function perspective_projection(fov, ratio, near, far)</h4>
+    <p>Creates perspective projection matrix from *fov*, *ratio*(width/height) and culling planes(*near* and *far*)</p>
+    <h4>Function perspective_projection_lrbtnf(left, right, bottom, top, near, far)</h4>
+    <p>Creates perspective projection from boundaries</p>
+    <h4>Function rotation_euler(pitch, roll, yaw)</h4>
+    <p>Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)</p>
+    <h4>Function translation_matrix(x, y, z)</h4>
+    <p>Creates matrix that translates vectors by *x*, *y*, *z*</p>
+    <h2>Module modelloader</h2>
+    <h3>Class MTLLoader()</h3>
+    <h4>Function __init__(self)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h4>Function get_mat(self, name=None)</h4>
+    <h4>Function load_file(self, f)</h4>
+    <h4>Function load_path(self, path)</h4>
+    <h3>Class Material(name)</h3>
+    <h4>Function __init__(self, name)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h3>Class OBJ(name)</h3>
+    <h4>Function __init__(self, name)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h4>Function get_sub_obj(self, material)</h4>
+    <h4>Function iter_materials_non_textured(self, *form)</h4>
+    <h4>Function iter_materials_textured(self, *form)</h4>
+    <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x036C49C0&gt;, material=None)</h4>
+    <h3>Class OBJIndex(value, names=None, *, module=None, qualname=None, type=None, start=1)</h3>
+    <p>An enumeration.</p>
+    <h3>Class OBJLoader()</h3>
+    <h4>Function __init__(self)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h4>Function get_obj(self, name=None)</h4>
+    <h4>Function get_sub_obj(self, name=None, material=None)</h4>
+    <h4>Function load_file(self, f)</h4>
+    <h4>Function load_path(self, path)</h4>
+    <h3>Class SubOBJ(name)</h3>
+    <h4>Function __init__(self, name)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h4>Function check_has_no_textures(face)</h4>
+    <h4>Function check_has_textures(face)</h4>
+    <h4>Function index_or_none(value)</h4>
+    <h4>Function int_or_none(value)</h4>
+    <h2>Module resource_loader</h2>
+    <h4>Function ensure_sdl2_install()</h4>
+    <h4>Function get_lib_res_path()</h4>
+    <h4>Function get_res_data(path)</h4>
+    <h4>Function get_res_path(path)</h4>
+    <h2>Module util</h2>
+    <h4>Function try_write(prog, at, data)</h4>
+    <p>Tries to write data into member of moderngl program</p>
+    <h4>Function weak_ref_cache(fun)</h4>
+    <h2>Module vec</h2>
+    <h3>Class Vec(*args)</h3>
+    <h4>Function __init__(self, *args)</h4>
+    <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+    <h4>Function as_n_d(self, n)</h4>
+    <h4>Function bytes(self, dtype=&#x27;f&#x27;)</h4>
+    <h4>Function cross(self, other)</h4>
+    <h4>Function dot(self, other)</h4>
+    <h4>Function intify(self)</h4>
+    <h4>Function len(self)</h4>
+    <h4>Function len_sqr(self)</h4>
+    <h4>Function map_by_verticle(self, other, function: &lt;built-in function callable&gt;)</h4>
+    <h4>Function normalize(self)</h4>
+    <h4>Function to_tuple(self)</h4>
+  </body>
+</html>
+

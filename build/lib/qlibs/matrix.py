@@ -1,3 +1,7 @@
+"""
+  Matrix module
+"""
+
 from array import array
 import math
 try:
@@ -13,7 +17,14 @@ IDENTITY = [1, 0, 0, 0,
             0, 0, 0, 1]
 
 class Matrix4():
+    """
+    4 by 4 Matrix class which allows [i, j] indexing
+    """
     def __init__(self, data=None, dtype="f"):
+        """
+        Initialize matrix with 16 elements array (*data*) of *dtype* type
+        """
+        
         if data is not None:
             self._data = array(dtype, data)
         else:
@@ -41,15 +52,14 @@ class Matrix4():
         return f"Matrix4({list(self._data)})"
     
     def __mul__(self, other):
+        """
+        Multiplies matrix with matrix or matrix with vector
+        """
         if isinstance(other, Matrix4):
-            res = Matrix4() #TODO ~~- flatter loops~~ -make working
+            res = Matrix4() #TODO flatter loops
             for x in range(4):
                 for y in range(4):
                     res[x, y] = sum((other[x, i] * self[i, y] for i in range(4)))
-                    
-                         
-                        
-                    
             return res
         
         if isinstance(other, Vec):
@@ -69,6 +79,9 @@ class Matrix4():
 
     @classmethod
     def translation_matrix(cls, x, y, z):
+        """
+        Creates matrix that translates vectors by *x*, *y*, *z*
+        """
         mat = cls(IDENTITY)
         mat[3, 0] = x
         mat[3, 1] = y
@@ -77,19 +90,16 @@ class Matrix4():
     
     @classmethod    
     def look_at(cls, eye: Vec, center: Vec, up: Vec):
-        res = cls(IDENTITY)
+        """
+        Generates a look at matrix from *eye* to *center* with *up* up vector
+        """
         
-        '''
-        vec3  f = normalize(center - eye);
-        vec3  u = normalize(up);
-        vec3  s = normalize(cross(f, u));
-        u = cross(s, f);'''
+        res = cls(IDENTITY)
         
         f = center - eye; f.normalize()
         u = Vec(up);      u.normalize()
         s = f.cross(u);   s.normalize()
         u = s.cross(f)
-        
 
         res[0, 0] = s.x
         res[1, 0] = s.y
@@ -103,15 +113,13 @@ class Matrix4():
         res[3, 0] =-s.dot(eye)
         res[3, 1] =-u.dot(eye)
         res[3, 2] = f.dot(eye)
+        
         return res
     
     @classmethod
     def orthogonal_projection(cls, fov, ratio, n, f): #TODO
         """
-          fov - field of view
-          ratio - width/height
-          Near
-          Far
+        Does not work... Most likely
         """
         r = math.cos(math.degrees(fov / 2)) * n #TODO
         t = r / ratio
@@ -127,10 +135,7 @@ class Matrix4():
     @classmethod
     def perspective_projection(cls, fov, ratio, near, far):
         """
-          fov - field of view
-          ratio - width/height
-          Near
-          Far
+        Creates perspective projection matrix from *fov*, *ratio*(width/height) and culling planes(*near* and *far*)
         """
         bt = near * math.tan(fov * math.pi / 360.0)
         lr = bt * ratio
@@ -139,6 +144,9 @@ class Matrix4():
         
     @classmethod    
     def perspective_projection_lrbtnf(cls, left, right, bottom, top, near, far):    
+        """
+        Creates perspective projection from boundaries
+        """
         A = (right + left) / (right - left)
         B = (top + bottom) / (top - bottom)
         C = -(far + near) / (far - near)
@@ -150,6 +158,10 @@ class Matrix4():
     
     @classmethod
     def rotation_euler(cls, pitch, roll, yaw):
+        """
+        Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)
+        """
+        
         sP = math.sin(pitch)
         cP = math.cos(pitch)
         sR = math.sin(roll)
@@ -159,7 +171,10 @@ class Matrix4():
         
         return cls([cY * cP, -cY * sP * cR + sY * sR, cY * sP * sR + sY * cR, 0, sP, cP * cR, -cP * sR, 0, sY * cP, sY * sP * cR + cY * sR, -sY * sP * sR + cY * cR, 0, 0, 0, 0, 1])
     
-    def bytes_dtype(self, dtype="f") :
+    def bytes(self, dtype="f") :
+        """
+        Converts internal array to bytes
+        """
         assert self._data.typecode == dtype
         return self._data.tobytes()
         

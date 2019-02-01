@@ -28,13 +28,19 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=36;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cgui%5Cwindow_provider%5Cwindow_provider.py;0;4
+current_page=14
+FILE_NAME_0=17;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cgui%5Cwindow_provider%5Cwindow_provider.py;0;4
 FILE_NAME_1=3094;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodelloader.py;0;4
-FILE_NAME_2=413;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cresource_loader.py;0;4
+FILE_NAME_2=993;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cresource_loader.py;0;4
 FILE_NAME_3=441;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cutil.py;0;4
 FILE_NAME_4=27;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest3.py;0;4
-FILE_NAME_5=1061;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest4.py;0;4
-FILE_NAME_6=0;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cdocparser.py;0;4
-FILE_NAME_7=119;HTML;0;ECP1251;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest.html;0;4
-FILE_NAME_8=3444;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmatrix.py;0;4
+FILE_NAME_5=0;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cdocparser.py;0;4
+FILE_NAME_6=119;HTML;0;ECP1251;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest.html;0;4
+FILE_NAME_7=3444;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmatrix.py;0;4
+FILE_NAME_8=415;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest2.py;0;4
+FILE_NAME_9=0;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest4.py;0;4
+FILE_NAME_10=122;Batch;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cmake_all.bat;0;4
+FILE_NAME_11=149;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Csetup.py;0;4
+FILE_NAME_12=16;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5C__init__.py;0;4
+FILE_NAME_13=33;None;0;EUTF-8;0;1;0;C%3A%5CQLibs%5CMANIFEST.in;0;4
+FILE_NAME_14=1986;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cexamples%5Ctest.py;0;4
