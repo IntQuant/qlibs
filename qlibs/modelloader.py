@@ -56,7 +56,13 @@ OBJ_VERTEX = [OBJIndex.VX, OBJIndex.VY, OBJIndex.VZ]
 OBJ_TEXTURE = [OBJIndex.VTX, OBJIndex.VTY, OBJIndex.VTZ]
 OBJ_NORMAL = [OBJIndex.VNX, OBJIndex.VNY, OBJIndex.VNZ]
 
+FORMAT_TEXTURES = (OBJIndex.VX, OBJIndex.VNX, OBJIndex.VTX,
+                    OBJIndex.VY, OBJIndex.VNY, OBJIndex.VTY,
+                    OBJIndex.VZ, OBJIndex.VNZ, OBJIndex.VTZ)
 FORMAT_NO_TEXTURES = (OBJIndex.VX, OBJIndex.VNX, OBJIndex.VY, OBJIndex.VNY, OBJIndex.VZ, OBJIndex.VNZ)
+
+MATERIAL_LIGHT_PROPERTIES = ("Ka", "Kd", "Ks")
+MATERIAL_LIGHT_PROPERTIES_MAP = ("map_Ka", "map_Kd", "map_Ks")
 
 def check_has_textures(face):
     """
@@ -78,6 +84,19 @@ class Material():
         self.raw_params = dict()
         self.prc_params = dict()
         self.name = name
+        self.processed = False
+    
+    def process(self, ensure_processing=False):
+        if (not ensure_processing) and self.processed:
+            return
+        self.processed = True
+        
+        #for p in MATERIAL_LIGHT_PROPERTIES:
+        #    self.prc_params[p] = int(self.raw_params[p])
+        
+        for p in MATERIAL_LIGHT_PROPERTIES_MAP:
+            self.prc_params[p] = self.raw_params.get(p)
+        #TODO - add texture processing
 
 class MTLLoader():
     """
@@ -110,9 +129,9 @@ class MTLLoader():
                 continue
             
             if param == "newmtl":
-                self.current = opt
+                self.current = opt.rstrip("\n")
             else:
-                self.get_mat().raw_params[param] = opt
+                self.get_mat().raw_params[param] = opt.rstrip("\n")
             
             
     
@@ -132,13 +151,14 @@ class OBJ():
     """
       Loaded object class
     """
-    def __init__(self, name):
+    def __init__(self, name, materials):
         self.v = []
         
         self.vt = []
         self.vn = []
         
         self.sub_obj = dict()
+        self.materials = materials
         
         self.name = name
         
@@ -182,9 +202,7 @@ class OBJ():
         
         if len(form) == 0:
             
-            form = (OBJIndex.VX, OBJIndex.VNX, OBJIndex.VTX,
-                    OBJIndex.VY, OBJIndex.VNY, OBJIndex.VTY,
-                    OBJIndex.VZ, OBJIndex.VNZ, OBJIndex.VTZ)
+            form = FORMAT_TEXTURES
         
         for face in self.get_sub_obj(material).f:
             if not filter_by(face):
@@ -225,7 +243,7 @@ class OBJLoader(): #TODO: support for multiple objects - DONE
         if v is not None:
             return v
         else:
-            v = OBJ(name)
+            v = OBJ(name, materials=self.materials)
             self.objects[name] = v
             return v
             

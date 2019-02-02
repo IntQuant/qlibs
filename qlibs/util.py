@@ -15,9 +15,9 @@ def weak_ref_cache(fun):
     """Function decorator that caches output using wekrefs"""
     
     cache = WeakValueDictionary()
-    def _(*args, **kwargs):
-        if args in cache:
-            return cache[args]
+    def _(arg, *args, **kwargs):
+        if arg in cache:
+            return cache[arg]
         else:
-            return fun(*args, **kwargs)
+            return fun(arg, *args, **kwargs)
     return _

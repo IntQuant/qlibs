@@ -1,3 +1,10 @@
+from vec import Vec
+from matrix import Matrix4, IDENTITY
+from gui.window_provider import window_provider
+from util import try_write
+import modelloader
+import resource_loader
+
 import moderngl
 import sdl2
 from PIL import Image
@@ -6,12 +13,7 @@ import time
 import math
 from array import array
 
-from vec import Vec
-from matrix import Matrix4, IDENTITY
-from gui.window_provider import window_provider
-from util import try_write
-import modelloader
-import resource_loader
+
 
 width = 800
 height = 600

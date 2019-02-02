@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qlibs",
-    version="0.0.9",
+    version="0.1.0",
     author="IQuant",
     author_email="quant3234@gmail.com",
     description="Random things",

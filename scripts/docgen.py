@@ -4,7 +4,7 @@ import inspect
 from html import escape as nq_escape
 
 def escape(s):
-    return nq_escape(s, quote=True)#.replace("#", "&#35;").replace("|", "&#124;").replace("-", "&#45;")
+    return nq_escape(s, quote=True)
 
 def log(*args, **kwargs):
     return print("[LOG]", *args, file=sys.stderr, **kwargs)
@@ -92,17 +92,6 @@ class DocsGenerator():
             self.process_docstring(doc_string, res)
             res.append("</blockquote>")
             
-            
-            #if type(thing) is not types.MethodType:
-            #
-            #    for next_thing in dir(thing):
-            #        try:
-            #            nr = self.gen_docs(getattr(thing, next_thing))
-            #            if nr is not None:
-            #                res.extend(nr)
-            #        except AttributeError as e:
-            #            pass
-
         return res
 
 HTML_CONSTRUCT = """
@@ -110,7 +99,7 @@ HTML_CONSTRUCT = """
 <html>
   <head>
     <meta charset="utf-8">
-    <title>My test page</title>
+    <title>Qlibs documentation page</title>
   </head>
   <body>
     <h1> QLibs documentation </h1>

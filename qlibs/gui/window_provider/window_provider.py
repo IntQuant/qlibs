@@ -4,6 +4,8 @@
 
 try:
     from ... import resource_loader
+except ValueError:
+    from .. import resource_loader
 except ImportError:
     from .. import resource_loader
 
