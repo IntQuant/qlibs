@@ -1,6 +1,6 @@
 import resource_loader
 
-#print(resource_loader.get_res_data("shaders/basic_textures_shader.glsh"))
+# print(resource_loader.get_res_data("shaders/basic_textures_shader.glsh"))
 
 resource_loader.search_locations.append("C:/Users/IQuant/Desktop")
 

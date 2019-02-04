@@ -27,53 +27,49 @@ obj = modelloader.OBJLoader()
 obj.load_path("C:/Users/IQuant/Desktop/menger.obj")
 
 scene = Scene()
+
+scene.light = Vec(0, 50, 0)
+# print(obj.get_obj().materials['palette.001'].raw_params)
+
 robj = RenderableModel(obj.get_obj(), scene, win.ctx)
 
 running = True
 
+
 proj = Matrix4.perspective_projection(45.0, width / height, 0.1, 1000.0)
 
+
 used_time = 0
-iters = 100
+iters = 3000
 
-
-def render():
+while running:
     prev_time = time.process_time()
+    # iters += 1
     ctx.clear(0, 0, 0)
 
     r = math.radians((time.time() * 10))
 
-    d = 50
+    d = 20
 
     view = Matrix4.look_at(
         Vec(math.cos(r) * d, 10, math.sin(r) * d), Vec(0, 0, 0), Vec(0, 1, 0)
     )
 
-    for i in range(100):
+    model = Matrix4.translation_matrix(0, 0, 0)
+    model[0, 0] = 0.1
+    model[1, 1] = 0.1
+    model[2, 2] = 0.1
 
-        model = Matrix4.translation_matrix(0, 0, i * 20)
-
-        robj.render(model, view, proj)
+    robj.render(model, view, proj)
 
     for event in win.get_events():
         if event.type == sdl2.SDL_QUIT:
             running = False
     sdl2.SDL_GL_SwapWindow(win.window)
     used_time = time.process_time() - prev_time
-    # sdl2.SDL_Delay(10)
-    return used_time
+    sdl2.SDL_Delay(10)
 
 
-# ctx.enable(moderngl.DEPTH_TEST)
+# iter_time_ms = used_time / iters * 1000
 
-for i in range(10):
-    render()
-
-from tqdm import tqdm, trange
-
-for i in trange(iters):
-    used_time += render()
-
-iter_time_ms = used_time / iters * 1000
-
-print("Took %.3f ms per frame" % (iter_time_ms))
+# print("Took %.3f ms per frame" % (iter_time_ms))
