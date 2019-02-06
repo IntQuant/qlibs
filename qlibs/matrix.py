@@ -261,7 +261,7 @@ class Matrix4:
         return cls([E, 0, 0, 0, 0, F, 0, 0, A, B, C, -1, 0, 0, D, 0])  # TODO
 
     @classmethod
-    def rotation_euler(cls, pitch, roll, yaw):
+    def rotation_euler(cls, pitch, roll, yaw): #TODO: yaw does not work as inteded
         """
         Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)
         """

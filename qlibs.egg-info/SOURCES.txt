@@ -4,6 +4,7 @@ setup.py
 qlibs/__init__.py
 qlibs/matrix.py
 qlibs/modelloader.py
+qlibs/modelrenderer.py
 qlibs/opt.py
 qlibs/resource_loader.py
 qlibs/test2.py

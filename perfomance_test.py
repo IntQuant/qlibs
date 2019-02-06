@@ -23,21 +23,18 @@ resource_loader.search_locations.append("C:/Users/IQuant/Desktop")
 win = window_provider.Window()
 ctx = win.ctx
 
-obj = modelloader.OBJLoader()
-obj.load_path("C:/Users/IQuant/Desktop/menger.obj")
-
 scene = Scene()
+#scene.light_direction = Vec(0, 10, 0)
 
-scene.light = Vec(0, 50, 0)
-# print(obj.get_obj().materials['palette.001'].raw_params)
+obj = modelloader.OBJLoader()
+obj.load_path("C:/Users/IQuant/Desktop/test2.obj")
+
+
 
 robj = RenderableModel(obj.get_obj(), scene, win.ctx)
-
-running = True
-
-
 proj = Matrix4.perspective_projection(45.0, width / height, 0.1, 1000.0)
 
+running = True
 
 used_time = 0
 iters = 3000
@@ -47,18 +44,23 @@ while running:
     # iters += 1
     ctx.clear(0, 0, 0)
 
-    r = math.radians((time.time() * 10))
-
-    d = 20
+    
+    
+    d = 40
+    r=0.5
 
     view = Matrix4.look_at(
         Vec(math.cos(r) * d, 10, math.sin(r) * d), Vec(0, 0, 0), Vec(0, 1, 0)
     )
-
-    model = Matrix4.translation_matrix(0, 0, 0)
-    model[0, 0] = 0.1
-    model[1, 1] = 0.1
-    model[2, 2] = 0.1
+    
+    r = math.radians((time.time() * 50))
+    #scene.light_direction = Vec(math.cos(r*0.1) * d, 10, math.sin(r) * d)
+    #scene.light_direction.normalize()
+    
+    model = Matrix4.rotation_euler(0, 0, r) * Matrix4.translation_matrix(20, 0, 0)
+    #model[0, 0] = 0.1
+    #model[1, 1] = 0.1
+    #model[2, 2] = 0.1
 
     robj.render(model, view, proj)
 

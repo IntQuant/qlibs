@@ -28,17 +28,11 @@ long_line_behaviour=2
 long_line_column=88
 
 [files]
-current_page=0
-FILE_NAME_0=1135;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cgui%5Cwindow_provider%5Cwindow_provider.py;0;4
-FILE_NAME_1=799;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cresource_loader.py;0;4
-FILE_NAME_2=1442;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cutil.py;0;4
-FILE_NAME_3=104;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest3.py;0;4
-FILE_NAME_4=2275;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmatrix.py;0;4
-FILE_NAME_5=137;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ctest2.py;0;4
-FILE_NAME_6=7025;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodelloader.py;0;4
-FILE_NAME_7=2159;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodelrenderer.py;0;4
-FILE_NAME_8=392;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cperfomance_test.py;0;4
-FILE_NAME_9=25;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cmdr_test.py;0;4
+current_page=3
+FILE_NAME_0=0;Batch;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cmake_all.bat;0;4
+FILE_NAME_1=149;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Csetup.py;0;4
+FILE_NAME_2=16;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5C__init__.py;0;4
+FILE_NAME_3=581;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cperfomance_test.py;0;4
 
 [build-menu]
 EX_01_LB=Profile
