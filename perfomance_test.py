@@ -47,15 +47,18 @@ while running:
     
     
     d = 40
-    r=0.5
+    r=1
 
     view = Matrix4.look_at(
         Vec(math.cos(r) * d, 10, math.sin(r) * d), Vec(0, 0, 0), Vec(0, 1, 0)
     )
     
     r = math.radians((time.time() * 50))
-    #scene.light_direction = Vec(math.cos(r*0.1) * d, 10, math.sin(r) * d)
+    
+    
+    scene.light_direction = Vec(math.cos(r) * d, 10, math.sin(r) * d)
     #scene.light_direction.normalize()
+    r += 0.1
     
     model = Matrix4.rotation_euler(0, 0, r) * Matrix4.translation_matrix(20, 0, 0)
     #model[0, 0] = 0.1

@@ -261,7 +261,7 @@ class Matrix4:
         return cls([E, 0, 0, 0, 0, F, 0, 0, A, B, C, -1, 0, 0, D, 0])  # TODO
 
     @classmethod
-    def rotation_euler(cls, pitch, roll, yaw): #TODO: yaw does not work as inteded
+    def rotation_euler(cls, pitch, roll, yaw):
         """
         Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)
         """
@@ -275,22 +275,10 @@ class Matrix4:
 
         return cls(
             [
-                cY * cP,
-                -cY * sP * cR + sY * sR,
-                cY * sP * sR + sY * cR,
-                0,
-                sP,
-                cP * cR,
-                -cP * sR,
-                0,
-                sY * cP,
-                sY * sP * cR + cY * sR,
-                -sY * sP * sR + cY * cR,
-                0,
-                0,
-                0,
-                0,
-                1,
+                cY * cP, -cY * sP * cR + sY * sR, cY * sP * sR + sY * cR, 0,
+                sP, cP * cR, -cP * sR, 0,
+                -sY * cP, sY * sP * cR + cY * sR, -sY * sP * sR + cY * cR, 0,
+                0, 0, 0, 1,
             ]
         )
 
