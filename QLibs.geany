@@ -28,16 +28,15 @@ long_line_behaviour=2
 long_line_column=88
 
 [files]
-current_page=8
+current_page=1
 FILE_NAME_0=0;Batch;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cmake_all.bat;0;4
 FILE_NAME_1=149;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Csetup.py;0;4
-FILE_NAME_2=21;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5C__init__.py;0;4
-FILE_NAME_3=282;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cperfomance_test.py;0;4
-FILE_NAME_4=480;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodelrenderer.py;0;4
-FILE_NAME_5=8463;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmatrix.py;0;4
-FILE_NAME_6=626;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cmdr_test.py;0;4
-FILE_NAME_7=881;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cgui%5Cwindow_provider%5Cwindow_provider.py;0;4
-FILE_NAME_8=4977;Conf;0;EUTF-8;0;1;0;C%3A%5CUsers%5CIQuant%5CAppData%5CRoaming%5Cgeany%5Csnippets.conf;0;4
+FILE_NAME_2=19;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5C__init__.py;0;4
+FILE_NAME_3=1601;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cperfomance_test.py;0;4
+FILE_NAME_4=19;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodelrenderer.py;0;4
+FILE_NAME_5=69;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmatrix.py;0;4
+FILE_NAME_6=964;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cutil.py;0;4
+FILE_NAME_7=285;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cresource_loader.py;0;4
 
 [build-menu]
 EX_01_LB=Profile

@@ -8,12 +8,11 @@ from enum import Enum
 from array import array
 
 
-from .vec import Vec
+from ..vec import Vec
 
 try:
     from tqdm import tqdm
 except ImportError:
-
     def tqdm(x, **kwargs):
         return x
 

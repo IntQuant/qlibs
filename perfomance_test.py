@@ -6,13 +6,13 @@ from array import array
 import moderngl
 from PIL import Image
 
+from qlibs import resource_loader
 from qlibs.vec import Vec
 from qlibs.matrix import Matrix4, IDENTITY
-from qlibs.gui.window_provider import window_provider
 from qlibs.util import try_write
-from qlibs import modelloader
-from qlibs import resource_loader
-from qlibs.modelrenderer import RenderableModel, Scene
+from qlibs.gui.window_provider import window_provider
+from qlibs.models import modelloader
+from qlibs.models.modelrenderer import RenderableModel, Scene
 
 import sdl2  # Needs to be imported *after* window_provider
 

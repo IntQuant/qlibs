@@ -1,9 +1,9 @@
 import moderngl
 
 from . import modelloader
-from .resource_loader import get_res_texture, get_res_data
-from .util import try_write
-from .vec import Vec
+from ..resource_loader import get_res_texture, get_res_data
+from ..util import try_write
+from ..vec import Vec
 
 program_storage = dict()
 
