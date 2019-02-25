@@ -5,10 +5,7 @@
 from array import array
 import math
 
-try:
-    from vec import Vec
-except ImportError:
-    from .vec import Vec
+from .vec import Vec
 
 ZEROS_16 = [0] * 16
 
@@ -58,7 +55,7 @@ class Matrix4:
         """
         if isinstance(other, Matrix4):
             res = Matrix4()
-            
+
             res._data[0] = (
                 other._data[0] * self._data[0]
                 + other._data[1] * self._data[4]
@@ -275,10 +272,22 @@ class Matrix4:
 
         return cls(
             [
-                cY * cP, -cY * sP * cR + sY * sR, cY * sP * sR + sY * cR, 0,
-                sP, cP * cR, -cP * sR, 0,
-                -sY * cP, sY * sP * cR + cY * sR, -sY * sP * sR + cY * cR, 0,
-                0, 0, 0, 1,
+                cY * cP,
+                -cY * sP * cR + sY * sR,
+                cY * sP * sR + sY * cR,
+                0,
+                sP,
+                cP * cR,
+                -cP * sR,
+                0,
+                -sY * cP,
+                sY * sP * cR + cY * sR,
+                -sY * sP * sR + cY * cR,
+                0,
+                0,
+                0,
+                0,
+                1,
             ]
         )
 

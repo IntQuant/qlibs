@@ -1,3 +1,11 @@
+import time
+import math
+from array import array
+
+import moderngl
+import sdl2
+from PIL import Image
+
 from qlibs.vec import Vec
 from qlibs.matrix import Matrix4, IDENTITY
 from qlibs.gui.window_provider import window_provider
@@ -6,25 +14,16 @@ from qlibs import modelloader
 from qlibs import resource_loader
 from qlibs.modelrenderer import RenderableModel, Scene
 
-import moderngl
-import sdl2
-from PIL import Image
-
-import time
-import math
-from array import array
-
-
 width = 800
 height = 600
-resource_loader.search_locations.append("C:/Users/IQuant/Desktop")
+resource_loader.search_locations.append("C:/Users/IQuant/Desktop/models")
 
 
 win = window_provider.Window()
 ctx = win.ctx
 
 obj = modelloader.OBJLoader()
-obj.load_path("C:/Users/IQuant/Desktop/menger.obj")
+obj.load_path("C:/Users/IQuant/Desktop/models/menger.obj")
 
 scene = Scene()
 robj = RenderableModel(obj.get_obj(), scene, win.ctx)

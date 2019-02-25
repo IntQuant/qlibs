@@ -1,18 +1,23 @@
 import moderngl
+
 from . import modelloader
 from .resource_loader import get_res_texture, get_res_data
 from .util import try_write
 from .vec import Vec
 
-TEXTURE_RENDER_PROGRAM = None
+program_storage = dict()
 
 
 def make_program(ctx):
-    global TEXTURE_RENDER_PROGRAM
-    TEXTURE_RENDER_PROGRAM = ctx.program(
-        vertex_shader=get_res_data("shaders/basic_textures_shader.glsh"),
-        fragment_shader=get_res_data("shaders/basic_textures_fragment_shader.glsh"),
+    if id(ctx) in program_storage:
+        return program_storage[id(ctx)]
+
+    prog = ctx.program(
+        vertex_shader=get_res_data("shaders/shader_mvp_applier.glsh"),
+        fragment_shader=get_res_data("shaders/shader_fragment_lighting.glsh"),
     )
+    program_storage[id(ctx)] = prog
+    return prog
 
 
 class MaterialData:
@@ -27,7 +32,7 @@ class Scene:
         self.light_direction = Vec(0.1, 1, 1)
         self.light_direction.normalize()
         self.light_color = Vec(1, 1, 0.6)
-    
+
     def __setattr__(self, key, value):
         if key == "light_direction":
             value = Vec(value)
@@ -54,8 +59,8 @@ class RenderableModel:
         self.plain_data = dict()
 
     def prepare(self):
-        if TEXTURE_RENDER_PROGRAM is None:
-            make_program(self.ctx)
+
+        program = make_program(self.ctx)
 
         if self.ready:
             return
@@ -67,9 +72,7 @@ class RenderableModel:
             mat = self.model.materials[mat.mat_name]
             mat.process()
             vbo = self.ctx.buffer(data.tobytes())
-            vao = self.ctx.simple_vertex_array(
-                TEXTURE_RENDER_PROGRAM, vbo, "in_vert", "normal", "uv"
-            )
+            vao = self.ctx.simple_vertex_array(program, vbo, "in_vert", "normal", "uv")
             md = MaterialData(mat, vbo, vao)
             self.textured_data[mat.name] = md
 
@@ -81,9 +84,9 @@ class RenderableModel:
 
     def render(self, m, v, p, mvp=None):
         self.ctx.enable(moderngl.DEPTH_TEST)
-        #self.ctx.enable(moderngl.CULL_FACE)
+        # self.ctx.enable(moderngl.CULL_FACE)
+        prog = make_program(self.ctx)
 
-        prog = TEXTURE_RENDER_PROGRAM
         if mvp is None:
             mvp = p * v * m
 

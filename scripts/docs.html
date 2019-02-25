@@ -94,11 +94,14 @@
       <blockquote>
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
       </blockquote>
+      <h4>Function process(self, ensure_processing=False)</h4>
+      <blockquote>
       </blockquote>
-      <h3>Class OBJ(name)</h3>
+      </blockquote>
+      <h3>Class OBJ(name, materials)</h3>
       <blockquote>
       <p>Loaded object class</p>
-      <h4>Function __init__(self, name)</h4>
+      <h4>Function __init__(self, name, materials)</h4>
       <blockquote>
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
       </blockquote>
@@ -113,7 +116,7 @@
       <blockquote>
       <p>Iterate over textured material faces</p>
       </blockquote>
-      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x02D87AE0&gt;, material=None)</h4>
+      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x031A7738&gt;, material=None)</h4>
       <blockquote>
       <p>Resolves faces to parameter array defined by *form* format</p>
       </blockquote>
@@ -135,7 +138,7 @@
       <h4>Function get_sub_obj(self, name=None, material=None)</h4>
       <blockquote>
       </blockquote>
-      <h4>Function load_file(self, f)</h4>
+      <h4>Function load_file(self, f, triangulate=True)</h4>
       <blockquote>
       <p>Loads models from file object</p>
       </blockquote>
@@ -363,6 +366,10 @@
       <h2>Module qlibs.util</h2>
       <blockquote>
       <p>Module for different random things</p>
+      <h4>Function dict_cache(fun)</h4>
+      <blockquote>
+      <p>Function decorator that caches output</p>
+      </blockquote>
       <h4>Function try_write(prog, at, data)</h4>
       <blockquote>
       <p>Tries to write data into member of moderngl program</p>

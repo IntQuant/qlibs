@@ -24,7 +24,15 @@ class MaterialData:
 
 class Scene:
     def __init__(self):
-        self.light = Vec(0, 0, 10)
+        self.light_direction = Vec(0.1, 1, 1)
+        self.light_direction.normalize()
+        self.light_color = Vec(1, 1, 0.6)
+    
+    def __setattr__(self, key, value):
+        if key == "light_direction":
+            value = Vec(value)
+            value.normalize()
+        super().__setattr__(key, value)
 
 
 class RenderableModel:
@@ -73,7 +81,7 @@ class RenderableModel:
 
     def render(self, m, v, p, mvp=None):
         self.ctx.enable(moderngl.DEPTH_TEST)
-        self.ctx.enable(moderngl.CULL_FACE)
+        #self.ctx.enable(moderngl.CULL_FACE)
 
         prog = TEXTURE_RENDER_PROGRAM
         if mvp is None:
@@ -84,7 +92,8 @@ class RenderableModel:
         try_write(prog, "v", v.bytes())
         try_write(prog, "p", p.bytes())
 
-        try_write(prog, "light", self.scene.light.bytes())
+        try_write(prog, "light_dir", self.scene.light_direction.bytes())
+        try_write(prog, "light_col", self.scene.light_color.bytes())
 
         for name, matdata in self.textured_data.items():
             mat, vao = matdata.material, matdata.vao

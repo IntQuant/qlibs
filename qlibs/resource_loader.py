@@ -39,11 +39,8 @@ def get_res_data(path):
 
 @dict_cache
 def get_res_texture(r_path, ctx):
-
     path = get_res_path(r_path)
-    # print(path)
     img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM).convert("RGB")
-
     txt = ctx.texture(img.size, 3, img.tobytes())
     txt.build_mipmaps()
     return txt

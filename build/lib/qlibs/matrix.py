@@ -275,22 +275,10 @@ class Matrix4:
 
         return cls(
             [
-                cY * cP,
-                -cY * sP * cR + sY * sR,
-                cY * sP * sR + sY * cR,
-                0,
-                sP,
-                cP * cR,
-                -cP * sR,
-                0,
-                sY * cP,
-                sY * sP * cR + cY * sR,
-                -sY * sP * sR + cY * cR,
-                0,
-                0,
-                0,
-                0,
-                1,
+                cY * cP, -cY * sP * cR + sY * sR, cY * sP * sR + sY * cR, 0,
+                sP, cP * cR, -cP * sR, 0,
+                -sY * cP, sY * sP * cR + cY * sR, -sY * sP * sR + cY * cR, 0,
+                0, 0, 0, 1,
             ]
         )
 

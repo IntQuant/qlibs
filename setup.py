@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qlibs",
-    version="0.1.1",
+    version="0.1.2",
     author="IQuant",
     author_email="quant3234@gmail.com",
     description="Random things",
@@ -18,6 +18,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    include_package_data = True,
-    install_requires=["moderngl", "PySDL2"]
+    include_package_data=True,
+    install_requires=["moderngl", "PySDL2"],
 )
