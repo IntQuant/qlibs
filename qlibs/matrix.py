@@ -5,7 +5,7 @@
 from array import array
 import math
 
-from .vec import Vec
+from .vec import IVec, MVec as Vec
 
 ZEROS_16 = [0] * 16
 
@@ -156,7 +156,7 @@ class Matrix4:
             return res
 
         if isinstance(other, Vec):
-            res = Vec(0, 0, 0, 0)
+            res = [0, 0, 0, 0]
             if len(other) != 4:
                 other = other.as_n_d(4)
                 other[3] = 1
@@ -168,7 +168,7 @@ class Matrix4:
                     + self[i, 2] * other[2]
                     + self[i, 3] * other[3]
                 )
-            return res
+            return IVec(res)
 
         return NotImplemented
 
@@ -194,14 +194,11 @@ class Matrix4:
 
         res = cls(IDENTITY)
 
-        f = center - eye
-        f.normalize()
-        u = Vec(up)
-        u.normalize()
-        s = f.cross(u)
-        s.normalize()
+        f = (center - eye).normalized()
+        u = up.normalized()
+        s = f.cross(u).normalized()        
         u = s.cross(f)
-
+        
         res[0, 0] = s.x
         res[1, 0] = s.y
         res[2, 0] = s.z
