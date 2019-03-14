@@ -46,9 +46,17 @@ class ShapeDrawer:
     
     def render(self, mvp=Matrix4(IDENTITY)):
         self.ctx.disable(moderngl.CULL_FACE)
-        self.buffer = self.ctx.buffer(self.tr_buffer)
-        self.vao = self.ctx.simple_vertex_array(
-            self.program, self.buffer, "in_vert", "color"
-        )
-        self.vao.render(moderngl.TRIANGLES)
+        target_len = max(len(self.tr_buffer), len(self.li_buffer))
+        amortized_len = 2 ** (target_len.bit_length() + 1)
+        min_amortized_len = 2 ** (target_len.bit_length() - 1)
+        if (self.buffer is None 
+            or self.buffer.size < 4*target_len 
+            or self.buffer.size > min_amortized_len
+            ):
+            self.buffer = self.ctx.buffer(reserve=4*amortized_len, dynamic=True)
+            self.vao = self.ctx.simple_vertex_array(
+                self.program, self.buffer, "in_vert", "color"
+            )
+        self.buffer.write(self.tr_buffer)
+        self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer))
         self.prepare()
