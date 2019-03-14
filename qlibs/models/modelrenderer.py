@@ -2,22 +2,17 @@ import moderngl
 
 from . import modelloader
 from ..resource_loader import get_res_texture, get_res_data
+from ..resource_manager import get_storage_of_context
 from ..util import try_write
 from ..vec import Vec
 
-program_storage = dict()
-
 
 def make_program(ctx):
-    if id(ctx) in program_storage:
-        return program_storage[id(ctx)]
-
-    prog = ctx.program(
-        vertex_shader=get_res_data("shaders/shader_mvp_applier.glsh"),
-        fragment_shader=get_res_data("shaders/shader_fragment_lighting.glsh"),
+    storage = get_storage_of_context(ctx)
+    return storage.get_program(
+        vertex_shader_name="shaders/shader_mvp_applier.glsh",
+        fragment_shader_name="shaders/shader_fragment_lighting.glsh",
     )
-    program_storage[id(ctx)] = prog
-    return prog
 
 
 class MaterialData:
@@ -45,10 +40,11 @@ class RenderableModel:
       Model wrapper which can render models
     """
 
-    def __init__(self, model, scene, ctx):
+    def __init__(self, model, scene, ctx, program=None):
         self.model = model
         self.ctx = ctx
         self.scene = scene
+        self.program = program
         self.reset()
         self.prepare()
 
@@ -59,8 +55,7 @@ class RenderableModel:
         self.plain_data = dict()
 
     def prepare(self):
-
-        program = make_program(self.ctx)
+        program = self.program or make_program(self.ctx)
 
         if self.ready:
             return
@@ -71,7 +66,7 @@ class RenderableModel:
         ):
             mat = self.model.materials[mat.mat_name]
             mat.process()
-            vbo = self.ctx.buffer(data.tobytes())
+            vbo = self.ctx.buffer(data)
             vao = self.ctx.simple_vertex_array(program, vbo, "in_vert", "normal", "uv")
             md = MaterialData(mat, vbo, vao)
             self.textured_data[mat.name] = md
@@ -84,7 +79,7 @@ class RenderableModel:
 
     def render(self, m, v, p, mvp=None):
         self.ctx.enable(moderngl.DEPTH_TEST)
-        # self.ctx.enable(moderngl.CULL_FACE)
+        self.ctx.enable(moderngl.CULL_FACE)
         prog = make_program(self.ctx)
 
         if mvp is None:

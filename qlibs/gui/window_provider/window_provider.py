@@ -45,19 +45,19 @@ class Window:
         self.ctx = moderngl.create_context(request)
 
     def get_events(self):
-        """
-          Iterate over recent events
-        """
+        """Iterate over recent events"""
         while sdl2.SDL_PollEvent(ctypes.byref(self.event)) != 0:
             yield self.event
     
     def swap(self):
+        """Swap window buffers"""
         size = self.get_size()
         self.ctx.viewport = (0, 0, size[0], size[1])
         sdl2.SDL_GL_SwapWindow(self.window)
         
         
     def get_size(self):
+        """Get window size"""
         x = ctypes.c_int(0)
         y = ctypes.c_int(0)
         sdl2.SDL_GetWindowSize(self.window, x, y)

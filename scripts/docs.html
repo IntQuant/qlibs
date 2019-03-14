@@ -1,9 +1,35 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Qlibs documentation page</title>
+    <style>
+      body {
+        background-color: black;
+      }
+      h1 {
+        color: #aaaaff;
+      }
+      h2 {
+        color: #aaaaff;
+      }
+      h3 {
+        color: #aaaaff;
+      }
+      h4 {
+        color: #9a9aff;
+      }
+      p {
+        color: #cacaca;
+      }
+      b {
+        color: #5affaa;
+      }
+      blockquote {
+        background: black;
+        padding: 0em 0.1em;
+      }
+    </style>
   </head>
   <body>
     <h1> QLibs documentation </h1>
@@ -11,19 +37,28 @@
     <h2>Module qlibs.gui.window_provider.window_provider</h2>
       <blockquote>
       <p>Module that provides opengl-enabled windows</p>
-      <h3>Class Window(request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600)</h3>
+      <h3>Class Window(request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600, params=34)</h3>
       <blockquote>
       <p>Basic window class</p>
-      <h4>Function __init__(self, request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600)</h4>
+      <h4>Function __init__(self, request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600, params=34)</h4>
       <blockquote>
-      <p>*request* - OpenGL version to use</p>
-      <p>*win_name* - name of the window</p>
-      <p>*width* - window width</p>
-      <p>*height* - window height</p>
+      <p><b>request</b> - OpenGL version to use</p>
+      <p><b>win_name</b> - name of the window</p>
+      <p><b>width</b> - window width</p>
+      <p><b>height</b> - window height</p>
+      <p><b>params</b> - window parameters</p>
       </blockquote>
       <h4>Function get_events(self)</h4>
       <blockquote>
       <p>Iterate over recent events</p>
+      </blockquote>
+      <h4>Function get_size(self)</h4>
+      <blockquote>
+      <p>Get window size</p>
+      </blockquote>
+      <h4>Function swap(self)</h4>
+      <blockquote>
+      <p>Swap window buffers</p>
       </blockquote>
       </blockquote>
       </blockquote>
@@ -35,15 +70,15 @@
       <p>4 by 4 Matrix class which allows [i, j] indexing</p>
       <h4>Function __init__(self, data=None, dtype=&#x27;f&#x27;)</h4>
       <blockquote>
-      <p>Initialize matrix with 16 elements array (*data*) of *dtype* type</p>
+      <p>Initialize matrix with 16 elements array (<b>data</b>) of <b>dtype</b> type</p>
       </blockquote>
       <h4>Function bytes(self, dtype=&#x27;f&#x27;)</h4>
       <blockquote>
       <p>Converts internal array to bytes</p>
       </blockquote>
-      <h4>Function look_at(eye: qlibs.vec.Vec, center: qlibs.vec.Vec, up: qlibs.vec.Vec)</h4>
+      <h4>Function look_at(eye: qlibs.vec.MVec, center: qlibs.vec.MVec, up: qlibs.vec.MVec)</h4>
       <blockquote>
-      <p>Generates a look at matrix from *eye* to *center* with *up* up vector</p>
+      <p>Generates a look at matrix from <b>eye</b> to <b>center</b> with <b>up</b> up vector</p>
       </blockquote>
       <h4>Function orthogonal_projection(fov, ratio, n, f)</h4>
       <blockquote>
@@ -51,7 +86,7 @@
       </blockquote>
       <h4>Function perspective_projection(fov, ratio, near, far)</h4>
       <blockquote>
-      <p>Creates perspective projection matrix from *fov*, *ratio*(width/height) and culling planes(*near* and *far*)</p>
+      <p>Creates perspective projection matrix from <b>fov</b>, <b>ratio</b>(width/height) and         culling planes(<b>near</b> and <b>far</b>)</p>
       </blockquote>
       <h4>Function perspective_projection_lrbtnf(left, right, bottom, top, near, far)</h4>
       <blockquote>
@@ -59,15 +94,15 @@
       </blockquote>
       <h4>Function rotation_euler(pitch, roll, yaw)</h4>
       <blockquote>
-      <p>Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)</p>
+      <p>Creates rotation matrix from 3 angles(<b>pith</b>, <b>roll</b> and <b>yaw</b>)</p>
       </blockquote>
       <h4>Function translation_matrix(x, y, z)</h4>
       <blockquote>
-      <p>Creates matrix that translates vectors by *x*, *y*, *z*</p>
+      <p>Creates matrix that translates vectors by <b>x</b>, <b>y</b>, <b>z</b></p>
       </blockquote>
       </blockquote>
       </blockquote>
-      <h2>Module qlibs.modelloader</h2>
+      <h2>Module qlibs.models.modelloader</h2>
       <blockquote>
       <p>Module for loading 3D models</p>
       <h3>Class MTLLoader()</h3>
@@ -75,16 +110,19 @@
       <p>.mtl file loader</p>
       <h4>Function __init__(self)</h4>
       <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      <p>Initialize MTLLoader</p>
       </blockquote>
       <h4>Function get_mat(self, name=None)</h4>
       <blockquote>
+      <p>Get material with specified <b>name</b>, or latest if <b>name</b> is None</p>
       </blockquote>
       <h4>Function load_file(self, f)</h4>
       <blockquote>
+      <p>Load data from file <b>f</b> (<b>f</b> needs to support iteration over lines)</p>
       </blockquote>
       <h4>Function load_path(self, path)</h4>
       <blockquote>
+      <p>Calls load_file creating file object from path</p>
       </blockquote>
       </blockquote>
       <h3>Class Material(name)</h3>
@@ -92,10 +130,12 @@
       <p>Object that describes material properties</p>
       <h4>Function __init__(self, name)</h4>
       <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      <p>Make new matereal</p>
       </blockquote>
       <h4>Function process(self, ensure_processing=False)</h4>
       <blockquote>
+      <p>Process raw parameters</p>
+      <p>Does not process already processed Material          unless <b>ensure_processing</b> specified</p>
       </blockquote>
       </blockquote>
       <h3>Class OBJ(name, materials)</h3>
@@ -103,22 +143,23 @@
       <p>Loaded object class</p>
       <h4>Function __init__(self, name, materials)</h4>
       <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      <p>Initialize new 3d object with given <b>name</b> and <b>materials</b> dict</p>
       </blockquote>
       <h4>Function get_sub_obj(self, material)</h4>
       <blockquote>
+      <p>Get SubOBJ for <b>material</b></p>
       </blockquote>
       <h4>Function iter_materials_non_textured(self, *form)</h4>
       <blockquote>
-      <p>Iterate over non textured mateial faces</p>
+      <p>Iterate over non textured material faces</p>
       </blockquote>
       <h4>Function iter_materials_textured(self, *form)</h4>
       <blockquote>
       <p>Iterate over textured material faces</p>
       </blockquote>
-      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x031A7738&gt;, material=None)</h4>
+      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x03917E88&gt;, material=None)</h4>
       <blockquote>
-      <p>Resolves faces to parameter array defined by *form* format</p>
+      <p>Resolves faces to parameter array defined by <b>form</b> format</p>
       </blockquote>
       </blockquote>
       <h3>Class OBJIndex(value, names=None, *, module=None, qualname=None, type=None, start=1)</h3>
@@ -130,21 +171,24 @@
       <p>Loads object files</p>
       <h4>Function __init__(self)</h4>
       <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      <p>Create new object loader</p>
       </blockquote>
       <h4>Function get_obj(self, name=None)</h4>
       <blockquote>
+      <p>Get object by <b>name</b> or latest object if <b>name</b> is None</p>
       </blockquote>
       <h4>Function get_sub_obj(self, name=None, material=None)</h4>
       <blockquote>
+      <p>Shortcut for <b>self</b>.get_obj(<b>name</b>).get_sub_obj(<b>material</b>)</p>
       </blockquote>
       <h4>Function load_file(self, f, triangulate=True)</h4>
       <blockquote>
       <p>Loads models from file object</p>
+      <p>Triangulates faces if <b>triangulate</b> specified</p>
       </blockquote>
       <h4>Function load_path(self, path)</h4>
       <blockquote>
-      <p>Loads models from *path*</p>
+      <p>Loads models from <b>path</b></p>
       </blockquote>
       </blockquote>
       <h3>Class SubOBJ(name)</h3>
@@ -170,6 +214,43 @@
       <h4>Function int_or_none(value)</h4>
       <blockquote>
       <p>Returns int or none if int could not be converted</p>
+      </blockquote>
+      </blockquote>
+      <h2>Module qlibs.models.modelrenderer</h2>
+      <blockquote>
+      <h3>Class MaterialData(material, vbo, vao)</h3>
+      <blockquote>
+      <h4>Function __init__(self, material, vbo, vao)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      </blockquote>
+      <h3>Class RenderableModel(model, scene, ctx, program=None)</h3>
+      <blockquote>
+      <p>Model wrapper which can render models</p>
+      <h4>Function __init__(self, model, scene, ctx, program=None)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function prepare(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function render(self, m, v, p, mvp=None)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function reset(self)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class Scene()</h3>
+      <blockquote>
+      <h4>Function __init__(self)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      </blockquote>
+      <h4>Function make_program(ctx)</h4>
+      <blockquote>
       </blockquote>
       </blockquote>
       <h2>Module qlibs.net.connection</h2>
@@ -381,8 +462,9 @@
       </blockquote>
       <h2>Module qlibs.vec</h2>
       <blockquote>
-      <h3>Class Vec(*args)</h3>
+      <h3>Class IVec(*args)</h3>
       <blockquote>
+      <p>Immutable vector type</p>
       <h4>Function __init__(self, *args)</h4>
       <blockquote>
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
@@ -399,9 +481,6 @@
       <h4>Function dot(self, other)</h4>
       <blockquote>
       </blockquote>
-      <h4>Function intify(self)</h4>
-      <blockquote>
-      </blockquote>
       <h4>Function len(self)</h4>
       <blockquote>
       </blockquote>
@@ -411,10 +490,21 @@
       <h4>Function map_by_verticle(self, other, function: &lt;built-in function callable&gt;)</h4>
       <blockquote>
       </blockquote>
-      <h4>Function normalize(self)</h4>
+      <h4>Function normalized(self)</h4>
       <blockquote>
       </blockquote>
       <h4>Function to_tuple(self)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class MVec(*args)</h3>
+      <blockquote>
+      <p>Mutable vector type</p>
+      <h4>Function __init__(self, *args)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function normalize(self)</h4>
       <blockquote>
       </blockquote>
       </blockquote>

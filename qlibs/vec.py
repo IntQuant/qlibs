@@ -190,6 +190,6 @@ class MVec(IVec):
         for i, e in enumerate(self.v):
             self.v[i] = e / ln
 
-
+Vec = MVec #Deprecated
 conv_lookup.register(IVec, make_qlibs_obj_id(1))
 conv_lookup.register(MVec, make_qlibs_obj_id(2))

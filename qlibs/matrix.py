@@ -196,9 +196,9 @@ class Matrix4:
 
         f = (center - eye).normalized()
         u = up.normalized()
-        s = f.cross(u).normalized()        
+        s = f.cross(u).normalized()
         u = s.cross(f)
-        
+
         res[0, 0] = s.x
         res[1, 0] = s.y
         res[2, 0] = s.z
@@ -233,7 +233,8 @@ class Matrix4:
     @classmethod
     def perspective_projection(cls, fov, ratio, near, far):
         """
-        Creates perspective projection matrix from *fov*, *ratio*(width/height) and culling planes(*near* and *far*)
+        Creates perspective projection matrix from *fov*, *ratio*(width/height) and \
+        culling planes(*near* and *far*)
         """
         bt = near * math.tan(fov * math.pi / 360.0)
         lr = bt * ratio

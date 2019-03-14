@@ -6,15 +6,11 @@ import sys
 import pathlib
 from enum import Enum
 from array import array
-
+import logging
 
 from ..vec import Vec
 
-try:
-    from tqdm import tqdm
-except ImportError:
-    def tqdm(x, **kwargs):
-        return x
+logger = logging.getLogger(__name__)
 
 
 def int_or_none(value):
@@ -100,39 +96,37 @@ def check_has_no_textures(face):
 
 
 class Material:
-    """
-      Object that describes material properties
-    """
+    """Object that describes material properties"""
 
     def __init__(self, name):
+        """Make new matereal"""
         self.raw_params = dict()
         self.prc_params = dict()
         self.name = name
         self.processed = False
-
+ 
     def process(self, ensure_processing=False):
+        """Process raw parameters
+        Does not process already processed Material \
+         unless *ensure_processing* specified"""
         if (not ensure_processing) and self.processed:
             return
         self.processed = True
-
-        # for p in MATERIAL_LIGHT_PROPERTIES:
-        #    self.prc_params[p] = int(self.raw_params[p])
-
         for p in MATERIAL_LIGHT_PROPERTIES_MAP:
             self.prc_params[p] = self.raw_params.get(p)
         # TODO - add texture processing
 
 
 class MTLLoader:
-    """
-      .mtl file loader
-    """
+    """.mtl file loader"""
 
     def __init__(self):
+        """Initialize MTLLoader"""
         self.materials = dict()
         self.current = None
 
     def get_mat(self, name=None):
+        """Get material with specified *name*, or latest if *name* is None"""
         if name is None:
             name = self.current
 
@@ -145,13 +139,14 @@ class MTLLoader:
             return v
 
     def load_file(self, f):
+        """Load data from file *f* (*f* needs to support iteration over lines)"""
         for line in f:
             if line.startswith("#"):
                 continue
             try:
                 param, opt = line.split(maxsplit=1)
             except ValueError:
-                print("Could not split line while parsing mtl file", file=sys.stderr)
+                logger.warning("Could not split line while parsing mtl file")
                 continue
 
             if param == "newmtl":
@@ -160,14 +155,13 @@ class MTLLoader:
                 self.get_mat().raw_params[param] = opt.rstrip("\n")
 
     def load_path(self, path):
+        """Calls load_file creating file object from path"""
         with open(path, "r") as f:
             return self.load_file(f)
 
 
 class SubOBJ:
-    """
-      Part of object with one material
-    """
+    """Part of object with one material"""
 
     def __init__(self, name):
         self.f = []
@@ -175,11 +169,9 @@ class SubOBJ:
 
 
 class OBJ:
-    """
-      Loaded object class
-    """
-
+    """Loaded object class"""
     def __init__(self, name, materials):
+        """Initialize new 3d object with given *name* and *materials* dict"""
         self.v = []
 
         self.vt = []
@@ -191,6 +183,7 @@ class OBJ:
         self.name = name
 
     def get_sub_obj(self, material):
+        """Get SubOBJ for *material*"""
         v = self.sub_obj.get(material)
         if v is not None:
             return v
@@ -200,9 +193,7 @@ class OBJ:
             return v
 
     def iter_materials_textured(self, *form):
-        """
-          Iterate over textured material faces
-        """
+        """Iterate over textured material faces"""
 
         for sub_obj_key in self.sub_obj:
             yield (
@@ -211,9 +202,7 @@ class OBJ:
             )
 
     def iter_materials_non_textured(self, *form):
-        """
-          Iterate over non textured mateial faces
-        """
+        """Iterate over non textured material faces"""
 
         if len(form) == 0:
             form = FORMAT_NO_TEXTURES
@@ -227,23 +216,15 @@ class OBJ:
             )
 
     def resolve(self, *form, filter_by=lambda x: True, material=None):
-        """
-          Resolves faces to parameter array defined by *form* format
-        """
-
+        """Resolves faces to parameter array defined by *form* format"""
         res = array("f")
-
         if material is None:
             material = list(self.sub_obj.keys())[0]
-
         if len(form) == 0:
-
             form = FORMAT_TEXTURES
-
         for face in self.get_sub_obj(material).f:
             if not filter_by(face):
                 continue
-
             for f in form:
                 if f in OBJ_VERTEX:
                     res.extend(self.v[face[f.value]])
@@ -257,12 +238,10 @@ class OBJ:
 
 
 class OBJLoader:
-    """
-      Loads object files
-    """
+    """Loads object files"""
 
     def __init__(self):
-
+        """Create new object loader"""
         self.objects = dict()
         self.current_object = None
 
@@ -272,9 +251,9 @@ class OBJLoader:
         self.loads_from = ""
 
     def get_obj(self, name=None):
+        """Get object by *name* or latest object if *name* is None"""
         if name is None:
             name = self.current_object
-
         v = self.objects.get(name)
         if v is not None:
             return v
@@ -284,6 +263,7 @@ class OBJLoader:
             return v
 
     def get_sub_obj(self, name=None, material=None):
+        """Shortcut for *self*.get_obj(*name*).get_sub_obj(*material*)"""
         o = self.get_obj(name=name)
 
         if material is None:
@@ -292,9 +272,8 @@ class OBJLoader:
         return o.get_sub_obj(material)
 
     def load_file(self, f, triangulate=True):
-        """
-          Loads models from file object
-        """
+        """Loads models from file object
+        Triangulates faces if *triangulate* specified"""
 
         mtl_loader = MTLLoader()
 
@@ -340,7 +319,7 @@ class OBJLoader:
                 self.current_material = params[0]
             elif op == "mtllib":
                 path = pathlib.Path(params[0])
-                print(path)
+                logger.info("Loading mtlib from %s", path)
                 if path.is_absolute():
                     pass
                 else:
@@ -350,7 +329,7 @@ class OBJLoader:
                 self.current_object = params[0]
 
             else:
-                print(f"Unsapported op {op}", file=sys.stderr)
+                logger.warning("Unsapported op %s", op)
         self.materials.update(mtl_loader.materials)
 
     def load_path(self, path):

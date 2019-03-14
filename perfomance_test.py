@@ -1,18 +1,17 @@
-import ctypes
 import time
 import math
-from array import array
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
+ 
 import moderngl
-from PIL import Image
 
-from qlibs import resource_loader
-from qlibs.vec import Vec
+from qlibs import resource_loader, resource_manager
+from qlibs.vec import MVec as Vec
 from qlibs.matrix import Matrix4, IDENTITY
-from qlibs.util import try_write
 from qlibs.gui.window_provider import window_provider
-from qlibs.models import modelloader
 from qlibs.models.modelrenderer import RenderableModel, Scene
+from qlibs.gui.basic_shapes import ShapeDrawer
 
 import sdl2  # Needs to be imported *after* window_provider
 
@@ -22,16 +21,22 @@ resource_loader.search_locations.append("C:/Users/IQuant/Desktop/models")
 win = window_provider.Window()
 ctx = win.ctx
 # Create scene
-scene = Scene()
+#scene = Scene()
 # Load model
-obj = modelloader.OBJLoader()
-obj.load_path(resource_loader.get_res_path("test2.obj"))
 # Upgrade model to renderable
-robj = RenderableModel(obj.get_obj(), scene, win.ctx)
+#robj = RenderableModel(resource_manager.load_model("test2.obj"), scene, win.ctx)
 
 running = True
+drawer = ShapeDrawer(ctx)
+
+frames_left = 1000
+
 # Main loop
 while running:
+    if frames_left <= 0:
+        break
+    frames_left -= 1
+    
     width, height = win.get_size()
     # Make projection matrix
     proj = Matrix4.perspective_projection(45.0, width / height, 0.1, 1000.0)
@@ -46,7 +51,13 @@ while running:
     # Make model matrix
     model = Matrix4.translation_matrix(0, 0, 0)
     # Render model
-    robj.render(model, view, proj)
+    #robj.render(model, view, proj)
+    
+    #drawer.add_triangle(((0, 0), (0, 1), (1, 0)), (0.5, 1, 1., 1.))
+    #drawer.add_polygon(((0, 0), (0, 1), (1, 1), (1, 0)), (0.5, 1, 1., 1.))
+    for i in range(10):
+        drawer.add_rectangle(-0.5+i*0.1, 0.3, 0.05, 0.1)
+    drawer.render()
     # Iterate events
     for event in win.get_events():
         # Closing event
@@ -55,4 +66,4 @@ while running:
     # Swap screen buffers
     win.swap()
     # Delay
-    sdl2.SDL_Delay(10)
+    #sdl2.SDL_Delay(10)
