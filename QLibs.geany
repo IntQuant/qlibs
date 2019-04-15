@@ -31,11 +31,10 @@ long_line_column=88
 current_page=3
 FILE_NAME_0=204;Python;0;EUTF-8;0;1;0;C%3A%5Ctemporal%5Ct.py;0;4
 FILE_NAME_1=526;HTML;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cscripts%5Cbasedoc.html;0;4
-FILE_NAME_2=0;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cscripts%5Cdocgen.py;0;4
-FILE_NAME_3=691;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cperfomance_test.py;0;4
-FILE_NAME_4=806;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cgui%5Cbasic_shapes.py;0;4
-FILE_NAME_5=161;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cmodels%5Cmodelloader.py;0;4
-FILE_NAME_6=480;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cresource_manager.py;0;4
+FILE_NAME_2=213;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cscripts%5Cdocgen.py;0;4
+FILE_NAME_3=1666;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cnet%5Casyncsocket.py;0;4
+FILE_NAME_4=30;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Cnet%5Cqpacket.py;0;4
+FILE_NAME_5=1178;Python;0;EUTF-8;0;1;0;C%3A%5CQLibs%5Cqlibs%5Ccollections.py;0;4
 
 [build-menu]
 EX_01_LB=Profile

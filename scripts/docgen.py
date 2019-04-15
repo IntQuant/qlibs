@@ -5,6 +5,12 @@ from html import escape as nq_escape
 import os
 import re
 
+"""TODO's: 
+ - Remove self from documented functions
+ - Add more type hints
+ - More docs for matrix module
+"""
+
 extrasearchpath = os.path.realpath(os.path.join(__file__, os.pardir, os.pardir))
 sys.path.append(extrasearchpath)
 

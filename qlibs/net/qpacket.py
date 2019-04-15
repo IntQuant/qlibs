@@ -1,8 +1,11 @@
+#Need to make something better
+
 import functools
 import io
 
 from enum import Enum, auto
 from collections import deque
+from ..collections import ByteBuffer
 
 VTYPES_LEN = 1
 BYTE_ORDER = 'big'
@@ -43,7 +46,7 @@ class ConvertionLookup():
 conv_lookup = ConvertionLookup()
 
 def make_qlibs_obj_id(shift):
-    return ord('q') << 10 + shift
+    return 1000 + shift
 
 @functools.singledispatch
 def convert(arg):
@@ -105,35 +108,6 @@ def _(arg: set):
 @convert.register(type(None))
 def _(arg):
     return VALUE_TYPES.NONE.value
-
-class ByteBuffer:
-    def __init__(self, data=None):
-        if data is not None:
-            self.data = deque((data,))
-        else:
-            self.data = deque()
-    
-    def read(self, read_size):
-        len_found = 0
-        collected = []
-        
-        while len_found < read_size:
-            d = self.data.pop()
-            left = read_size - len_found
-            len_found += len(d)
-            if len(d) > left:
-                collected.append(d[:left])
-                self.data.append(d[left:])
-            else:
-                collected.append(d)
-        
-        return b"".join(collected)
-    
-    def write(self, data):
-        self.data.appendleft(data)
-    
-    def has_values(self):
-        return len(self.data) > 0 and any(map(lambda x: len(x)>0, self.data))
 
 
 class Decoder:
