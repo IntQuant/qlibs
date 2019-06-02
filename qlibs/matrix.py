@@ -3,6 +3,7 @@
 """
 
 from array import array
+from ctypes import string_at
 import math
 
 from .vec import IVec, MVec as Vec
@@ -13,15 +14,19 @@ IDENTITY = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 
 
 class Matrix4:
+    __slots__ = ("_data",)
     """
     4 by 4 Matrix class which allows [i, j] indexing
     """
 
-    def __init__(self, data=None, dtype="f"):
+    def __init__(self, data=None, dtype="f", raw_init=None):
         """
         Initialize matrix with 16 elements array (*data*) of *dtype* type
         """
-
+        if raw_init is not None:
+            self._data = raw_init
+            return
+        
         if data is not None:
             self._data = array(dtype, data)
         else:
@@ -293,5 +298,8 @@ class Matrix4:
         """
         Converts internal array to bytes
         """
-        assert self._data.typecode == dtype
-        return self._data.tobytes()
+        if isinstance(self._data, array):
+            assert self._data.typecode == dtype
+            return self._data.tobytes()
+        else:
+            return string_at(self._data, 64)
