@@ -3,7 +3,8 @@ from array import array
 import moderngl
 
 from ..resource_manager import get_storage_of_context
-from ..matrix import Matrix4, IDENTITY
+from ..math.matrix import Matrix4, IDENTITY
+from ..util import try_write
 
 SHADER_VERTEX = "shaders/drawer.vert"
 SHADER_FRAGMENT = "shaders/drawer.frag"
@@ -45,14 +46,16 @@ class ShapeDrawer:
         self.add_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
     
     def render(self, mvp=Matrix4(IDENTITY)):
+        try_write(self.program, "mvp", mvp.bytes())
         self.ctx.disable(moderngl.CULL_FACE)
         target_len = max(len(self.tr_buffer), len(self.li_buffer))
         amortized_len = 2 ** (target_len.bit_length() + 1)
-        min_amortized_len = 2 ** (target_len.bit_length() - 1)
+        min_amortized_len = 2 ** (target_len.bit_length() + 2)
         if (self.buffer is None 
             or self.buffer.size < 4*target_len 
-            or self.buffer.size > min_amortized_len
+            or self.buffer.size > 4*min_amortized_len# or True
             ):
+            #print("Buffer reallocated")
             self.buffer = self.ctx.buffer(reserve=4*amortized_len, dynamic=True)
             self.vao = self.ctx.simple_vertex_array(
                 self.program, self.buffer, "in_vert", "color"

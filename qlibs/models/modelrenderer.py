@@ -4,14 +4,14 @@ from . import modelloader
 from ..resource_loader import get_res_texture, get_res_data
 from ..resource_manager import get_storage_of_context
 from ..util import try_write
-from ..vec import Vec
+from ..math.vec import Vec
 
 
 def make_program(ctx):
     storage = get_storage_of_context(ctx)
     return storage.get_program(
-        vertex_shader_name="shaders/shader_mvp_applier.glsh",
-        fragment_shader_name="shaders/shader_fragment_lighting.glsh",
+        vertex_shader_name="shaders/modelrender.vert",
+        fragment_shader_name="shaders/lighting.frag",
     )
 
 
@@ -64,6 +64,8 @@ class RenderableModel:
         for mat, data in self.model.iter_materials_textured(
             *modelloader.FORMAT_TEXTURES
         ):
+            if len(data) == 0:
+                continue
             mat = self.model.materials[mat.mat_name]
             mat.process()
             vbo = self.ctx.buffer(data)

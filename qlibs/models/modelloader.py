@@ -8,7 +8,7 @@ from enum import Enum
 from array import array
 import logging
 
-from ..vec import Vec
+from ..math.vec import Vec
 
 logger = logging.getLogger(__name__)
 
@@ -146,7 +146,7 @@ class MTLLoader:
             try:
                 param, opt = line.split(maxsplit=1)
             except ValueError:
-                logger.warning("Could not split line while parsing mtl file")
+                logger.debug("Could not split line while parsing mtl file")
                 continue
 
             if param == "newmtl":

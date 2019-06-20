@@ -1,3 +1,5 @@
+#TODO - rewrite
+
 import qvec
 
 class Optimizer():

@@ -18,7 +18,7 @@ import sdl2  # Needs to be imported *after* window_provider
 # Add models to resource locations
 resource_loader.search_locations.append("C:/Users/IQuant/Desktop/models")
 # Create window
-win = window_provider.Window()
+win = window_provider.Window(request=330)
 ctx = win.ctx
 # Create scene
 #scene = Scene()

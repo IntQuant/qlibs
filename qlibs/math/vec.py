@@ -1,11 +1,11 @@
 import math
-from numbers import Number as number
+from numbers import Number
 from array import array
 
-from .net.qpacket import conv_lookup, convert, make_qlibs_obj_id
+from ..net.qpacket import conv_lookup, convert, make_qlibs_obj_id
 
 VERTNAMES = {"x": 0, "y": 1, "z": 2, "w": 3}
-NUMERICAL = (number, int)
+NUMERICAL = Number
 
 
 class IVec:  # Making those immutable is a good idea, right?
@@ -22,7 +22,7 @@ class IVec:  # Making those immutable is a good idea, right?
             self.v = tuple(args)
 
         for v in self.v:
-            assert isinstance(v, number)
+            assert isinstance(v, Number)
 
     def __eq__(self, other):
         try:
@@ -180,7 +180,7 @@ class MVec(IVec):
             self.v = list(args)
 
         for v in self.v:
-            assert isinstance(v, number)
+            assert isinstance(v, Number)
 
     def __setitem__(self, key, value):
         self.v[key] = value

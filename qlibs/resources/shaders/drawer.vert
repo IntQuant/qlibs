@@ -8,7 +8,7 @@ in vec4 color;
 out vec4 f_color;
 
 void main() {
-    gl_Position = vec4(in_vert, 1);
+    gl_Position = mvp * vec4(in_vert, 1);
     f_color = color;
 }
 

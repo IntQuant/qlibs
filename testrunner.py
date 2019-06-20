@@ -1,12 +1,12 @@
 import unittest
 
 from qlibs.net.qpacket import *
-from qlibs.vec import IVec, MVec
-from qlibs.matrix import Matrix4, IDENTITY
+from qlibs.math.vec import IVec, MVec
+from qlibs.math.matrix import Matrix4, IDENTITY
 from qlibs.net import connection as cn
 from socket import socketpair
 
-class QPacketTestCase(unittest.TestCase):
+class QPacketTestCase():#unittest.TestCase):
     def test_int(self):
         for data in range(-100, 100):
             self.assertTrue(data == list(decode(convert(data)))[0])

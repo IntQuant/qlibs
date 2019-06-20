@@ -9,7 +9,6 @@ import math
 from .vec import IVec, MVec as Vec
 
 ZEROS_16 = [0] * 16
-
 IDENTITY = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 
 
@@ -201,7 +200,9 @@ class Matrix4:
 
         f = (center - eye).normalized()
         u = up.normalized()
-        s = f.cross(u).normalized()
+        s = f.cross(u)
+        if s.len_sqr() > 0:
+            s.normalize()
         u = s.cross(f)
 
         res[0, 0] = s.x
@@ -293,7 +294,11 @@ class Matrix4:
                 1,
             ]
         )
-
+    
+    @classmethod
+    def scale_matrix(cls, by):
+        return Matrix4([by, 0, 0, 0, 0, by, 0, 0, 0, 0, by, 0, 0, 0, 0, 1])
+    
     def bytes(self, dtype="f"):
         """
         Converts internal array to bytes
