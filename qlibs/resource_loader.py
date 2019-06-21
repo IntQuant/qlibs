@@ -29,7 +29,7 @@ def get_res_path(path):
         cand_path = os.path.join(c_path, path)
         if os.path.exists(cand_path):
             return cand_path
-    return os.path.join(get_lib_res_path(), path)
+    raise FileNotFoundError(f"Can't find {path}")
 
 
 def get_res_data(path):

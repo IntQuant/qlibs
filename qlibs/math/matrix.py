@@ -159,7 +159,7 @@ class Matrix4:
 
             return res
 
-        if isinstance(other, Vec):
+        if isinstance(other, IVec):
             res = [0, 0, 0, 0]
             if len(other) != 4:
                 other = other.as_n_d(4)
@@ -221,19 +221,13 @@ class Matrix4:
         return res
 
     @classmethod
-    def orthogonal_projection(cls, fov, ratio, n, f):  # TODO
-        """
-        Does not work... Most likely
-        """
-        r = math.cos(math.degrees(fov / 2)) * n  # TODO
-        t = r / ratio
-
-        mat = cls(IDENTITY)
-        mat[0, 0] = 1 / r
-        mat[1, 1] = 1 / t
-        mat[2, 2] = -2 / (f - n)
-        mat[2, 3] = -(f + n) / (f - n)
-
+    def orthogonal_projection(cls, l, r, b, t, n=-0.1, f=100):
+        mat = Matrix4([
+            2/(r-l), 0, 0, 0,
+            0, 2/(t-b), 0, 0,
+            0, 0, -2/(f-n), 0,
+            -(r+l)/(r-l), -(t+b)/(t-b), -(f+n)/(f-n), 1
+        ])
         return mat
 
     @classmethod
