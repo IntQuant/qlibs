@@ -1,4 +1,4 @@
-from .resource_loader import get_res_texture, get_res_data, get_res_path
+from .resource_loader import get_res_texture, get_res_data, get_res_path, get_image_data
 from .models.modelloader import OBJLoader
 
 pcs_storage = dict()
@@ -23,6 +23,7 @@ class PerContextStorage:
     def __init__(self, ctx):
         self.ctx = ctx
         self.program_storage = dict()
+        self.texture_storage = dict()
 
     def get_program(
         self, vertex_shader_name, fragment_shader_name, geometry_shader_name=None
@@ -43,3 +44,12 @@ class PerContextStorage:
         )
         self.program_storage[identifier] = prog
         return prog
+
+    def get_texture(self, r_path):
+        texture = self.texture_storage.get(r_path, None)
+        if texture is None:
+            img = get_image_data(r_path)
+            texture = self.ctx.texture(img.size, 3, img.data)
+            texture.build_mipmaps()
+            self.texture_storage[r_path] = texture
+        return texture

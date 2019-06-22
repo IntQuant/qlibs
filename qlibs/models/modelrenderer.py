@@ -73,11 +73,13 @@ class RenderableModel:
             md = MaterialData(mat, vbo, vao)
             self.textured_data[mat.name] = md
 
+            storage = get_storage_of_context(self.ctx)
+
             for p in modelloader.MATERIAL_LIGHT_PROPERTIES_MAP:
                 name = mat.prc_params[p]
                 # print(name)
                 if name is not None:
-                    self.hooked_textures[name] = get_res_texture(name, self.ctx)
+                    self.hooked_textures[name] = storage.get_texture(name)
 
     def render(self, m, v, p, mvp=None):
         self.ctx.enable(moderngl.DEPTH_TEST)
