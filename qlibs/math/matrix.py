@@ -202,7 +202,7 @@ class Matrix4:
         u = up.normalized()
         s = f.cross(u)
         if s.len_sqr() > 0:
-            s.normalize()
+            s = s.normalized()
         u = s.cross(f)
 
         res[0, 0] = s.x

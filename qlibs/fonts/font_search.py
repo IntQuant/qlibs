@@ -1,6 +1,6 @@
 import sys
 from os.path import exists
-from ..resource_loader import get_res_path
+from ..resources.resource_loader import get_res_path
 
 def find_reasonable_font():
     """Try to return system font path, or some other font"""

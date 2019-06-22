@@ -1,8 +1,8 @@
 import moderngl
 
 from . import modelloader
-from ..resource_loader import get_res_texture, get_res_data
-from ..resource_manager import get_storage_of_context
+from ..resources.resource_loader import get_res_texture, get_res_data
+from ..resources.resource_manager import get_storage_of_context
 from ..util import try_write
 from ..math.vec import Vec
 
@@ -10,8 +10,8 @@ from ..math.vec import Vec
 def make_program(ctx):
     storage = get_storage_of_context(ctx)
     return storage.get_program(
-        vertex_shader_name="shaders/modelrender.vert",
-        fragment_shader_name="shaders/lighting.frag",
+        vertex_shader_name="qlibs/shaders/modelrender.vert",
+        fragment_shader_name="qlibs/shaders/lighting.frag",
     )
 
 
@@ -39,7 +39,6 @@ class RenderableModel:
     """
       Model wrapper which can render models
     """
-
     def __init__(self, model, scene, ctx, program=None):
         self.model = model
         self.ctx = ctx

@@ -4,41 +4,8 @@ from qlibs.net.qpacket import *
 from qlibs.math.vec import IVec, MVec
 from qlibs.math.matrix import Matrix4, IDENTITY
 from qlibs.net import connection as cn
+from qlibs.resources import resource_loader
 from socket import socketpair
-
-class QPacketTestCase():#unittest.TestCase):
-    def test_int(self):
-        for data in range(-100, 100):
-            self.assertTrue(data == list(decode(convert(data)))[0])
-
-    def test_float(self):
-        for udata in range(-100, 100):
-            data = float(udata)
-            self.assertTrue(data == list(decode(convert(data)))[0])
-
-    def test_bytes(self):
-        data = b"testaafdsfasdf"
-        self.assertTrue(data == list(decode(convert(data)))[0])
-
-    def test_str(self):
-        data = "testaafdsfasdf"
-        self.assertTrue(data == list(decode(convert(data)))[0])
-
-    def test_mult(self):
-        data = [1, 2, b"12", "341"]
-        r = []
-        s = b"".join(map(convert, data))
-
-        d = Decoder(s)
-
-        while d.has_values():
-            r.append(d.get_value())
-
-        self.assertTrue(data == r)
-
-    def test_compl(self):
-        data = [1, 2, (-3, 4, (1, 3, -5.1, 1.5, None)), [b"test", "test"], MVec(1, 2)]
-        self.assertTrue(data == list(decode(convert(data)))[0])
 
 
 class VecTestCase(unittest.TestCase):
@@ -81,27 +48,29 @@ class MatrixTestCase(unittest.TestCase):
     def test_look_at(self):
         res = Matrix4(
             [
-                0.0,
-                0.0,
-                1.0,
-                0.0,
-                1.0,
-                0.0,
-                -0.0,
-                0.0,
-                -0.0,
-                1.0,
-                -0.0,
-                0.0,
-                -0.0,
-                -0.0,
-                -10.0,
-                1.0,
+                0.0, 0.0, 1.0, 0.0,
+                1.0, 0.0, -0.0, 0.0,
+                -0.0, 1.0, -0.0, 0.0,
+                -0.0, -0.0, -10.0, 1.0,
             ]
         )
         self.assertTrue(
             Matrix4.look_at(IVec(10, 0, 0), IVec(0, 0, 0), IVec(0, 0, 1)) == res
         )
+
+
+class LoaderTestCase(unittest.TestCase):
+    def test_prefix_path(self):
+        loader = resource_loader.Loader()
+        res = loader.handle_prefix("a/b/c", "a/")
+        self.assertEqual(res, "b/c")
+        res = loader.handle_prefix("a/b/c", "a/b/")
+        self.assertEqual(res, "c")
+    
+    def test_prefix_none(self):
+        loader = resource_loader.Loader()
+        res = loader.handle_prefix("a/b/c", "b/")
+        self.assertEqual(res, None)
 
 if __name__ == "__main__":
     unittest.main()

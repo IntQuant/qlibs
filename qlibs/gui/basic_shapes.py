@@ -2,12 +2,12 @@ from array import array
 
 import moderngl
 
-from ..resource_manager import get_storage_of_context
+from ..resources.resource_manager import get_storage_of_context
 from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
 
-SHADER_VERTEX = "shaders/drawer.vert"
-SHADER_FRAGMENT = "shaders/drawer.frag"
+SHADER_VERTEX = "qlibs/shaders/drawer.vert"
+SHADER_FRAGMENT = "qlibs/shaders/drawer.frag"
 
 
 class ShapeDrawer:

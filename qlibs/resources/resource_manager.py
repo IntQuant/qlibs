@@ -1,5 +1,5 @@
 from .resource_loader import get_res_texture, get_res_data, get_res_path, get_image_data
-from .models.modelloader import OBJLoader
+from ..models.modelloader import OBJLoader
 
 pcs_storage = dict()
 modelloader = OBJLoader()
@@ -19,7 +19,6 @@ def load_model(name):
 
 class PerContextStorage:
     """Storage for context-specific things"""
-
     def __init__(self, ctx):
         self.ctx = ctx
         self.program_storage = dict()
