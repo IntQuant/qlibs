@@ -2,7 +2,7 @@ from array import array
 
 import freetype
 
-from ..resource_manager import get_storage_of_context
+from ..resources.resource_manager import get_storage_of_context
 from ..math.vec import IVec
 from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write

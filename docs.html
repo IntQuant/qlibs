@@ -34,41 +34,70 @@
   <body>
     <h1> QLibs documentation </h1>
     <blockquote>
-    <h2>Module qlibs.gui.window_provider.window_provider</h2>
+    <h2>Module qlibs.fileworks.__init__</h2>
       <blockquote>
-      <p>Module that provides opengl-enabled windows</p>
-      <h3>Class Window(request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600, params=34)</h3>
-      <blockquote>
-      <p>Basic window class</p>
-      <h4>Function __init__(self, request=330, win_name=b&#x27;qlibs&#x27;, width=800, height=600, params=34)</h4>
-      <blockquote>
-      <p><b>request</b> - OpenGL version to use</p>
-      <p><b>win_name</b> - name of the window</p>
-      <p><b>width</b> - window width</p>
-      <p><b>height</b> - window height</p>
-      <p><b>params</b> - window parameters</p>
       </blockquote>
-      <h4>Function get_events(self)</h4>
+      <h2>Module qlibs.fonts.font_render</h2>
       <blockquote>
-      <p>Iterate over recent events</p>
+      <h3>Class DirectFontRender(ctx, font, font_path=None)</h3>
+      <blockquote>
+      <h4>Function __init__(self, ctx, font, font_path=None)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
       </blockquote>
-      <h4>Function get_size(self)</h4>
+      <h4>Function render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]))</h4>
       <blockquote>
-      <p>Get window size</p>
       </blockquote>
-      <h4>Function swap(self)</h4>
+      </blockquote>
+      <h3>Class Glyph(ctx, glyph)</h3>
       <blockquote>
-      <p>Swap window buffers</p>
+      <h4>Function __init__(self, ctx, glyph)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
       </blockquote>
       </blockquote>
       </blockquote>
-      <h2>Module qlibs.matrix</h2>
+      <h2>Module qlibs.fonts.font_search</h2>
+      <blockquote>
+      <h4>Function find_reasonable_font()</h4>
+      <blockquote>
+      <p>Try to return system font path, or some other font</p>
+      </blockquote>
+      </blockquote>
+      <h2>Module qlibs.gui.__init__</h2>
+      <blockquote>
+      </blockquote>
+      <h2>Module qlibs.gui.basic_shapes</h2>
+      <blockquote>
+      <h3>Class ShapeDrawer(ctx, prog=None)</h3>
+      <blockquote>
+      <h4>Function __init__(self, ctx, prog=None)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function add_polygon(self, points, color=(1, 1, 1))</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function add_rectangle(self, x, y, w, h, color=(1, 1, 1))</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function add_triangle(self, points, color=(1, 1, 1))</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function prepare(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function render(self, mvp=Matrix4([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]))</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      </blockquote>
+      <h2>Module qlibs.math.matrix</h2>
       <blockquote>
       <p>Matrix module</p>
-      <h3>Class Matrix4(data=None, dtype=&#x27;f&#x27;)</h3>
+      <h3>Class Matrix4(data=None, dtype=&#x27;f&#x27;, raw_init=None)</h3>
       <blockquote>
-      <p>4 by 4 Matrix class which allows [i, j] indexing</p>
-      <h4>Function __init__(self, data=None, dtype=&#x27;f&#x27;)</h4>
+      <h4>Function __init__(self, data=None, dtype=&#x27;f&#x27;, raw_init=None)</h4>
       <blockquote>
       <p>Initialize matrix with 16 elements array (<b>data</b>) of <b>dtype</b> type</p>
       </blockquote>
@@ -76,13 +105,12 @@
       <blockquote>
       <p>Converts internal array to bytes</p>
       </blockquote>
-      <h4>Function look_at(eye: qlibs.vec.MVec, center: qlibs.vec.MVec, up: qlibs.vec.MVec)</h4>
+      <h4>Function look_at(eye: qlibs.math.vec.MVec, center: qlibs.math.vec.MVec, up: qlibs.math.vec.MVec)</h4>
       <blockquote>
       <p>Generates a look at matrix from <b>eye</b> to <b>center</b> with <b>up</b> up vector</p>
       </blockquote>
-      <h4>Function orthogonal_projection(fov, ratio, n, f)</h4>
+      <h4>Function orthogonal_projection(l, r, b, t, n=-0.1, f=100)</h4>
       <blockquote>
-      <p>Does not work... Most likely</p>
       </blockquote>
       <h4>Function perspective_projection(fov, ratio, near, far)</h4>
       <blockquote>
@@ -96,9 +124,61 @@
       <blockquote>
       <p>Creates rotation matrix from 3 angles(<b>pith</b>, <b>roll</b> and <b>yaw</b>)</p>
       </blockquote>
+      <h4>Function scale_matrix(by)</h4>
+      <blockquote>
+      </blockquote>
       <h4>Function translation_matrix(x, y, z)</h4>
       <blockquote>
       <p>Creates matrix that translates vectors by <b>x</b>, <b>y</b>, <b>z</b></p>
+      </blockquote>
+      </blockquote>
+      </blockquote>
+      <h2>Module qlibs.math.vec</h2>
+      <blockquote>
+      <h3>Class IVec(*args)</h3>
+      <blockquote>
+      <p>Immutable vector type</p>
+      <h4>Function __init__(self, *args)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function as_n_d(self, n)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function bytes(self, dtype=&#x27;f&#x27;)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function cross(self, other)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function dot(self, other)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function len(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function len_sqr(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function map_by_verticle(self, other, function: &lt;built-in function callable&gt;)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function normalized(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function to_tuple(self)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class MVec(*args)</h3>
+      <blockquote>
+      <p>Mutable vector type</p>
+      <h4>Function __init__(self, *args)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function normalize(self)</h4>
+      <blockquote>
       </blockquote>
       </blockquote>
       </blockquote>
@@ -157,7 +237,7 @@
       <blockquote>
       <p>Iterate over textured material faces</p>
       </blockquote>
-      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x03917E88&gt;, material=None)</h4>
+      <h4>Function resolve(self, *form, filter_by=&lt;function OBJ.&lt;lambda&gt; at 0x7f97480b29d8&gt;, material=None)</h4>
       <blockquote>
       <p>Resolves faces to parameter array defined by <b>form</b> format</p>
       </blockquote>
@@ -251,6 +331,72 @@
       </blockquote>
       <h4>Function make_program(ctx)</h4>
       <blockquote>
+      </blockquote>
+      </blockquote>
+      <h2>Module qlibs.net.__init__</h2>
+      <blockquote>
+      </blockquote>
+      <h2>Module qlibs.net.asyncsocket</h2>
+      <blockquote>
+      <p>Async socket library</p>
+      <h3>Class AsyncSocket(socket)</h3>
+      <blockquote>
+      <p>Async socket - writing and reading don&#x27;t block</p>
+      <p>Most useful when it is the only socket you need, consider using select if you        need more sockets</p>
+      <p>TCP version</p>
+      <h4>Function __init__(self, socket)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function accept(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function empty(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function recv(self, amount)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function send(self, data=None)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class AsyncUDPSocket(socket)</h3>
+      <blockquote>
+      <p>Async socket - writing and reading don&#x27;t block</p>
+      <p>Most useful when it is the only socket you need, consider using select if you        need more sockets</p>
+      <p>UDP version</p>
+      <h4>Function __init__(self, socket)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function recv(self, amount=8192)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function sendto(self, data, adress)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function sendto_buff(self, data, adress)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class PacketSocket(socket, processor, *args)</h3>
+      <blockquote>
+      <h4>Function __init__(self, socket, processor, *args)</h4>
+      <blockquote>
+      <p><b>processor</b> should be a generator. </p>
+      <p>It will recieve new byte when recieving message.</p>
+      <p>Use `data = yield` to recieve one byte as int value</p>
+      </blockquote>
+      <h4>Function empty(self)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function recv(self, size=8192)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function send(self, data)</h4>
+      <blockquote>
+      </blockquote>
       </blockquote>
       </blockquote>
       <h2>Module qlibs.net.connection</h2>
@@ -366,22 +512,6 @@
       <blockquote>
       <p>An enumeration.</p>
       </blockquote>
-      <h3>Class ByteBuffer(data=None)</h3>
-      <blockquote>
-      <h4>Function __init__(self, data=None)</h4>
-      <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-      </blockquote>
-      <h4>Function has_values(self)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function read(self, read_size)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function write(self, data)</h4>
-      <blockquote>
-      </blockquote>
-      </blockquote>
       <h3>Class ConvertionLookup()</h3>
       <blockquote>
       <h4>Function __init__(self)</h4>
@@ -429,10 +559,43 @@
       <blockquote>
       </blockquote>
       </blockquote>
-      <h2>Module qlibs.resource_loader</h2>
+      <h2>Module qlibs.resources.resource_loader</h2>
       <blockquote>
-      <h4>Function ensure_sdl2_install()</h4>
+      <h3>Class ImageData(size, data)</h3>
       <blockquote>
+      <h4>Function __init__(self, size, data)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      </blockquote>
+      <h3>Class Loader()</h3>
+      <blockquote>
+      <h4>Function handle_prefix(self, path, prefix)</h4>
+      <blockquote>
+      </blockquote>
+      <h4>Function resolve(self, path)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class MergerLoader(loaders, prefix=None)</h3>
+      <blockquote>
+      <h4>Function __init__(self, loaders, prefix=None)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function resolve(self, path)</h4>
+      <blockquote>
+      </blockquote>
+      </blockquote>
+      <h3>Class SearchLocationLoader(location, prefix=None)</h3>
+      <blockquote>
+      <h4>Function __init__(self, location, prefix=None)</h4>
+      <blockquote>
+      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
+      </blockquote>
+      <h4>Function resolve(self, path)</h4>
+      <blockquote>
+      </blockquote>
       </blockquote>
       <h4>Function get_lib_res_path()</h4>
       <blockquote>
@@ -444,69 +607,27 @@
       <blockquote>
       </blockquote>
       </blockquote>
-      <h2>Module qlibs.util</h2>
+      <h2>Module qlibs.resources.resource_manager</h2>
       <blockquote>
-      <p>Module for different random things</p>
-      <h4>Function dict_cache(fun)</h4>
+      <h3>Class PerContextStorage(ctx)</h3>
       <blockquote>
-      <p>Function decorator that caches output</p>
-      </blockquote>
-      <h4>Function try_write(prog, at, data)</h4>
-      <blockquote>
-      <p>Tries to write data into member of moderngl program</p>
-      </blockquote>
-      <h4>Function weak_ref_cache(fun)</h4>
-      <blockquote>
-      <p>Function decorator that caches output using wekrefs</p>
-      </blockquote>
-      </blockquote>
-      <h2>Module qlibs.vec</h2>
-      <blockquote>
-      <h3>Class IVec(*args)</h3>
-      <blockquote>
-      <p>Immutable vector type</p>
-      <h4>Function __init__(self, *args)</h4>
+      <p>Storage for context-specific things</p>
+      <h4>Function __init__(self, ctx)</h4>
       <blockquote>
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
       </blockquote>
-      <h4>Function as_n_d(self, n)</h4>
+      <h4>Function get_program(self, vertex_shader_name, fragment_shader_name, geometry_shader_name=None)</h4>
       <blockquote>
       </blockquote>
-      <h4>Function bytes(self, dtype=&#x27;f&#x27;)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function cross(self, other)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function dot(self, other)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function len(self)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function len_sqr(self)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function map_by_verticle(self, other, function: &lt;built-in function callable&gt;)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function normalized(self)</h4>
-      <blockquote>
-      </blockquote>
-      <h4>Function to_tuple(self)</h4>
+      <h4>Function get_texture(self, r_path)</h4>
       <blockquote>
       </blockquote>
       </blockquote>
-      <h3>Class MVec(*args)</h3>
-      <blockquote>
-      <p>Mutable vector type</p>
-      <h4>Function __init__(self, *args)</h4>
-      <blockquote>
-      <p>Initialize self.  See help(type(self)) for accurate signature.</p>
-      </blockquote>
-      <h4>Function normalize(self)</h4>
+      <h4>Function get_storage_of_context(ctx)</h4>
       <blockquote>
       </blockquote>
+      <h4>Function load_model(name)</h4>
+      <blockquote>
       </blockquote>
       </blockquote>
     </blockquote>

@@ -135,29 +135,27 @@ def handle_formatting(s):
     # print(s, r)
     return s
 
-with open("basedoc.html", "r") as f:
+with open("./scripts/basedoc.html", "r") as f:
     HTML_CONSTRUCT = f.read()
 
 if __name__ == "__main__":
     dg = DocsGenerator()
 
-    from qlibs import util, matrix, vec, resource_loader
+    import importlib
+    import glob
 
-    from qlibs.net import connection, qpacket
-    from qlibs.gui.window_provider import window_provider
-    from qlibs.models import modelloader, modelrenderer
+    libs = []
 
-    libs = [
-        matrix,
-        vec,
-        modelloader,
-        modelrenderer,
-        resource_loader,
-        util,
-        connection,
-        qpacket,
-        window_provider,
-    ]
+    for path in glob.glob("../qlibs/qlibs/**/*.py"):
+        import_path = path[3+6:-3].replace("/", ".")
+        print("Importing", import_path)
+        try:
+            libs.append(importlib.import_module(import_path))
+        except Exception as e:
+            print("-"*20)
+            print("Error while importing", import_path)
+            print(e)
+            print("-"*20)
 
     libs.sort(key=lambda x: x.__name__)
 
@@ -173,5 +171,8 @@ if __name__ == "__main__":
         print(HTML_CONSTRUCT % s, file=f)
 
     print("-"*20)
-    prc = round(100*dg.stat_documented/dg.stat_all, 2)
-    print(f"{dg.stat_documented} documented out of {dg.stat_all}, ({prc}%)")
+    if dg.stat_all > 0:
+        prc = round(100*dg.stat_documented/dg.stat_all, 2)
+        print(f"{dg.stat_documented} documented out of {dg.stat_all}, ({prc}%)")
+    else:
+        print("Nothing to document")
