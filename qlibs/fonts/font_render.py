@@ -1,3 +1,7 @@
+"""
+  Module for rendering text
+"""
+
 from array import array
 
 import freetype
@@ -10,7 +14,13 @@ from ..util import try_write
 import moderngl
 
 class Glyph:
+    """
+      Class for storing glyph data: *advance*, *size*, *bearing*, and opengl *texture*
+    """
     def __init__(self, ctx, glyph):
+        """
+        Initialize everything from glyph
+        """
         self.advance = IVec(glyph.advance.x, glyph.advance.y)
         self.size = IVec(glyph.bitmap.width, glyph.bitmap.rows)
         self.bearing = IVec(glyph.bitmap_left, glyph.bitmap_top)
@@ -23,7 +33,14 @@ class Glyph:
 
 
 class DirectFontRender:
-    def __init__(self, ctx, font, font_path=None):
+    """
+      Render text using font
+    """
+    def __init__(self, ctx, font: freetype.Face, font_path=None):
+        """
+        *ctx* is a moderngl context
+        *font_path* will be used if *font* is None
+        """
         self.ctx = ctx
         self.font = font or freetype.Face(font_path)
         self.font.set_pixel_sizes(0, 48)
@@ -31,6 +48,9 @@ class DirectFontRender:
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
     
     def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY)):
+        """
+        Render text with given parameters
+        """
         self.ctx.enable_only(moderngl.BLEND)
         pos = IVec(x, y)
         for char in text:
@@ -63,7 +83,7 @@ class DirectFontRender:
             vao.render()
             #print(pos)
             pos += glyph.advance * (scale / 64)
-            
+        self.ctx.disable(moderngl.BLEND)
 
 
     

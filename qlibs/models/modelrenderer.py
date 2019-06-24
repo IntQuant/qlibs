@@ -7,7 +7,7 @@ from ..util import try_write
 from ..math.vec import Vec
 
 
-def make_program(ctx):
+def make_texture_program(ctx):
     storage = get_storage_of_context(ctx)
     return storage.get_program(
         vertex_shader_name="qlibs/shaders/modelrender.vert",
@@ -43,7 +43,7 @@ class RenderableModel:
         self.model = model
         self.ctx = ctx
         self.scene = scene
-        self.program = program
+        self.texture_program = program
         self.reset()
         self.prepare()
 
@@ -54,7 +54,7 @@ class RenderableModel:
         self.plain_data = dict()
 
     def prepare(self):
-        program = self.program or make_program(self.ctx)
+        program = self.texture_program or make_texture_program(self.ctx)
 
         if self.ready:
             return
@@ -65,6 +65,10 @@ class RenderableModel:
         ):
             if len(data) == 0:
                 continue
+            if mat.mat_name not in self.model.materials:
+                print(f"Could not find material {mat.mat_name}, skipping")
+                continue
+            
             mat = self.model.materials[mat.mat_name]
             mat.process()
             vbo = self.ctx.buffer(data)
@@ -76,14 +80,13 @@ class RenderableModel:
 
             for p in modelloader.MATERIAL_LIGHT_PROPERTIES_MAP:
                 name = mat.prc_params[p]
-                # print(name)
                 if name is not None:
                     self.hooked_textures[name] = storage.get_texture(name)
 
     def render(self, m, v, p, mvp=None):
         self.ctx.enable(moderngl.DEPTH_TEST)
         self.ctx.enable(moderngl.CULL_FACE)
-        prog = make_program(self.ctx)
+        prog = self.texture_program or make_texture_program(self.ctx)
 
         if mvp is None:
             mvp = p * v * m

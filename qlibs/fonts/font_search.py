@@ -1,3 +1,5 @@
+"""Searches system fonts"""
+
 import sys
 from os.path import exists
 from ..resources.resource_loader import get_res_path

@@ -51,6 +51,10 @@ class Matrix4:
         return "\n".join(lst)
 
     def __repr__(self):
+        if list(self._data) == IDENTITY:
+            return "Matrix4(IDENTITY)"
+        if list(self._data) == ZEROS_16:
+            return "Matrix4(ZEROS_16)"
         return f"Matrix4({list(self._data)})"
 
     def __mul__(self, other):
@@ -222,6 +226,9 @@ class Matrix4:
 
     @classmethod
     def orthogonal_projection(cls, l, r, b, t, n=-0.1, f=100):
+        """
+        Creates orthogonal projection
+        """
         mat = Matrix4([
             2/(r-l), 0, 0, 0,
             0, 2/(t-b), 0, 0,
@@ -291,6 +298,9 @@ class Matrix4:
     
     @classmethod
     def scale_matrix(cls, by):
+        """
+        Creates matrix that scales by *by*
+        """
         return Matrix4([by, 0, 0, 0, 0, by, 0, 0, 0, 0, by, 0, 0, 0, 0, 1])
     
     def bytes(self, dtype="f"):

@@ -29,7 +29,6 @@ class BasicWindowConfig(mglw.WindowConfig):
         self.renderer.render_string("%.2f" % time, 100, 100, 1, mvp=ortho)
         self.renderer.render_string("Пиветик!", 100, 200, 1, mvp=ortho)
         
-        
 
 
 if __name__ == '__main__':

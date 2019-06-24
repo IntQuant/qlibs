@@ -167,12 +167,13 @@ if __name__ == "__main__":
 
     s = "\n      ".join(map(handle_formatting, fullres))
 
-    with open("docs.html", "w") as f:
-        print(HTML_CONSTRUCT % s, file=f)
+    if dg.stat_all > 0:
+        prc = round(100*dg.stat_documented/dg.stat_all, 2)    
+        with open("docs.html", "w") as f:
+            print(HTML_CONSTRUCT % (prc, s), file=f)
 
     print("-"*20)
-    if dg.stat_all > 0:
-        prc = round(100*dg.stat_documented/dg.stat_all, 2)
+    if dg.stat_all > 0:    
         print(f"{dg.stat_documented} documented out of {dg.stat_all}, ({prc}%)")
     else:
         print("Nothing to document")
