@@ -14,10 +14,13 @@ print(f"Font family {font.family_name}")
 print(f"Char amount {len(list(font.get_chars()))}")
 print(f"Font size {font.size.height}")
 
+class Exit(Exception): pass
+
 
 class BasicWindowConfig(mglw.WindowConfig):
     gl_version = (3, 3)
     title = "Text rendering"
+    vsync = False
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -28,8 +31,14 @@ class BasicWindowConfig(mglw.WindowConfig):
         
         self.renderer.render_string("%.2f" % time, 100, 100, 1, mvp=ortho)
         self.renderer.render_string("Пиветик!", 100, 200, 1, mvp=ortho)
+
+        if time > 30:
+            raise Exit()
         
 
 
 if __name__ == '__main__':
-    mglw.run_window_config(BasicWindowConfig)
+    try:
+        mglw.run_window_config(BasicWindowConfig)
+    except Exit:
+        pass

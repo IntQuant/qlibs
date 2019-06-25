@@ -46,6 +46,7 @@ class DirectFontRender:
         self.font.set_pixel_sizes(0, 48)
         self.cache = dict()
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
+        self.vao = None
     
     def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY)):
         """
@@ -74,13 +75,16 @@ class DirectFontRender:
                 pos.x + w, posy + h, 1, 0
             ))
             
-            buffer = self.ctx.buffer(data)
-            vao = self.vao = self.ctx.simple_vertex_array(
-                self.program, buffer, "pos", "tex"
-            )
+            if self.vao is None:
+                self.buffer = self.ctx.buffer(data)
+                self.vao = self.ctx.simple_vertex_array(
+                    self.program, self.buffer, "pos", "tex"
+                )
+            else:
+                self.buffer.write(data)
             try_write(self.program, "mvp", mvp.bytes())
             try_write(self.program, "text_color", IVec(color).bytes())
-            vao.render()
+            self.vao.render()
             #print(pos)
             pos += glyph.advance * (scale / 64)
         self.ctx.disable(moderngl.BLEND)
