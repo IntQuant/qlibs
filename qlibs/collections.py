@@ -17,7 +17,7 @@ class ByteBuffer:
             len_found += len(d)
             if len(d) > left:
                 collected.append(d[:left])
-                self.data.appendleft(d[left:])
+                self.data.append(d[left:])
             else:
                 collected.append(d)
         
