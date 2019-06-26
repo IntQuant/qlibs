@@ -174,8 +174,6 @@ class ServerSelector:
                     self.sockets[key.fd].send()
                 except KeyError as e:
                     pass #Socket is already unregistered, but selector still selected it
-                    #print(e)
-                    #self.selector.unregister(key.fileobj) #TODO
 
     def register(self, asock: Union[AsyncSocket, PacketSocket]):
         key = asock.socket.fileno()
