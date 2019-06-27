@@ -7,8 +7,11 @@ from ..resources.resource_loader import get_res_path
 def find_reasonable_font():
     """Try to return system font path, or some other font"""
     if sys.platform.startswith("win"):
-        #path = "c:/windows/fonts/arial"
-        raise NotImplementedError() #TODO
+        path = "C:/Windows/Fonts/arial.ttf"
+        if exists(path):
+            return path
+        else:
+            return None
     else:
         with open(get_res_path("qlibs/text/linux_font_list")) as file:
             for path in file:
