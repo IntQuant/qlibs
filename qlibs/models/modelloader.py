@@ -4,6 +4,7 @@
 
 import sys
 import pathlib
+import os.path
 from enum import Enum
 from array import array
 import logging
@@ -104,6 +105,7 @@ class Material:
         self.prc_params = dict()
         self.name = name
         self.processed = False
+        self.loaded_from = None
  
     def process(self, ensure_processing=False):
         """Process raw parameters
@@ -113,7 +115,11 @@ class Material:
             return
         self.processed = True
         for p in MATERIAL_LIGHT_PROPERTIES_MAP:
-            self.prc_params[p] = self.raw_params.get(p)
+            path = self.raw_params.get(p)
+            if path is not None:
+                if self.loaded_from and not os.path.exists(path):
+                    path = os.path.join(os.path.dirname(self.loaded_from), path)
+            self.prc_params[p] = path
         # TODO - add texture processing
 
 
@@ -124,6 +130,7 @@ class MTLLoader:
         """Initialize MTLLoader"""
         self.materials = dict()
         self.current = None
+        self.loads_from = ""
 
     def get_mat(self, name=None):
         """Get material with specified *name*, or latest if *name* is None"""
@@ -151,11 +158,13 @@ class MTLLoader:
 
             if param == "newmtl":
                 self.current = opt.rstrip("\n")
+                self.get_mat().loaded_from = self.loads_from
             else:
                 self.get_mat().raw_params[param] = opt.rstrip("\n")
 
     def load_path(self, path):
         """Calls load_file creating file object from path"""
+        self.loads_from = path
         with open(path, "r") as f:
             return self.load_file(f)
 
@@ -326,7 +335,10 @@ class OBJLoader:
                     path = pathlib.Path(self.loads_from).parent.joinpath(path)
                 mtl_loader.load_path(path)
             elif op == "o":
-                self.current_object = params[0]
+                if len(params) > 0:
+                    self.current_object = params[0]
+                else:
+                    self.current_object = len(self.objects.keys())
 
             else:
                 logger.warning("Unsapported op %s", op)

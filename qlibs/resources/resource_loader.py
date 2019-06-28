@@ -85,7 +85,10 @@ def get_res_data(path):
 
 @weak_ref_cache
 def get_image_data(r_path):
-    path = get_res_path(r_path)
+    if os.path.abspath(r_path):
+        path = r_path
+    else:
+        path = get_res_path(r_path)
     img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM).convert("RGB")
     return ImageData(img.size, img.tobytes())
 
