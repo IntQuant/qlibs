@@ -24,6 +24,21 @@ class ShapeDrawer:
         self.tr_buffer = array("f")
         self.li_buffer = array("f")
 
+    def add_line(self, p0, p1, color=(1, 1, 1)):
+        if len(color) == 3:
+            color = list(color) + [1]
+        if len(p0) == 2:
+            p0 = list(p0) + [self.default_z]
+        if len(p1) == 2:
+            p1 = list(p1) + [self.default_z]
+        assert len(color) == 4
+        assert len(p0) == 3
+        assert len(p1) == 3
+        self.li_buffer.extend(map(float, p0))
+        self.li_buffer.extend(map(float, color))
+        self.li_buffer.extend(map(float, p1))
+        self.li_buffer.extend(map(float, color))
+
     def add_triangle(self, points, color=(1, 1, 1)):
         assert len(points) == 3
         assert 3 <= len(color) <= 4
@@ -45,7 +60,7 @@ class ShapeDrawer:
     def add_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
     
-    def render(self, mvp=Matrix4(IDENTITY)):
+    def render(self, mvp=Matrix4(IDENTITY), reset=True):
         try_write(self.program, "mvp", mvp.bytes())
         self.ctx.disable(moderngl.CULL_FACE)
         target_len = max(len(self.tr_buffer), len(self.li_buffer))
@@ -62,4 +77,8 @@ class ShapeDrawer:
             )
         self.buffer.write(self.tr_buffer)
         self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer))
-        self.prepare()
+        self.buffer.write(self.li_buffer)
+        self.vao.render(moderngl.LINES, vertices=len(self.li_buffer))
+        
+        if reset:
+            self.prepare()
