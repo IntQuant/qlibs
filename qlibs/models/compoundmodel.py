@@ -1,4 +1,4 @@
-from ..math.matrix import Matrix4, IDENTITY
+from ..math import Matrix4, IDENTITY
 
 class CompoundModel:
     def __init__(self):

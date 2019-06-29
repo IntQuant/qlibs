@@ -3,13 +3,11 @@ from qlibs.models.modelrenderer import RenderableModel, Scene
 
 from qlibs.resources import resource_loader, resource_manager
 
-from qlibs.math.matrix import Matrix4
-from qlibs.math.vec import Vec
+from qlibs.math import Matrix4, Vec
 
 import moderngl_window as mglw
 
 resource_loader.loader.loaders.append(resource_loader.SearchLocationLoader("/home/iquant/programs/MagicaVoxel-0.99.4-alpha-win64/export", "models/"))
-
 
 
 class BasicWindowConfig(mglw.WindowConfig):

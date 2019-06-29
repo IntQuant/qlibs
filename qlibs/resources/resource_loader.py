@@ -64,7 +64,7 @@ class MergerLoader(Loader):
                 return resolved
 
 def get_lib_res_path():
-    return os.path.join(__file__[: -len("resource_loader.py")], "storage")
+    return os.path.join(os.path.dirname(__file__), "storage")
 
 
 def get_res_path(path):
@@ -100,6 +100,10 @@ def get_res_texture(r_path, ctx):
     txt.build_mipmaps()
     return txt
 
+def add_loader(loader):
+    loader.loaders.append(loader)
 
 loader = MergerLoader([])
 loader.loaders.append(SearchLocationLoader(get_lib_res_path(), prefix="qlibs/"))
+
+
