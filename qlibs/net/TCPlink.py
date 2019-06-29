@@ -7,5 +7,6 @@ class TCPLink():
         self.listen_on = listen_on
         self.sockets = []
         self.listening_socket = None
-        self.to_send =
-    def serve(self)
+        self.to_send = None
+    def serve(self):
+        pass
