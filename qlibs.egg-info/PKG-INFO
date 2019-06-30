@@ -1,16 +1,38 @@
 Metadata-Version: 2.1
 Name: qlibs
-Version: 0.1.2
-Summary: Random things
+Version: 0.2.0
+Summary: Networking, gui, math and more
 Home-page: https://bitbucket.org/IntQuant/qlibs/
 Author: IQuant
 Author-email: quant3234@gmail.com
 License: UNKNOWN
-Description: # QLibs
-        A random collection of random things
+Description: # Welcome to QLibs
+        QLibs is a multipurpose library.
+        It is made mainly for games, but it is possible to use it differently.
+        
+        # Features
+        There are quite a lot of them!
+        * Resource system.
+        * Math: vectors and matrices.
+        * Wavefont OBJ loading and rendering.
+        * Window creation and widgets(not yet actually).
+        * Text rendering.
+        * Network packets and sockets.
+        * More to come.
+        
+        # Documentation
+        Well, it is not quite ready.
+        There are examples and list of all docstrings howewer.
+        
+        # Installation
+        * Use `pip install qlibs[full]` to install all dependencies.
+        * `pip install qlibs` will install only MIT-licensed dependencies.
+        * `--no-deps` switch can be used to ignore dependencies, most of library will still work.
+        
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
+Provides-Extra: full

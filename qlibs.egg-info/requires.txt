@@ -1,2 +1,6 @@
 moderngl
-PySDL2
+glfw
+
+[full]
+pillow
+freetype-py
