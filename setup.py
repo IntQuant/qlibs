@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qlibs",
-    version="0.1.2",
+    version="0.2.0",
     author="IQuant",
     author_email="quant3234@gmail.com",
-    description="Random things",
+    description="Networking, gui, math and more",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://bitbucket.org/IntQuant/qlibs/",
@@ -19,5 +19,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     include_package_data=True,
-    install_requires=["moderngl", "PySDL2"],
+    install_requires=["moderngl", "glfw"],
+    extras_require={
+        "full": ["pillow", "freetype-py"]
+    },
 )
