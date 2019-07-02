@@ -25,8 +25,6 @@ class Glyph:
         self.size = IVec(glyph.bitmap.width, glyph.bitmap.rows)
         self.bearing = IVec(glyph.bitmap_left, glyph.bitmap_top)
         data = glyph.bitmap.buffer
-        #print("creating glyph texture")
-        #print(self.size, data)
         self.texture = ctx.texture(tuple(self.size), 1, bytes(data), dtype="f1", alignment=1)
         self.texture.repeat_x = False
         self.texture.repeat_y = False
@@ -48,18 +46,26 @@ class DirectFontRender:
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
         self.vao = None
     
-    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY)):
+    def get_glyph(self, char):
+        glyph = self.cache.get(char, None)
+        if glyph is None:
+            self.font.load_char(char)
+            glyph = Glyph(self.ctx, self.font.glyph)
+            self.cache[char] = glyph
+        return glyph
+
+    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True):
         """
         Render text with given parameters
         """
-        self.ctx.enable_only(moderngl.BLEND)
+        if enable_blending:
+            self.ctx.enable_only(moderngl.BLEND)
+        
         pos = IVec(x, y)
+        try_write(self.program, "mvp", mvp.bytes())
+        try_write(self.program, "text_color", IVec(color).bytes())
         for char in text:
-            glyph = self.cache.get(char, None)
-            if glyph is None:
-                self.font.load_char(char)
-                glyph = Glyph(self.ctx, self.font.glyph)
-                self.cache[char] = glyph
+            glyph = self.get_glyph(char) 
             glyph.texture.use()
             h = glyph.size.y * scale
             w = glyph.size.x * scale
@@ -81,13 +87,24 @@ class DirectFontRender:
                     self.program, self.buffer, "pos", "tex"
                 )
             else:
-                self.buffer.write(data)
-            try_write(self.program, "mvp", mvp.bytes())
-            try_write(self.program, "text_color", IVec(color).bytes())
+                self.buffer.write(data)    
             self.vao.render()
-            #print(pos)
             pos += glyph.advance * (scale / 64)
-        self.ctx.disable(moderngl.BLEND)
 
+    def calc_size(self, text):
+        x = 0
+        for char in text:
+            x += self.get_glyph(char).advance.x
+        return x / 64
+    
+    def calc_height(self, text, full=False):
+        max_y = 0
+        min_y = 0
+        for char in text:
+            glyph = self.get_glyph(char)
+            max_y = max(max_y, glyph.size.y)
+            if full:
+                min_y = min(min_y, -glyph.size.y - glyph.bearing.y)
+        return abs(max_y - min_y)
 
     
