@@ -12,7 +12,7 @@ centerer = CentererB(100, 100)
 placer = ColumnPlacerB()
 
 for i in range(5):
-    button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"))
+    button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Текст на кнопке {i}")
     c = CentererB(10, 10)
     c.add_child(button)
     placer.add_child(c)

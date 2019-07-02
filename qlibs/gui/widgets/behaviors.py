@@ -1,11 +1,12 @@
 from ...math import IVec, MVec
-
+#TODO: handle negative size
 
 class NodeB:
     """
     Basic node behavior, does not do any effort to position it's children
     Rendering is separate from this
     """
+    type = "node"
     def __init__(self):
         if not hasattr(self, "_position"):
             self._position = IVec(0, 0)
@@ -15,8 +16,6 @@ class NodeB:
             self.size_hint = (None, None)
         if not hasattr(self, "children"):
             self.children = []
-        if not hasattr(self, "type"):
-            self.type = "node"
 
     @property
     def position(self):
@@ -50,11 +49,12 @@ class NodeB:
 
 
 class ButtonB(NodeB):
-    def __init__(self, name, callback):
+    type = "button"
+    def __init__(self, name, callback, text=None):
         self.callback = callback
         self.pressed = False
         self.name = name
-        self.type = "button"
+        self.text = text or name
         super().__init__()
         
     def handle_event(self, event):
@@ -73,6 +73,7 @@ class ButtonB(NodeB):
 
 
 class CentererB(NodeB):
+    type = "centerer"
     def __init__(self, sep_x, sep_y):
         super().__init__()
         self.sep_x = sep_x
@@ -88,6 +89,7 @@ class CentererB(NodeB):
             
 
 class ColumnPlacerB(NodeB):
+    type = "columnplacer"
     def recalc_size(self):
         n = len(self.children)
         #TODO: handle size_hints
