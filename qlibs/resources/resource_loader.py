@@ -84,12 +84,12 @@ def get_res_data(path):
         return f.read()
 
 @weak_ref_cache
-def get_image_data(r_path):
-    if os.path.abspath(r_path):
+def get_image_data(r_path, mode="RGB"):
+    if os.path.isabs(r_path):
         path = r_path
     else:
         path = get_res_path(r_path)
-    img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM).convert("RGB")
+    img = Image.open(path).transpose(Image.FLIP_TOP_BOTTOM).convert(mode)
     return ImageData(img.size, img.tobytes())
 
 @dict_cache
@@ -100,10 +100,11 @@ def get_res_texture(r_path, ctx):
     txt.build_mipmaps()
     return txt
 
-def add_loader(loader):
-    loader.loaders.append(loader)
-
 loader = MergerLoader([])
+
+def add_loader(loader_):
+    loader.loaders.append(loader_)
+
 loader.loaders.append(SearchLocationLoader(get_lib_res_path(), prefix="qlibs/"))
 
 

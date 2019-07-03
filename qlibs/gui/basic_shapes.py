@@ -60,17 +60,17 @@ class ShapeDrawer:
     def add_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
     
-    def render(self, mvp=Matrix4(IDENTITY), reset=True):
+    def render(self, mvp=Matrix4(IDENTITY), reset=True, change_context_state=True):
+        if change_context_state:
+            self.ctx.enable_only(moderngl.NOTHING)
         try_write(self.program, "mvp", mvp.bytes())
-        self.ctx.disable(moderngl.CULL_FACE)
         target_len = max(len(self.tr_buffer), len(self.li_buffer))
         amortized_len = 2 ** (target_len.bit_length() + 1)
         min_amortized_len = 2 ** (target_len.bit_length() + 2)
         if (self.buffer is None 
             or self.buffer.size < 4*target_len 
-            or self.buffer.size > 4*min_amortized_len# or True
+            or self.buffer.size > 4*min_amortized_len
             ):
-            #print("Buffer reallocated")
             self.buffer = self.ctx.buffer(reserve=4*amortized_len, dynamic=True)
             self.vao = self.ctx.simple_vertex_array(
                 self.program, self.buffer, "in_vert", "color"
