@@ -7,7 +7,7 @@ There are quite a lot of them!
 * Resource system.
 * Math: vectors and matrices.
 * Wavefont OBJ loading and rendering.
-* Window creation and widgets(not yet actually).
+* Window creation and widgets.
 * Text rendering.
 * Network packets and sockets.
 * More to come.
