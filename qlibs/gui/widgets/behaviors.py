@@ -74,10 +74,12 @@ class ButtonB(NodeB):
 
 class CentererB(NodeB):
     type = "centerer"
-    def __init__(self, sep_x, sep_y):
+    def __init__(self, sep_x, sep_y, child=None):
         super().__init__()
         self.sep_x = sep_x
         self.sep_y = sep_y
+        if child is not None:
+            self.add_child(child)
     
     def recalc_size(self):
         tpos = (self.position.x + self.sep_x, self.position.y + self.sep_y)

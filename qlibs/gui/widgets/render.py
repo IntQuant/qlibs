@@ -1,5 +1,7 @@
 from collections import deque
 
+import moderngl
+
 from ..basic_shapes import ShapeDrawer
 from ...fonts.font_render import DirectFontRender
 from ...fonts.font_search import find_reasonable_font
@@ -32,6 +34,7 @@ class DefaultRenderer:
             self.queue_text(node.text, *pos)
 
     def render(self):
+        self.ctx.enable_only(moderngl.BLEND)
         self.text_queue.clear()
         queue = deque()
         queue.append(self.node)
@@ -41,6 +44,6 @@ class DefaultRenderer:
             for child in current.children:
                 queue.append(child)
         matrix = Matrix4.orthogonal_projection(0, self.window.width, 0, self.window.height, -1, 1)
-        self.drawer.render(mvp=matrix)
+        self.drawer.render(mvp=matrix, change_context_state=False)
         for text in self.text_queue:
             self.font_render.render_string(*text, mvp=matrix)

@@ -20,6 +20,7 @@ class Window:
         self.height = height
         self.resize_callback = None
         self.mouse_motion_callback = None
+        self.mouse_button_callback = None
 
         glfw.init()
         for k, v in hint_conf.items():
@@ -33,6 +34,7 @@ class Window:
         glfw.set_window_size_callback(self.window, self.on_resize)
         glfw.set_framebuffer_size_callback(self.window, self.update_viewport)
         glfw.set_cursor_pos_callback(self.window, self.on_mouse_motion)
+        glfw.set_mouse_button_callback(self.window, self.on_mouse_button)
         
         self.ctx = moderngl.create_context()
 
@@ -57,13 +59,28 @@ class Window:
     @property
     def should_close(self):
         return glfw.window_should_close(self.window)
+
+    @should_close.setter
+    def should_close(self, x):
+        glfw.set_window_should_close(self.window, x)
     
-    def set_mouse_button_callback(self, cb):
-        glfw.set_mouse_button_callback(self.window, cb)
+    @property
+    def mouse_pos(self):
+        x, y = glfw.get_cursor_pos(self.window)
+        return x, self.height-y
     
     def on_mouse_motion(self, window, x, y):
         if self.mouse_motion_callback:
             self.mouse_motion_callback(window, x, self.height - y)
 
-    mouse_button_callback = property(fset=set_mouse_button_callback)
+    def on_mouse_button(self, window, button, action, mods):
+        if self.mouse_button_callback:
+            self.mouse_button_callback(window, button, action, mods)
+        
+    def is_key_pressed(self, key):
+        return glfw.get_key(self.window, key)
+
+    
+
+
     
