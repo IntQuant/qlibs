@@ -57,6 +57,7 @@ class WindowWidgetController:
         node = self.get_window_node(win)
         node.size = win.width, win.height
         node.recalc_size()
+        self.mouse_x, self.mouse_y = win.mouse_pos
 
     
     def unassign_from_window(self, win):

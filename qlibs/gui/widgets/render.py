@@ -8,11 +8,11 @@ from ...fonts.font_search import find_reasonable_font
 from ...math import Matrix4, MVec
 
 class DefaultRenderer:
-    def __init__(self, window, node, font=None, font_path=None):
+    def __init__(self, window, node, font=None, font_path=None, font_render=None):
         if font is None and font_path is None:
             font_path = find_reasonable_font()
         self.ctx = window.ctx
-        self.font_render = DirectFontRender(self.ctx, font, font_path=font_path)
+        self.font_render = font_render or DirectFontRender(self.ctx, font, font_path=font_path)
         self.drawer = ShapeDrawer(self.ctx)
         self.node = node
         self.window = window

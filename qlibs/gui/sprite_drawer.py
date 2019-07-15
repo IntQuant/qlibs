@@ -47,27 +47,10 @@ class SpriteDrawer:
         sin = math.sin
         cos = math.cos
 
-        #magic
-        #sin_half_pi = sin(rot+HALF_PI)*d
-        #cos_half_pi = cos(rot+HALF_PI)*d
-        #sin_rot = -cos_half_pi
-        #cos_rot = sin_half_pi
-        #point0 = x+sin_rot,   y+cos_rot
-        #point1 = x-sin_half_pi, y-cos_half_pi
-        #point2 = x-sin_rot, y-cos_rot
-        #point3 = x+sin_half_pi, y+cos_half_pi
-
-        #point0 = x+sin(rot)*d,   y+cos(rot)*d
-        #point1 = x+sin(rot-HALF_PI)*d, y+cos(rot-HALF_PI)*d
-        #point2 = x+sin(rot+math.pi)*d, y+cos(rot+math.pi)*d
-        #point3 = x+sin(rot+HALF_PI)*d, y+cos(rot+HALF_PI)*d
-
         point1 = x+sin(rot-at)*d,   y+cos(rot-at)*d
         point0 = x+sin(rot+at)*d, y+cos(rot+at)*d
         point3 = x+sin(rot+math.pi-at)*d, y+cos(rot+math.pi-at)*d
         point2 = x+sin(rot+math.pi+at)*d, y+cos(rot+math.pi+at)*d
-        
-        
 
         data = [
             #First triangle
@@ -85,6 +68,8 @@ class SpriteDrawer:
 
 
     def render(self, mvp=Matrix4(IDENTITY), reset=True):
+        if len(self.buffer_data) == 0:
+            return
         buffer = self.ctx.buffer(self.buffer_data)
         vao = self.ctx.simple_vertex_array(self.program, buffer, "pos", "tpos", "z")
         self.texture.use()
@@ -92,6 +77,11 @@ class SpriteDrawer:
         vao.render()
         if reset:
             self.prepare()
-
-
-
+        buffer.release()
+        vao.release()
+    
+    def write_layer(self, id_, data):
+        text = self.texture
+        viewport = (0, 0, id_, text.width, text.height, 1)
+        text.write(data, viewport)
+        

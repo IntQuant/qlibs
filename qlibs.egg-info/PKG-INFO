@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: qlibs
-Version: 0.2.0
+Version: 0.2.1
 Summary: Networking, gui, math and more
 Home-page: https://bitbucket.org/IntQuant/qlibs/
 Author: IQuant
@@ -15,7 +15,7 @@ Description: # Welcome to QLibs
         * Resource system.
         * Math: vectors and matrices.
         * Wavefont OBJ loading and rendering.
-        * Window creation and widgets(not yet actually).
+        * Window creation and widgets.
         * Text rendering.
         * Network packets and sockets.
         * More to come.

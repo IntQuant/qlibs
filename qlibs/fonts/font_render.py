@@ -17,6 +17,7 @@ class Glyph:
     """
       Class for storing glyph data: *advance*, *size*, *bearing*, and opengl *texture*
     """
+    #TODO: add slots
     def __init__(self, ctx, glyph):
         """
         Initialize everything from glyph

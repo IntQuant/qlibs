@@ -79,6 +79,12 @@ class Window:
         
     def is_key_pressed(self, key):
         return glfw.get_key(self.window, key)
+    
+    def is_mouse_pressed(self, key):
+        return glfw.get_mouse_button(self.window, key)
+    
+    def enable_sticky_mouse(self, action=True):
+        glfw.set_input_mode(self.window, glfw.STICKY_MOUSE_BUTTONS, action)
 
     
 
