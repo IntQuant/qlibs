@@ -65,8 +65,6 @@ class SpriteDrawer:
 
         self.buffer_data.fromlist(data)
 
-
-
     def render(self, mvp=Matrix4(IDENTITY), reset=True):
         if len(self.buffer_data) == 0:
             return
@@ -84,4 +82,6 @@ class SpriteDrawer:
         text = self.texture
         viewport = (0, 0, id_, text.width, text.height, 1)
         text.write(data, viewport)
-        
+
+    def __del__(self):
+        self.texture.release()

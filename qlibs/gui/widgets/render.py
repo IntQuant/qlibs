@@ -47,3 +47,4 @@ class DefaultRenderer:
         self.drawer.render(mvp=matrix, change_context_state=False)
         for text in self.text_queue:
             self.font_render.render_string(*text, mvp=matrix)
+            
