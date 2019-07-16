@@ -30,6 +30,8 @@ class Glyph:
         self.texture.repeat_x = False
         self.texture.repeat_y = False
 
+    def __del__(self):
+        self.texture.release()
 
 class DirectFontRender:
     """
@@ -108,4 +110,8 @@ class DirectFontRender:
                 min_y = min(min_y, -glyph.size.y - glyph.bearing.y)
         return abs(max_y - min_y)
 
-    
+    def __del__(self):
+        if self.vao:
+            self.vao.release()
+        if self.buffer:
+            self.buffer.release()
