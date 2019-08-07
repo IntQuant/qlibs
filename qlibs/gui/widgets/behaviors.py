@@ -4,9 +4,10 @@ from ...math import IVec, MVec
 class NodeB:
     """
     Basic node behavior, does not do any effort to position it's children
-    Rendering is separate from this
+    Rendering is separate from behaviors, which only handle events(including resizing)
     """
     type = "node"
+    selectable = False
     def __init__(self):
         if not hasattr(self, "_position"):
             self._position = IVec(0, 0)
@@ -102,3 +103,19 @@ class ColumnPlacerB(NodeB):
             child.size = size
             pos.y += size[1]
         super().recalc_size()
+
+
+class TextInputB(NodeB):
+    type = "textinput"
+    selectable = True
+    def __init__(self, text="", name="default"):
+        super().__init__()
+        self.text = text
+        
+    def handle_event(self, event):
+        if event.type == "key":
+            key = event.key
+            self.text += key
+        if event.type == "speckey":
+            if event.key == "backspace":
+                self.text = self.text[:-1]

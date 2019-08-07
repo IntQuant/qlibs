@@ -19,6 +19,8 @@ class DefaultRenderer:
         self.text_queue = []
         self.excludes = ["centerer"]
         self.drawer.default_z = -1
+        self.spcx = 4
+        self.spcy = 4
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
@@ -26,8 +28,10 @@ class DefaultRenderer:
     def render_node(self, node):
         if node.type in self.excludes:
             return
-        self.drawer.add_rectangle(*node.position, *node.size, color=(1, 1, 1, 0.1))
-        if node.type == "button":
+        x, y = node.position
+        w, h = node.size
+        self.drawer.add_rectangle(x+self.spcx, y+self.spcy, w-self.spcx, h-self.spcy, color=(1, 1, 1, 0.1))
+        if hasattr(node, "text"):
             pos = MVec(node.position + node.size // 2)
             pos.x -= self.font_render.calc_size(node.text) // 2
             pos.y -= self.font_render.calc_height(node.text) // 2

@@ -21,6 +21,8 @@ class Window:
         self.resize_callback = None
         self.mouse_motion_callback = None
         self.mouse_button_callback = None
+        self.key_callback = None
+        self.spec_key_callback = None
 
         glfw.init()
         for k, v in hint_conf.items():
@@ -35,7 +37,9 @@ class Window:
         glfw.set_framebuffer_size_callback(self.window, self.update_viewport)
         glfw.set_cursor_pos_callback(self.window, self.on_mouse_motion)
         glfw.set_mouse_button_callback(self.window, self.on_mouse_button)
-        
+        glfw.set_char_mods_callback(self.window, self.on_key_press)
+        glfw.set_key_callback(self.window, self.on_spec_key_press)
+
         self.ctx = moderngl.create_context()
 
     def on_resize(self, win, width, height):
@@ -75,7 +79,7 @@ class Window:
 
     def on_mouse_button(self, window, button, action, mods):
         if self.mouse_button_callback:
-            self.mouse_button_callback(window, button, action, mods)
+            self.mouse_button_callback(window, button, action == glfw.PRESS, mods)
         
     def is_key_pressed(self, key):
         return glfw.get_key(self.window, key)
@@ -83,6 +87,14 @@ class Window:
     def is_mouse_pressed(self, key):
         return glfw.get_mouse_button(self.window, key)
     
+    def on_key_press(self, window, key, mods):
+        if self.key_callback:
+            self.key_callback(window, key, mods)
+    
+    def on_spec_key_press(self, window, key, ukey, pressed, mods):
+        if self.spec_key_callback:
+            self.spec_key_callback(window, key, ukey, pressed, mods)
+
     def enable_sticky_mouse(self, action=True):
         glfw.set_input_mode(self.window, glfw.STICKY_MOUSE_BUTTONS, action)
 
