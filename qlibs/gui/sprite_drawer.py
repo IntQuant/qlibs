@@ -1,6 +1,8 @@
 from array import array
 import math
 
+import moderngl
+
 from ..math import Matrix4, IDENTITY
 from ..resources.resource_manager import get_storage_of_context
 from ..util import try_write
@@ -19,6 +21,8 @@ class SpriteDrawer:
         self.texture = self.ctx.texture_array(size, components, data=data)
         self.size = size
         self.prepare()
+        self.buffer = None
+        self.vao = None
     
     def prepare(self):
         self.buffer_data = array("f")
@@ -68,15 +72,23 @@ class SpriteDrawer:
     def render(self, mvp=Matrix4(IDENTITY), reset=True):
         if len(self.buffer_data) == 0:
             return
-        buffer = self.ctx.buffer(self.buffer_data)
-        vao = self.ctx.simple_vertex_array(self.program, buffer, "pos", "tpos", "z")
+        data = self.buffer_data.tobytes()
+        if self.buffer is None or len(data) > self.buffer.size:
+            if self.buffer is not None:
+                self.buffer.release()
+                self.vao.release()
+            
+            self.buffer = self.ctx.buffer(data)
+            self.vao = self.ctx.simple_vertex_array(self.program, self.buffer, "pos", "tpos", "z")
+
+        else:
+            self.buffer.write(data)
         self.texture.use()
         try_write(self.program, "mvp", mvp.bytes())
-        vao.render()
+        self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data))
         if reset:
             self.prepare()
-        buffer.release()
-        vao.release()
+        
     
     def write_layer(self, id_, data):
         text = self.texture
@@ -85,3 +97,7 @@ class SpriteDrawer:
 
     def __del__(self):
         self.texture.release()
+        if self.buffer is not None:
+            self.buffer.release()
+        if self.vao is not None:
+            self.vao.release()

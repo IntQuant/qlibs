@@ -48,6 +48,7 @@ class DirectFontRender:
         self.cache = dict()
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
         self.vao = None
+        self.buffer = None
     
     def get_glyph(self, char):
         glyph = self.cache.get(char, None)
