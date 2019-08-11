@@ -93,9 +93,9 @@ class CentererB(NodeB):
 
 class ColumnPlacerB(NodeB):
     type = "columnplacer"
-    def __init__(self):
+    def __init__(self, spacing=2):
         super().__init__()
-        self.spc = 2
+        self.spc = spacing
 
     def recalc_size(self):
         n = len(self.children)
