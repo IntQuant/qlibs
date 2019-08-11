@@ -123,3 +123,6 @@ class TextInputB(NodeB):
         if event.type == "speckey":
             if event.key == "backspace":
                 self.text = self.text[:-1]
+
+class ToggleButtonB(NodeB):
+    pass
