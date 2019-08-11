@@ -125,4 +125,26 @@ class TextInputB(NodeB):
                 self.text = self.text[:-1]
 
 class ToggleButtonB(NodeB):
-    pass 
+    type = "togglebutton"
+    def __init__(self, name, callback, text=None):
+        self.callback = callback
+        self.pressed = False
+        self.state = False
+        self.name = name
+        self.text = text or name
+        super().__init__()
+        
+    def handle_event(self, event):
+        if event.type == "mouse":
+            if (event.pressed 
+            and self.position.x <= event.pos.x <= self.position.x + self.size.x 
+            and self.position.y <= event.pos.y <= self.position.y + self.size.y
+            ):
+                if not self.pressed:
+                    self.state = not self.state
+                    self.callback(self.name, self.state)
+                    self.pressed = True
+            if not event.pressed:
+                self.pressed = False
+
+        super().handle_event(event)

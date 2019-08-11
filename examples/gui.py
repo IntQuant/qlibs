@@ -19,6 +19,7 @@ for i in range(5):
 
 placer.add_child(TextInputB())
 placer.add_child(TextInputB())
+placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)))
 
 centerer.add_child(placer)
 
