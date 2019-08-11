@@ -93,15 +93,19 @@ class CentererB(NodeB):
 
 class ColumnPlacerB(NodeB):
     type = "columnplacer"
+    def __init__(self):
+        super().__init__()
+        self.spc = 2
+
     def recalc_size(self):
         n = len(self.children)
         #TODO: handle size_hints
-        size = self.size.x, self.size.y // n
+        size = self.size.x-self.spc, (self.size.y//n)-self.spc
         pos = MVec(self.position)
         for child in self.children:
-            child.position = pos
+            child.position = pos + MVec(self.spc, self.spc)
             child.size = size
-            pos.y += size[1]
+            pos.y += size[1]+self.spc
         super().recalc_size()
 
 

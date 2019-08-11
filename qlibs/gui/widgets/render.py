@@ -19,8 +19,8 @@ class DefaultRenderer:
         self.text_queue = []
         self.excludes = ["centerer"]
         self.drawer.default_z = -1
-        self.spcx = 4
-        self.spcy = 4
+        self.spcx = 0
+        self.spcy = 0
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
