@@ -37,14 +37,15 @@ class DirectFontRender:
     """
       Render text using font
     """
-    def __init__(self, ctx, font: freetype.Face, font_path=None):
+    def __init__(self, ctx, font: freetype.Face, font_path=None, pixel_size=48):
         """
         *ctx* is a moderngl context
         *font_path* will be used if *font* is None
         """
         self.ctx = ctx
         self.font = font or freetype.Face(font_path)
-        self.font.set_pixel_sizes(0, 48)
+        self.font.set_pixel_sizes(0, pixel_size)
+        self.pixel_size = pixel_size
         self.cache = dict()
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
         self.vao = None
@@ -65,6 +66,8 @@ class DirectFontRender:
         if enable_blending:
             self.ctx.enable_only(moderngl.BLEND)
         
+        scale /= self.pixel_size
+
         pos = IVec(x, y)
         try_write(self.program, "mvp", mvp.bytes())
         try_write(self.program, "text_color", IVec(color).bytes())
@@ -95,13 +98,13 @@ class DirectFontRender:
             self.vao.render()
             pos += glyph.advance * (scale / 64)
 
-    def calc_size(self, text):
+    def calc_size(self, text, scale=1):
         x = 0
         for char in text:
             x += self.get_glyph(char).advance.x
-        return x / 64
+        return x / 64 * scale / self.pixel_size
     
-    def calc_height(self, text, full=False):
+    def calc_height(self, text, scale=1, full=False):
         max_y = 0
         min_y = 0
         for char in text:
@@ -109,7 +112,7 @@ class DirectFontRender:
             max_y = max(max_y, glyph.size.y)
             if full:
                 min_y = min(min_y, -glyph.size.y - glyph.bearing.y)
-        return abs(max_y - min_y)
+        return abs(max_y - min_y) * scale / self.pixel_size
 
     def __del__(self):
         if self.vao:

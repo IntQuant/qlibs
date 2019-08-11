@@ -32,10 +32,17 @@ class DefaultRenderer:
         w, h = node.size
         self.drawer.add_rectangle(x+self.spcx, y+self.spcy, w-self.spcx, h-self.spcy, color=(1, 1, 1, 0.1))
         if hasattr(node, "text"):
+            used_scale = node.size.y
+            size = self.font_render.calc_size(node.text, scale=used_scale)
+            if size > node.size.x:
+                used_scale *= node.size.x / size
+                size = self.font_render.calc_size(node.text, scale=used_scale)
+
+
             pos = MVec(node.position + node.size // 2)
-            pos.x -= self.font_render.calc_size(node.text) // 2
-            pos.y -= self.font_render.calc_height(node.text) // 2
-            self.queue_text(node.text, *pos)
+            pos.x -= size // 2
+            pos.y -= self.font_render.calc_height(node.text, scale=used_scale) // 2
+            self.queue_text(node.text, *pos, scale=used_scale)
 
     def render(self):
         self.ctx.enable_only(moderngl.BLEND)
