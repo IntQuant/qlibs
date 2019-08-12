@@ -19,8 +19,9 @@ class DefaultRenderer:
         self.text_queue = []
         self.excludes = ["centerer"]
         self.drawer.default_z = -1
-        self.spcx = 0
-        self.spcy = 0
+        #Spacings for progressbars
+        self.pbspcm = 2
+        self.pbspcs = 4
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
@@ -34,9 +35,9 @@ class DefaultRenderer:
         
         if node.type == "progressbar":
             if node.size.x > node.size.y:
-                self.drawer.add_rectangle(node.position.x+2, node.position.y+2, node.size.x*node.fraction-2, node.size.y-2, color=(1, 1, 1))
+                self.drawer.add_rectangle(node.position.x+self.pbspcm, node.position.y+self.pbspcs, node.size.x*node.fraction-self.pbspcm*2, node.size.y-self.pbspcs*2, color=(1, 1, 1))
             else:
-                self.drawer.add_rectangle(node.position.x+2, node.position.y+2, node.size.x, node.size.y*node.fraction-2, color=(1, 1, 1))
+                self.drawer.add_rectangle(node.position.x+self.pbspcs, node.position.y+self.pbspcm, node.size.x-self.pbspcs*2, node.size.y*node.fraction-self.pbspcm*2, color=(1, 1, 1))
 
 
         if hasattr(node, "text"):

@@ -22,7 +22,7 @@ placer.add_child(TextInputB())
 placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)))
 
 pb = ProgressBarB()
-pb.fraction = 0.75
+
 placer.add_child(pb)
 
 centerer.add_child(placer)
@@ -37,6 +37,7 @@ while not win.should_close:
     win.ctx.enable_only(moderngl.BLEND)
     rend.render()
     win.swap()
-    win.wait_events()
+    win.wait_events(0.05)
+    pb.fraction = (time.time()%10)/10
     #win.poll_events()
     #time.sleep(0.05)

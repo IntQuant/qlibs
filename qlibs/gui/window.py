@@ -57,8 +57,11 @@ class Window:
     def poll_events(self):
         glfw.poll_events()
     
-    def wait_events(self):
-        glfw.wait_events()
+    def wait_events(self, timeout=None):
+        if timeout is None:
+            glfw.wait_events()
+        else:
+            glfw.wait_events_timeout(timeout)
 
     @property
     def should_close(self):

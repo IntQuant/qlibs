@@ -154,5 +154,5 @@ class ToggleButtonB(NodeB):
 class ProgressBarB(NodeB):
     type = "progressbar"
     def __init__(self):
-        self.completion_fraction = 0
+        self.fraction = 0
         super().__init__()
