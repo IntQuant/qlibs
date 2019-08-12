@@ -14,6 +14,16 @@ class MouseEvent(GUIEvent):
         self.pressed = pressed
 
 
+class KeyMods:
+    def __init__(self, glfwmods=0):
+        self.shift = glfwmods&1 > 0
+        self.ctrl = glfwmods&2 > 0
+        self.alt = glfwmods&4 > 0
+        self.super = glfwmods&8 > 0
+        self.caps = glfwmods&16 > 0
+        self.numlock = glfwmods&32 > 0
+
+
 class KeyEvent(GUIEvent):
     type = "key"
     def __init__(self, key, mods):

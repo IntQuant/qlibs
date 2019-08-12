@@ -5,7 +5,12 @@ from .events import *
 from collections import deque
 
 spec_key_traversion_dict = { #TODO: add more keys
-    glfw.KEY_BACKSPACE: "backspace"
+    glfw.KEY_BACKSPACE: "backspace",
+    glfw.KEY_LEFT: "left",
+    glfw.KEY_RIGHT: "right",
+    glfw.KEY_UP: "up",
+    glfw.KEY_DOWN: "down",
+    glfw.KEY_ENTER: "enter",
 }
 
 class WindowWidgetController:
@@ -23,7 +28,7 @@ class WindowWidgetController:
             window = window.window
         id_ = glfw.get_window_user_pointer(window)
         self.children[id_] = node
-        self.selected[id_] = node
+        self.selected[id_] = None
 
     def get_window_node(self, window):
         if hasattr(window, "window"):
@@ -66,6 +71,12 @@ class WindowWidgetController:
         if button == glfw.MOUSE_BUTTON_LEFT and action == glfw.PRESS:
             self.check_reselect(window)
     
+    def handle_to_selected(self, window, event):
+        node = self.get_selected_node(window)
+        if node is not None:
+            node.handle_event(event)
+
+
     def check_reselect(self, window):
         queue = deque()
         queue.append(self.get_window_node(window))
@@ -80,14 +91,14 @@ class WindowWidgetController:
         self.set_selected_node(window, cand)
 
     def key_handler(self, window, key, mods):
-        event = KeyEvent(chr(key), mods)
-        self.get_selected_node(window).handle_event(event)
+        event = KeyEvent(chr(key), KeyMods(mods))
+        self.handle_to_selected(window, event)
 
     def spec_key_handler(self, window, key, ukey, pressed, mods):
         key = spec_key_traversion_dict.get(key, None)
         if pressed > 0 and key is not None:
-            event = SpecKeyEvent(key, mods)
-            self.get_selected_node(window).handle_event(event)
+            event = SpecKeyEvent(key, KeyMods(mods))
+            self.handle_to_selected(window, event)
 
     def resize_handler(self, window, width, height):
         node = self.get_window_node(window)
