@@ -28,13 +28,21 @@ class DefaultRenderer:
     def render_node(self, node):
         if node.type in self.excludes:
             return
-        x, y = node.position
-        w, h = node.size
-        self.drawer.add_rectangle(x+self.spcx, y+self.spcy, w-self.spcx, h-self.spcy, color=(1, 1, 1, 0.1))
+        #x, y = node.position
+        #w, h = node.size
+        self.drawer.add_rectangle(*node.position, *node.size, color=(1, 1, 1, 0.1))
+        
+        if node.type == "progressbar":
+            if node.size.x > node.size.y:
+                self.drawer.add_rectangle(node.position.x+2, node.position.y+2, node.size.x*node.fraction-2, node.size.y-2, color=(1, 1, 1))
+            else:
+                self.drawer.add_rectangle(node.position.x+2, node.position.y+2, node.size.x, node.size.y*node.fraction-2, color=(1, 1, 1))
+
+
         if hasattr(node, "text"):
             used_scale = node.size.y
             size = self.font_render.calc_size(node.text, scale=used_scale)
-            if size > node.size.x:
+            if size > 0 and size > node.size.x:
                 used_scale *= node.size.x / size
                 size = self.font_render.calc_size(node.text, scale=used_scale)
 

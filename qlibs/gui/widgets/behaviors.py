@@ -124,6 +124,7 @@ class TextInputB(NodeB):
             if event.key == "backspace":
                 self.text = self.text[:-1]
 
+
 class ToggleButtonB(NodeB):
     type = "togglebutton"
     def __init__(self, name, callback, text=None):
@@ -148,3 +149,10 @@ class ToggleButtonB(NodeB):
                 self.pressed = False
 
         super().handle_event(event)
+
+
+class ProgressBarB(NodeB):
+    type = "progressbar"
+    def __init__(self):
+        self.completion_fraction = 0
+        super().__init__()

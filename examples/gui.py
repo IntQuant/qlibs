@@ -21,7 +21,12 @@ placer.add_child(TextInputB())
 placer.add_child(TextInputB())
 placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)))
 
+pb = ProgressBarB()
+pb.fraction = 0.75
+placer.add_child(pb)
+
 centerer.add_child(placer)
+#centerer.add_child(pb)
 
 ctrl.set_window_node(win, centerer)
 ctrl.assign_to_window(win)
