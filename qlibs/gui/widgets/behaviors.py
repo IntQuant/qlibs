@@ -2,6 +2,16 @@ from ...math import IVec, MVec
 from itertools import zip_longest
 #TODO: handle negative size
 
+try:
+    import glfw
+    clipboard_get = lambda : glfw.get_clipboard_string(None).decode("utf-8")
+    clipboard_set = lambda x: glfw.set_clipboard_string(None, x)
+except ImportError:
+    #TODO add proper warning
+    print(__file__, "Could not import glfw, some functions are unavailable")
+    clipboard_get = lambda : None
+    clipboard_set = lambda x: None
+
 class NodeB:
     """
     Basic node behavior, does not do any effort to position it's children
@@ -57,6 +67,7 @@ class ButtonB(NodeB):
         self.pressed = False
         self.name = name
         self.text = text or name
+        self.textalign = "center"
         super().__init__()
         
     def handle_event(self, event):
@@ -160,17 +171,45 @@ class TextInputB(NodeB):
         super().__init__()
         self.text = text
         self.callback = callback
+        self.cursor = 0
+        self.textalign = "left"
         
     def handle_event(self, event):
         if event.type == "key":
             key = event.key
-            self.text += key
+            self.text = self.text[:self.cursor] + key + self.text[self.cursor:]
+            self.cursor += 1
         if event.type == "speckey":
             if event.key == "backspace":
-                self.text = self.text[:-1]
+                if self.cursor > 0:
+                    self.text = self.text[:self.cursor-1] + self.text[self.cursor:]
+                    self.cursor -= 1
+                if self.cursor < 0:
+                    self.cursor = 0
+            elif event.key == "delete":
+                if self.cursor < len(self.text):
+                    self.text = self.text[:self.cursor] + self.text[self.cursor+1:]
             elif event.key == "enter":
                 if self.callback:
                     self.callback(self.text)
+            elif event.key == "left":
+                self.cursor -= 1
+                if self.cursor < 0:
+                    self.cursor = 0
+            elif event.key == "right":
+                self.cursor += 1
+                if self.cursor > len(self.text):
+                    self.cursor = len(self.text)
+            
+            elif event.mods.ctrl and event.key == "v":
+                clipboard = clipboard_get()
+                self.text += self.text[:self.cursor] + clipboard + self.text[self.cursor:]
+                self.cursor += len(clipboard)
+            elif event.mods.ctrl and event.key == "c":
+                clipboard_set(self.text)
+            elif event.mods.ctrl and event.key == "x":
+                clipboard_set(self.text)
+                self.text = ""
 
 
 class ToggleButtonB(NodeB):

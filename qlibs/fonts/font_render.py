@@ -123,7 +123,7 @@ class DirectFontRender:
         min_y = 0
         for char in text:
             glyph = self.get_glyph(char)
-            max_y = max(max_y, glyph.size.y)
+            max_y = max(max_y, glyph.bearing.y)
             if full:
                 min_y = min(min_y, -glyph.size.y - glyph.bearing.y)
         return abs(max_y - min_y) * scale / self.pixel_size

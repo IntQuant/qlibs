@@ -23,6 +23,7 @@ class DefaultRenderer:
         #Spacings for progressbars
         self.pbspcm = 2
         self.pbspcs = 4
+        self.text_limit = 256
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
@@ -40,19 +41,35 @@ class DefaultRenderer:
             else:
                 self.drawer.add_rectangle(node.position.x+self.pbspcs, node.position.y+self.pbspcm, node.size.x-self.pbspcs*2, node.size.y*node.fraction-self.pbspcm*2, color=(1, 1, 1))
 
-
+        
         if hasattr(node, "text"):
+            if len(node.text) > self.text_limit: #TODO later
+                text = node.text[:self.text_limit//2] + "..." + node.text[-self.text_limit//2:]
+            else:
+                text = node.text
+
+            
+
             used_scale = node.size.y
-            size = self.font_render.calc_size(node.text, scale=used_scale)
+            size = self.font_render.calc_size(text, scale=used_scale)
             if size > 0 and size > node.size.x:
                 used_scale *= node.size.x / size
-                size = self.font_render.calc_size(node.text, scale=used_scale)
+                size = self.font_render.calc_size(text, scale=used_scale)
 
+            align_ajust = node.size.x // 2 - size // 2
+            if hasattr(node, "textalign"):
+                if node.textalign == "left":
+                    align_ajust = 0
 
             pos = MVec(node.position + node.size // 2)
-            pos.x -= size // 2
-            pos.y += self.font_render.calc_height(node.text, scale=used_scale) // 2
-            self.queue_text(node.text, *pos, scale=used_scale)
+            pos.x += align_ajust - node.size.x // 2
+            pos.y += self.font_render.calc_height(text, scale=used_scale) // 2
+            self.queue_text(text, *pos, scale=used_scale)
+
+            if node.type == "textinput":
+                cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
+                
+                self.drawer.add_line((cpos, node.position.y), (cpos, node.position.y+node.size.y))
 
     def render(self):
         self.ctx.enable_only(moderngl.BLEND)
