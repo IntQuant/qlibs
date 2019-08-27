@@ -18,12 +18,16 @@ for i in range(5):
     placer.add_child(button)
 
 placer.add_child(TextInputB())
-placer.add_child(TextInputB())
-placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)))
+row_placer = RowPlacerB()
+
+row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 0.1)
+row_placer.add_child(TextInputB())
+
+placer.add_child(row_placer)
 
 pb = ProgressBarB()
 
-placer.add_child(pb)
+placer.add_child(pb, 0.05)
 
 centerer.add_child(placer)
 #centerer.add_child(pb)
@@ -34,7 +38,7 @@ rend = DefaultRenderer(win, centerer)
 
 while not win.should_close:
     win.ctx.clear(0, 0, 0)
-    win.ctx.enable_only(moderngl.BLEND)
+    #win.ctx.enable_only(moderngl.BLEND)
     rend.render()
     win.swap()
     win.wait_events(0.05)

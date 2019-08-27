@@ -4,7 +4,7 @@ class GUIEvent:
     type = "gui"
     shall_pass = True
     def __init__(self):
-        self.shall_pass = True
+        pass
 
 
 class MouseEvent(GUIEvent):
@@ -25,6 +25,7 @@ class KeyMods:
 
 
 class KeyEvent(GUIEvent):
+    shall_pass = False
     type = "key"
     def __init__(self, key, mods):
         self.key = key

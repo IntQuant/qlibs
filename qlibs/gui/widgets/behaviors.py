@@ -1,4 +1,5 @@
 from ...math import IVec, MVec
+from itertools import zip_longest
 #TODO: handle negative size
 
 class NodeB:
@@ -60,14 +61,16 @@ class ButtonB(NodeB):
         
     def handle_event(self, event):
         if event.type == "mouse":
-            if (event.pressed 
-            and self.position.x <= event.pos.x <= self.position.x + self.size.x 
-            and self.position.y <= event.pos.y <= self.position.y + self.size.y
-            ):
-                if not self.pressed:
-                    self.callback(self.name)
+            hovered = (self.position.x <= event.pos.x <= self.position.x + self.size.x 
+            and self.position.y <= event.pos.y <= self.position.y + self.size.y)
+            
+            if hovered:
+                if event.pressed  and not self.pressed:
                     self.pressed = True
-            if not event.pressed:
+            
+            if not event.pressed and self.pressed:
+                if hovered:
+                    self.callback(self.name)
                 self.pressed = False
 
         super().handle_event(event)
@@ -91,30 +94,72 @@ class CentererB(NodeB):
         super().recalc_size()
             
 
-class ColumnPlacerB(NodeB):
-    type = "columnplacer"
-    def __init__(self, spacing=2):
+class RCPlacerB(NodeB):
+    type = "rcplacer"
+    def __init__(self, spacing=2, vertical=True):
         super().__init__()
         self.spc = spacing
+        self.vertical = vertical
+        self.size_hints = list()
+        
+
+    def add_child(self, child, size_hint=None):
+        self.children.append(child)
+        self.size_hints.append(size_hint)
 
     def recalc_size(self):
         n = len(self.children)
-        #TODO: handle size_hints
-        size = self.size.x-self.spc, (self.size.y//n)-self.spc
+        used = 0
+
+        for hint in self.size_hints:
+            if hint is not None:
+                n -= 1
+                used += hint
+        if n == 0:
+            n = 1
+
+        if self.vertical:
+            size = self.size.x-self.spc, (self.size.y*(1-used)/n)-self.spc
+            advancement_index = 1
+        else:
+            size = (self.size.x*(1-used)/n)-self.spc, (self.size.y)-self.spc
+            advancement_index = 0
+        
         pos = MVec(self.position)
-        for child in self.children:
+        
+        for hint, child in zip_longest(self.size_hints, self.children):            
+            if hint is not None:
+                if self.vertical:
+                    usize = size[0], self.size.y * hint
+                else:
+                    usize = self.size.x * hint, size[1]
+            else:
+                usize = size
             child.position = pos + MVec(self.spc, self.spc)
-            child.size = size
-            pos.y += size[1]+self.spc
+            child.size = usize
+            pos[advancement_index] += usize[advancement_index] + self.spc
         super().recalc_size()
+
+
+class ColumnPlacerB(RCPlacerB):
+    type = "columnplacer"
+    def __init__(self, spacing=2):
+        super().__init__(spacing, vertical=True)
+
+
+class RowPlacerB(RCPlacerB):
+    type = "rowplacer"
+    def __init__(self, spacing=2):
+        super().__init__(spacing, vertical=False)
 
 
 class TextInputB(NodeB):
     type = "textinput"
     selectable = True
-    def __init__(self, text="", name="default"):
+    def __init__(self, text="", name="default", callback=None):
         super().__init__()
         self.text = text
+        self.callback = callback
         
     def handle_event(self, event):
         if event.type == "key":
@@ -123,6 +168,9 @@ class TextInputB(NodeB):
         if event.type == "speckey":
             if event.key == "backspace":
                 self.text = self.text[:-1]
+            elif event.key == "enter":
+                if self.callback:
+                    self.callback(self.text)
 
 
 class ToggleButtonB(NodeB):
