@@ -13,6 +13,7 @@ class DefaultRenderer:
             font_path = find_reasonable_font()
         self.ctx = window.ctx
         self.font_render = font_render or DirectFontRender(self.ctx, font, font_path=font_path)
+        self.font_render.flip_y = True
         self.drawer = ShapeDrawer(self.ctx)
         self.node = node
         self.window = window
@@ -50,7 +51,7 @@ class DefaultRenderer:
 
             pos = MVec(node.position + node.size // 2)
             pos.x -= size // 2
-            pos.y -= self.font_render.calc_height(node.text, scale=used_scale) // 2
+            pos.y += self.font_render.calc_height(node.text, scale=used_scale) // 2
             self.queue_text(node.text, *pos, scale=used_scale)
 
     def render(self):
@@ -63,7 +64,7 @@ class DefaultRenderer:
             self.render_node(current)
             for child in current.children:
                 queue.append(child)
-        matrix = Matrix4.orthogonal_projection(0, self.window.width, 0, self.window.height, -1, 1)
+        matrix = Matrix4.orthogonal_projection(0, self.window.width, self.window.height, 0, -1, 1)
         self.drawer.render(mvp=matrix, change_context_state=False)
         for text in self.text_queue:
             self.font_render.render_string(*text, mvp=matrix)

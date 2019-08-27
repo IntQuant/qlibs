@@ -37,7 +37,7 @@ class DirectFontRender:
     """
       Render text using font
     """
-    def __init__(self, ctx, font: freetype.Face, font_path=None, pixel_size=48):
+    def __init__(self, ctx, font: freetype.Face, font_path=None, pixel_size=48, flip_y=False):
         """
         *ctx* is a moderngl context
         *font_path* will be used if *font* is None
@@ -50,6 +50,7 @@ class DirectFontRender:
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
         self.vao = None
         self.buffer = None
+        self.flip_y = flip_y
     
     def get_glyph(self, char):
         glyph = self.cache.get(char, None)
@@ -77,16 +78,29 @@ class DirectFontRender:
             h = glyph.size.y * scale
             w = glyph.size.x * scale
             
-            posy = pos.y - (glyph.size.y - glyph.bearing.y) * scale
+            if self.flip_y:
+                posy = pos.y - glyph.bearing.y*scale
+            else:
+                posy = pos.y - (glyph.size.y - glyph.bearing.y) * scale
             
-            data = array("f", (
-                pos.x, posy + h, 0, 0,
-                pos.x, posy, 0, 1,
-                pos.x + w, posy, 1, 1,
-                pos.x, posy + h, 0, 0,
-                pos.x + w, posy, 1, 1,
-                pos.x + w, posy + h, 1, 0
-            ))
+            if self.flip_y:
+                data = array("f", (
+                    pos.x, posy + h, 0, 1,
+                    pos.x, posy, 0, 0,
+                    pos.x + w, posy, 1, 0,
+                    pos.x, posy + h, 0, 1,
+                    pos.x + w, posy, 1, 0,
+                    pos.x + w, posy + h, 1, 1
+                ))
+            else:
+                data = array("f", (
+                    pos.x, posy + h, 0, 0,
+                    pos.x, posy, 0, 1,
+                    pos.x + w, posy, 1, 1,
+                    pos.x, posy + h, 0, 0,
+                    pos.x + w, posy, 1, 1,
+                    pos.x + w, posy + h, 1, 0
+                ))
             
             if self.vao is None:
                 self.buffer = self.ctx.buffer(data)

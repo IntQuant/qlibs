@@ -23,6 +23,7 @@ class Window:
         self.mouse_button_callback = None
         self.key_callback = None
         self.spec_key_callback = None
+        self.flip_mouse_y = True #flipped relativly to usual math-y respresentation
 
         glfw.init()
         for k, v in hint_conf.items():
@@ -74,11 +75,17 @@ class Window:
     @property
     def mouse_pos(self):
         x, y = glfw.get_cursor_pos(self.window)
-        return x, self.height-y
+        if self.flip_mouse_y:
+            return x, y    
+        else:
+            return x, self.height-y
     
     def on_mouse_motion(self, window, x, y):
         if self.mouse_motion_callback:
-            self.mouse_motion_callback(window, x, self.height - y)
+            if self.flip_mouse_y:
+                self.mouse_motion_callback(window, x, y)
+            else:
+                self.mouse_motion_callback(window, x, self.height - y)
 
     def on_mouse_button(self, window, button, action, mods):
         if self.mouse_button_callback:
