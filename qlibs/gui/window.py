@@ -74,6 +74,9 @@ class Window:
     def should_close(self, x):
         glfw.set_window_should_close(self.window, x)
     
+    def close(self):
+        glfw.destroy_window(self.window)
+
     @property
     def mouse_pos(self):
         x, y = glfw.get_cursor_pos(self.window)

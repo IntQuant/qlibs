@@ -5,8 +5,7 @@ from qlibs.gui.window import Window
 import time
 import moderngl
 
-win = Window()
-ctrl = WindowWidgetController()
+
 
 centerer = CentererB(100, 100)
 placer = ColumnPlacerB()
@@ -33,6 +32,8 @@ placer.add_child(pb, 0.05)
 centerer.add_child(placer)
 #centerer.add_child(pb)
 
+win = Window()
+ctrl = WindowWidgetController()
 ctrl.set_window_node(win, centerer)
 ctrl.assign_to_window(win)
 rend = DefaultRenderer(win, centerer)
