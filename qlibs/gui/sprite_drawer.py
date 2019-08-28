@@ -85,7 +85,7 @@ class SpriteDrawer:
             self.buffer.write(data)
         self.texture.use()
         try_write(self.program, "mvp", mvp.bytes())
-        self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data))
+        self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data)//4) #TODO: test this
         if reset:
             self.prepare()
         

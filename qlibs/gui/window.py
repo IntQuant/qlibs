@@ -21,6 +21,7 @@ class Window:
         self.resize_callback = None
         self.mouse_motion_callback = None
         self.mouse_button_callback = None
+        self.scroll_callback = None
         self.key_callback = None
         self.spec_key_callback = None
         self.flip_mouse_y = True #flipped relativly to usual math-y respresentation
@@ -40,6 +41,7 @@ class Window:
         glfw.set_mouse_button_callback(self.window, self.on_mouse_button)
         glfw.set_char_mods_callback(self.window, self.on_key_press)
         glfw.set_key_callback(self.window, self.on_spec_key_press)
+        glfw.set_scroll_callback(self.window, self.on_scroll)
 
         self.ctx = moderngl.create_context()
 
@@ -80,6 +82,10 @@ class Window:
         else:
             return x, self.height-y
     
+    def on_scroll(self, window, x, y):
+        if self.scroll_callback:
+            self.scroll_callback(window, x, y)
+
     def on_mouse_motion(self, window, x, y):
         if self.mouse_motion_callback:
             if self.flip_mouse_y:

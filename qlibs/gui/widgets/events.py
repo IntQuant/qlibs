@@ -9,9 +9,11 @@ class GUIEvent:
 
 class MouseEvent(GUIEvent):
     type = "mouse"
-    def __init__(self, x, y, pressed):
+    def __init__(self, x, y, pressed, scroll_up=False, scroll_down=False):
         self.pos = IVec(x, y)
         self.pressed = pressed
+        self.scroll_up = scroll_up
+        self.scroll_down = scroll_down
 
 
 class KeyMods:

@@ -181,8 +181,10 @@ class WindowWidgetController:
         node.size = IVec(width, height)
         node.recalc_size()
     
-    def send_mouse_event(self, window):
-        event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed)
+    def send_mouse_event(self, window, scroll_y=0):
+        up = scroll_y > 0
+        down = scroll_y < 0
+        event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed, up, down)
         self.get_window_node(window).handle_event(event)
 
     def mouse_position_handler(self, window, x, y):
@@ -192,18 +194,20 @@ class WindowWidgetController:
         self.send_mouse_event(window)
     
     def mouse_button_handler(self, window, button, action, mods):
-        node = self.get_window_node(window)
+        node = self.get_window_node(window) #Is this required?
         if button == glfw.MOUSE_BUTTON_LEFT:
             self.mouse_pressed = action
         self.send_mouse_event(window)
         if button == glfw.MOUSE_BUTTON_LEFT and action == glfw.PRESS:
             self.check_reselect(window)
     
+    def scroll_handler(self, window, x, y):
+        self.send_mouse_event(window, scroll_y=y)
+
     def handle_to_selected(self, window, event):
         node = self.get_selected_node(window)
         if node is not None:
             node.handle_event(event)
-
 
     def check_reselect(self, window):
         queue = deque()
@@ -239,6 +243,7 @@ class WindowWidgetController:
         win.key_callback = self.key_handler
         win.spec_key_callback = self.spec_key_handler
         win.resize_callback = self.resize_handler
+        win.scroll_callback = self.scroll_handler
         
         node = self.get_window_node(win)
         node.size = win.width, win.height
@@ -246,12 +251,12 @@ class WindowWidgetController:
         self.mouse_x, self.mouse_y = win.mouse_pos
         self.mouse_pressed = False
 
-    
     def unassign_from_window(self, win):
         win.mouse_motion_callback = None
         win.mouse_button_callback = None
         win.key_callback = None
         win.resize_callback = None
         win.spec_key_callback = None
+        win.scroll_callback = None
     
     

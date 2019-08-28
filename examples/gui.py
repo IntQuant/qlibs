@@ -10,13 +10,14 @@ ctrl = WindowWidgetController()
 
 centerer = CentererB(100, 100)
 placer = ColumnPlacerB()
-
-for i in range(5):
+bplacer = ScrollableListB()
+for i in range(20):
     button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Текст на кнопке {i}")
     #c = CentererB(10, 10)
     #c.add_child(button)
-    placer.add_child(button)
+    bplacer.add_child(button)
 
+placer.add_child(bplacer)
 placer.add_child(TextInputB())
 row_placer = RowPlacerB()
 

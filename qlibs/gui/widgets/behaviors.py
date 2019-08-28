@@ -46,7 +46,6 @@ class NodeB:
         self._size = IVec(val)
 
     def recalc_size(self):
-        #Not sure if this is required
         for child in self.children:
             child.recalc_size()
     
@@ -107,11 +106,12 @@ class CentererB(NodeB):
 
 class RCPlacerB(NodeB):
     type = "rcplacer"
-    def __init__(self, spacing=2, vertical=True):
+    def __init__(self, spacing=2, vertical=True, max_size=1):
         super().__init__()
         self.spc = spacing
         self.vertical = vertical
         self.size_hints = list()
+        self.max_size = max_size
         
 
     def add_child(self, child, size_hint=None):
@@ -130,10 +130,12 @@ class RCPlacerB(NodeB):
             n = 1
 
         if self.vertical:
-            size = self.size.x-self.spc, (self.size.y*(1-used)/n)-self.spc
+            fr = min(self.max_size, (1-used)/n)
+            size =self.size.x-self.spc, (self.size.y*fr)-self.spc
             advancement_index = 1
         else:
-            size = (self.size.x*(1-used)/n)-self.spc, (self.size.y)-self.spc
+            fr = min(self.max_size, (1-used)/n)
+            size = self.size.x*fr-self.spc, (self.size.y)-self.spc
             advancement_index = 0
         
         pos = MVec(self.position)
@@ -243,3 +245,45 @@ class ProgressBarB(NodeB):
     def __init__(self):
         self.fraction = 0
         super().__init__()
+
+
+class ScrollableListB(NodeB):
+    type = "scrollablelist"
+    def __init__(self, shown_items=10):
+        super().__init__()
+        self.full_list = []
+        self.cursor = 0
+        self.shown_items = shown_items
+        self.placer = ColumnPlacerB()
+        self.placer.max_size = 1 / self.shown_items
+        self.children.append(self.placer)
+    
+    def add_child(self, child):
+        self.full_list.append(child)
+        self.update_view()
+    
+    def update_view(self):
+        self.placer.children = self.full_list[self.cursor:self.cursor+self.shown_items]
+        self.recalc_size()
+
+    def handle_event(self, event):
+        if event.type == "mouse":
+            if (self.position.x <= event.pos.x <= self.position.x + self.size.x 
+            and self.position.y <= event.pos.y <= self.position.y + self.size.y):
+                
+                if event.scroll_up:
+                    if self.cursor > 0:
+                        self.cursor -= 1
+                        self.update_view()
+                if event.scroll_down:
+                    if self.cursor < len(self.full_list):
+                        self.cursor += 1
+                        self.update_view()
+
+        super().handle_event(event)
+    
+    def recalc_size(self):
+        for child in self.children:
+            child.size = self.size
+            child.position = self.position
+            child.recalc_size()

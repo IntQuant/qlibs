@@ -76,9 +76,9 @@ class ShapeDrawer:
                 self.program, self.buffer, "in_vert", "color"
             )
         self.buffer.write(self.tr_buffer)
-        self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer))
+        self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer)//7)
         self.buffer.write(self.li_buffer)
-        self.vao.render(moderngl.LINES, vertices=len(self.li_buffer))
+        self.vao.render(moderngl.LINES, vertices=len(self.li_buffer)//7)
         
         if reset:
             self.prepare()
