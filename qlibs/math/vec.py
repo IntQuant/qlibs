@@ -2,7 +2,7 @@ import math
 from numbers import Number
 from array import array
 
-from ..net.qpacket import conv_lookup, convert, make_qlibs_obj_id
+#from ..net.qpacket import conv_lookup, convert, make_qlibs_obj_id
 
 VERTNAMES = {"x": 0, "y": 1, "z": 2, "w": 3}
 NUMERICAL = Number
@@ -162,7 +162,7 @@ class IVec:  # Making those immutable is a good idea, right?
         if n <= len(self):
             return self.__class__(self.v[:n])
         else:
-            return self.__class__(self.v + ([0] * (n - len(self))))
+            return self.__class__(self.v + tuple([0] * (n - len(self))))
 
     def bytes(self, dtype="f"):
         return array("f", self.v).tobytes()
@@ -190,6 +190,12 @@ class MVec(IVec):
         for i, e in enumerate(self.v):
             self.v[i] = e / ln
 
+    def as_n_d(self, n):
+        if n <= len(self):
+            return self.__class__(self.v[:n])
+        else:
+            return self.__class__(self.v + ([0] * (n - len(self))))
+
 Vec = MVec #Deprecated
-conv_lookup.register(IVec, make_qlibs_obj_id(1))
-conv_lookup.register(MVec, make_qlibs_obj_id(2))
+#conv_lookup.register(IVec, make_qlibs_obj_id(1))
+#conv_lookup.register(MVec, make_qlibs_obj_id(2))

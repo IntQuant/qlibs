@@ -166,15 +166,15 @@ class Matrix4:
         if isinstance(other, IVec):
             res = [0, 0, 0, 0]
             if len(other) != 4:
-                other = other.as_n_d(4)
+                other = Vec(other.as_n_d(4))
                 other[3] = 1
 
             for i in range(4):
                 res[i] = (
-                    self[i, 0] * other[0]
-                    + self[i, 1] * other[1]
-                    + self[i, 2] * other[2]
-                    + self[i, 3] * other[3]
+                    self[0, i] * other[0]
+                    + self[1, i] * other[1]
+                    + self[2, i] * other[2]
+                    + self[3, i] * other[3]
                 )
             return IVec(res)
 
@@ -307,8 +307,10 @@ class Matrix4:
         """
         Converts internal array to bytes
         """
-        if isinstance(self._data, array):
-            assert self._data.typecode == dtype
-            return self._data.tobytes()
-        else:
-            return string_at(self._data, 64)
+        assert self._data.typecode == dtype #TODO Proper error handling
+        return self._data.tobytes()
+        #if isinstance(self._data, array):
+        #    assert self._data.typecode == dtype
+        #    return self._data.tobytes()
+        #else:
+        #    return string_at(self._data, 64)

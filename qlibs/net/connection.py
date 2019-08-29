@@ -1,5 +1,5 @@
 from collections import deque
-from . import qpacket
+from . import qpacket #TODO - remove this
 
 BYTE_ORDER = "big"
 INT_SIZE = 4

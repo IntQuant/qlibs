@@ -12,19 +12,19 @@ class ByteBuffer:
         len_found = 0
         collected = []
         while len_found < read_size:
-            d = self.data.pop()
+            d = self.data.popleft()
             left = read_size - len_found
             len_found += len(d)
             if len(d) > left:
                 collected.append(d[:left])
-                self.data.append(d[left:])
+                self.data.appendleft(d[left:])
             else:
                 collected.append(d)
         
         return self.join_with.join(collected)
     
     def write(self, data):
-        self.data.appendleft(data)
+        self.data.append(data)
     
     def peek(self, size=None):
         tl = 0
