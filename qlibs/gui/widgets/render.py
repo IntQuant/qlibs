@@ -24,6 +24,7 @@ class DefaultRenderer:
         self.pbspcm = 2
         self.pbspcs = 4
         self.text_limit = 256
+        self.max_text_size = 100000
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
@@ -50,7 +51,7 @@ class DefaultRenderer:
 
             
 
-            used_scale = node.size.y
+            used_scale = min(node.size.y, self.max_text_size)
             size = self.font_render.calc_size(text, scale=used_scale)
             if size > 0 and size > node.size.x:
                 used_scale *= node.size.x / size
