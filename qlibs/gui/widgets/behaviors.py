@@ -186,8 +186,6 @@ class TextInputB(NodeB):
                 if self.cursor > 0:
                     self.text = self.text[:self.cursor-1] + self.text[self.cursor:]
                     self.cursor -= 1
-                if self.cursor < 0:
-                    self.cursor = 0
             elif event.key == "delete":
                 if self.cursor < len(self.text):
                     self.text = self.text[:self.cursor] + self.text[self.cursor+1:]

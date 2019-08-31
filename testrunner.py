@@ -8,6 +8,13 @@ from qlibs.resources import resource_loader
 from socket import socketpair
 from qlibs.collections import ByteBuffer
 
+import qlibs.gui.basic_shapes
+import qlibs.gui.sprite_drawer
+import qlibs.gui.window
+import qlibs.gui.widgets.behaviors
+import qlibs.gui.widgets.controller
+import qlibs.gui.widgets.render
+
 class VecTestCase(unittest.TestCase):
     def test_dot(self):
         self.assertTrue(MVec(-12, 16).dot(MVec(12, 9)) == 0)
@@ -105,8 +112,6 @@ class MatrixTestCase(unittest.TestCase):
         self.assertIn("Matrix4", v)
     
 
-
-
 class LoaderTestCase(unittest.TestCase):
     def test_prefix_path(self):
         loader = resource_loader.Loader()
@@ -145,6 +150,27 @@ class ByteBufferTestCase(unittest.TestCase):
         self.assertEqual("c", bb.read(1))
         self.assertFalse(bb.has_values())
         
+
+class FontLoaderTestCase(unittest.TestCase):
+    #Test if it does not crash
+    def test_win(self):
+        import sys
+        init_platform = sys.platform
+        sys.platform = "win"
+        try:
+            qlibs.fonts.font_search.find_reasonable_font()
+        finally:
+            sys.platform = init_platform
+
+    def test_linux(self):
+        import sys
+        init_platform = sys.platform
+        sys.platform = "linux"
+        try:
+            qlibs.fonts.font_search.find_reasonable_font()
+        finally:
+            sys.platform = init_platform
+
 
 if __name__ == "__main__":
     unittest.main()

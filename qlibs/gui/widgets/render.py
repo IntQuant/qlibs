@@ -24,7 +24,7 @@ class DefaultRenderer:
         self.pbspcm = 2
         self.pbspcs = 4
         self.text_limit = 256
-        self.max_text_size = 100000
+        self.max_text_size = 32
     
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))

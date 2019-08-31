@@ -21,7 +21,7 @@ placer.add_child(TextInputB())
 row_placer = RowPlacerB()
 
 row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 0.1)
-row_placer.add_child(TextInputB())
+row_placer.add_child(TextInputB(callback=print))
 
 placer.add_child(row_placer)
 
@@ -47,3 +47,6 @@ while not win.should_close:
     pb.fraction = (time.time()%10)/10
     #win.poll_events()
     #time.sleep(0.05)
+
+#Just for tests
+ctrl.unassign_from_window(win)

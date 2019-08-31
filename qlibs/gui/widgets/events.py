@@ -3,8 +3,6 @@ from ...math import IVec
 class GUIEvent:
     type = "gui"
     shall_pass = True
-    def __init__(self):
-        pass
 
 
 class MouseEvent(GUIEvent):
