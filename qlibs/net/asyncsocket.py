@@ -77,6 +77,7 @@ class PacketSocket:
 
         self._gen.send(None)
         self.reset = False
+        self.storage = []
     
     def send(self, data:bytes = None):
         """Try to send data to socket; this is buffered"""
@@ -88,7 +89,8 @@ class PacketSocket:
     
     def recv(self, size=RECVSIZE):
         """Recieve data from socket and feed it to generator"""
-        result = []
+        result = self.storage
+        result.clear()
         try:
             data = self.socket.recv(size)
             for b in data:
@@ -100,9 +102,17 @@ class PacketSocket:
             self.reset = True
             print(e)
             return result
+    
+    @property
+    def closed(self):
+        return self.reset
+
     def empty(self):
         """True if no values to send left"""
         return self.socket.empty()
+
+    def fileno(self):
+        return self.socket.fileno()
 
 class AsyncUDPSocket:
     """
@@ -145,6 +155,8 @@ class AsyncUDPSocket:
             return True
         except BlockingIOError:
             return False
+    
+    
 
 
 class SelSockType(Enum):
@@ -198,6 +210,38 @@ class ServerSelector:
             self.register(reg)
         
     
-    
-    
+def bytes_packet_sender(data):
+    #print("Sending %s of len %s" % (data, len(data)))
+    n = len(data)
+    #assert n < 256
+    lres = list()
+    while n > 0b1111111:
+        lres.append((n & 0b1111111) | 0b10000000)
+        n >>= 7
+    lres.append(n)
+    #lres.reverse()
+    return bytes([n]) + data
+
+def bytes_packet_reciever(sock):
+    while True:
+        l = 0
+        #print("recv %s" % l)
+        n = 0b10000000
+        i = 0
+        while n & 0b10000000 > 0:
+            n = yield
+            l = l + (n & 0b1111111) << (7*i)
+            i += 1
+        res = []
+        for _ in range(l):
+            #print(_)
+            res.append((yield))
+        
+        #print("Recieved", res, bytes(res))
+        sock.storage.append(bytes(res))
+            
+                
+            
+
+
     
