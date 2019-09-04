@@ -100,7 +100,7 @@ class PacketSocket:
             return result
         except (ConnectionResetError, OSError) as e:
             self.reset = True
-            print(e)
+            print(e) #Probably need to remove this, hovewer useful when sockets are broken
             return result
     
     @property

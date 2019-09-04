@@ -1,7 +1,8 @@
 from qlibs.gui.widgets.behaviors import *
-from qlibs.gui.widgets.controller import WindowWidgetController
-from qlibs.gui.widgets.render import DefaultRenderer
-from qlibs.gui.window import Window
+from qlibs.gui.widgets.app import App
+#from qlibs.gui.widgets.controller import WindowWidgetController
+#from qlibs.gui.widgets.render import DefaultRenderer
+#from qlibs.gui.window import Window
 import time
 import moderngl
 
@@ -32,21 +33,25 @@ placer.add_child(pb, 0.05)
 centerer.add_child(placer)
 #centerer.add_child(pb)
 
-win = Window()
-ctrl = WindowWidgetController()
-ctrl.set_window_node(win, centerer)
-ctrl.assign_to_window(win)
-rend = DefaultRenderer(win, centerer)
+#win = Window()
+#ctrl = WindowWidgetController()
+#ctrl.set_window_node(win, centerer)
+#ctrl.assign_to_window(win)
+#rend = DefaultRenderer(win, centerer)
 
-while not win.should_close:
-    win.ctx.clear(0, 0, 0)
+#while not win.should_close:
+#    win.ctx.clear(0, 0, 0)
     #win.ctx.enable_only(moderngl.BLEND)
-    rend.render()
-    win.swap()
-    win.wait_events(0.05)
-    pb.fraction = (time.time()%10)/10
+#    rend.render()
+#    win.swap()
+#    win.wait_events(0.05)
+#    pb.fraction = (time.time()%10)/10
     #win.poll_events()
     #time.sleep(0.05)
 
+app = App(centerer)
+while not app.should_close:
+    app.render()
+
 #Just for tests
-ctrl.unassign_from_window(win)
+#ctrl.unassign_from_window(win)

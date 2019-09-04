@@ -4,7 +4,7 @@ import struct
 from threading import Lock, Thread
 import time
 
-base_struct = struct.Struct("!iiii")
+base_struct = struct.Struct("!iiid")
 
 class PlayerJoinedEvent:
     name = "playerjoined"
@@ -33,11 +33,13 @@ class PayloadEvent:
 
 class ReadyEvent:
     name = "ready"
+    def __init__(self, timedelta):
+        self.timedelta = timedelta
 
 
 def convert_event(event):
     if event.name == "ready":
-        return base_struct.pack(1, 0, 0, 0)
+        return base_struct.pack(1, 0, 0, event.timedelta)
     elif event.name == "payload":
         return base_struct.pack(2, event.player_id, 0, 0) + event.data
     elif event.name == "playerjoined":
@@ -63,6 +65,7 @@ class MultiplexServer:
         self.ready_players = set()
         self.players = 0
         self.run_thread = True
+        self.last_ready = time.monotonic()
 
     def on_connect(self, sock, addr):
         print("Connection from", addr)
@@ -95,7 +98,6 @@ class MultiplexServer:
             if aux_data[0] == 1: #Ready
                 self.ready_players.add(player_id)
                 self.check_all_ready()
-                
             elif aux_data[0] == 2: #Data
                 self.events.append(PayloadEvent(player_id, payload))
     
@@ -104,7 +106,9 @@ class MultiplexServer:
             self.all_ready()
     
     def all_ready(self):
-        self.events.append(ReadyEvent())
+        curr = time.monotonic()
+        self.events.append(ReadyEvent(curr-self.last_ready))
+        self.last_ready = curr
         for event in self.events:
             self.passed_events.append(event) #TODO: Send events when they are recieved
             packet = bytes_packet_sender(convert_event(event))
@@ -122,7 +126,8 @@ class MultiplexServer:
 
 class MultiplexClient:
     def __init__(self, engine, host="localhost", port=55126):
-        #Engine should be a class with step method, accepting list
+        #Engine should be a class with step method, accepting float(deltatime) and list of events
+        #Also it can have state property
         sock = socket.socket()
         sock.connect((host, port))
         self.socket = PacketSocket(sock, bytes_packet_reciever)
@@ -136,16 +141,17 @@ class MultiplexClient:
         self.recv_packets()
         
     def recv_packets(self):
-        #print("recv")
+        #TODO timedelta recieving
+        #TODO stop on lost connection
         packets = self.socket.recv()
         for packet in packets:
             aux_data, payload = packet[:base_struct.size], packet[base_struct.size:]
             aux_data = base_struct.unpack(aux_data)
-            #print("Recieved packet")
+            
             if aux_data[0] == 0:
                 self.player_id = aux_data[1]
             elif aux_data[0] == 1: #Next step
-                self.engine.step(self.packets)
+                self.engine.step(aux_data[3], self.packets)
                 self.packets.clear()
                 self.ready_to_step = True
             elif aux_data[0] == 2:
@@ -156,13 +162,11 @@ class MultiplexClient:
                 self.packets.append(PlayerLeftEvent(aux_data[1]))
     
     def step(self):
-        #print("Step")
         if self.ready_to_step and time.time() - self.last_step > self.min_step_time:
-            #print("Acquiring lock")
             with self.socket_lock:
-                #print("ready")
                 self.last_step = time.time()
                 self.socket.send(bytes_packet_sender(base_struct.pack(1, 0, 0, 0)))
+        self.socket.send()
         self.recv_packets()
     
     def send_payload(self, data):
