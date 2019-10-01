@@ -3,6 +3,8 @@ import socket
 import struct
 from threading import Lock, Thread
 import time
+import logging
+logger = logging.getLogger("qlibs.net.multiplexer")
 
 base_struct = struct.Struct("!iiid")
 
@@ -25,6 +27,8 @@ class PlayerLeftEvent:
 class PayloadEvent:
     name = "payload"
     def __init__(self, player_id, data):
+        if type(data) != bytes:
+            raise ValueError("Data is not bytes")
         self.player_id = player_id
         self.data = data
     def __repr__(self):
@@ -37,6 +41,17 @@ class ReadyEvent:
         self.timedelta = timedelta
 
 
+class ReconstructEvent:
+    name = "reconstruct"
+    def __init__(self, data):
+        if type(data) != bytes:
+            raise ValueError("Data is not bytes")
+        self.data = data
+
+
+class MultiplexerException(Exception): pass
+
+
 def convert_event(event):
     if event.name == "ready":
         return base_struct.pack(1, 0, 0, event.timedelta)
@@ -46,12 +61,14 @@ def convert_event(event):
         return base_struct.pack(3, event.player_id, 0, 0)
     elif event.name == "playerleft":
         return base_struct.pack(4, event.player_id, 0, 0)
+    elif event.name == "reconstruct":
+        return base_struct.pack(5, 0, 0, 0) + event.data
     else:
         raise ValueError("Unknown event %s" % event)
 
 
 class MultiplexServer:
-    def __init__(self, host="0.0.0.0", port=55126):
+    def __init__(self, host="0.0.0.0", port=55126, engine_packer=None):
         sock = socket.socket()
         sock.bind((host, port))
         sock.listen()
@@ -66,19 +83,34 @@ class MultiplexServer:
         self.players = 0
         self.run_thread = True
         self.last_ready = time.monotonic()
+        self.engine_packer = engine_packer
+        self.state = None
+        #if self.engine_packer is not None:
+        #    self.state = self.engine_packer()
+        self.last_pack = time.monotonic()
+        self.pack_delay = 2
 
     def on_connect(self, sock, addr):
-        print("Connection from", addr)
+        logger.info("Connection from %s", addr)
         self.current_player_id += 1
         self.fd_to_id[sock.fileno()] = self.current_player_id
         sock = PacketSocket(sock, bytes_packet_reciever)
         data = base_struct.pack(0, self.current_player_id, self.step, 0) #Hello packet
         sock.send(bytes_packet_sender(data))
+        if self.engine_packer is not None:
+            if time.monotonic() - self.last_pack > self.pack_delay:
+                self.state = self.engine_packer() or self.state
+        if self.state is not None:
+            self.passed_events.clear()
+            self.last_pack = time.monotonic()
+            pl = convert_event(ReconstructEvent(self.state))
+            logger.debug("Sending reconstruct packet len %s", len(pl))
+            sock.send(bytes_packet_sender(pl))
         self.events.append(PlayerJoinedEvent(self.current_player_id))
         for event in self.passed_events:
             sock.send(bytes_packet_sender(convert_event(event)))
         self.players += 1
-        print("Done, currently", self.players, "online")
+        logger.info("Done, currently %s online", self.players)
         return sock
     
     def on_read(self, sock):
@@ -87,7 +119,7 @@ class MultiplexServer:
             self.socket_selector.unregister(sock)
             self.events.append(PlayerLeftEvent(player_id))
             self.players -= 1
-            print("Player left")
+            logger.info("Player left")
             self.ready_players.discard(player_id)
             self.check_all_ready()
             return
@@ -104,6 +136,7 @@ class MultiplexServer:
     def check_all_ready(self):
         if len(self.ready_players) == self.players:
             self.all_ready()
+            self.ready_players.clear()
     
     def all_ready(self):
         curr = time.monotonic()
@@ -124,33 +157,39 @@ class MultiplexServer:
         self._thread = Thread(target=self.serve_forever, daemon=True, name="multiplexer server")
         self._thread.start()
 
+    def stop_thread(self):
+        self.run_thread = False
+
 class MultiplexClient:
-    def __init__(self, engine, host="localhost", port=55126):
+    def __init__(self, engine, engine_constructor=None, host="localhost", port=55126):
         #Engine should be a class with step method, accepting float(deltatime) and list of events
-        #Also it can have state property
         sock = socket.socket()
         sock.connect((host, port))
         self.socket = PacketSocket(sock, bytes_packet_reciever)
         self.engine = engine
+        self.engine_constructor = engine_constructor
         self.packets = list()
         self.player_id = None
         self.socket_lock = Lock()
         self.ready_to_step = True
         self.last_step = 0
+        self.last_confirmed_step = 0
         self.min_step_time = 0.5
         self.recv_packets()
         
     def recv_packets(self):
-        #TODO timedelta recieving
-        #TODO stop on lost connection
         packets = self.socket.recv()
         for packet in packets:
+            #print(packet)
             aux_data, payload = packet[:base_struct.size], packet[base_struct.size:]
-            aux_data = base_struct.unpack(aux_data)
-            
+            try:
+                aux_data = base_struct.unpack(aux_data)
+            except struct.error as e:
+                raise
             if aux_data[0] == 0:
                 self.player_id = aux_data[1]
             elif aux_data[0] == 1: #Next step
+                self.last_confirmed_step = time.monotonic()
                 self.engine.step(aux_data[3], self.packets)
                 self.packets.clear()
                 self.ready_to_step = True
@@ -160,13 +199,20 @@ class MultiplexClient:
                 self.packets.append(PlayerJoinedEvent(aux_data[1]))
             elif aux_data[0] == 4:
                 self.packets.append(PlayerLeftEvent(aux_data[1]))
+            elif aux_data[0] == 5:
+                if self.engine_constructor is None:
+                    raise MultiplexerException("Server requested engine reconstruction but engine_constructor is None")
+                logging.debug("Reconstructing engine")
+                print("r")
+                self.engine = self.engine_constructor(payload)
     
     def step(self):
-        if self.ready_to_step and time.time() - self.last_step > self.min_step_time:
+        if self.ready_to_step and time.monotonic() - self.last_step > self.min_step_time:
             with self.socket_lock:
-                self.last_step = time.time()
+                self.last_step = time.monotonic()
                 self.socket.send(bytes_packet_sender(base_struct.pack(1, 0, 0, 0)))
-        self.socket.send()
+        with self.socket_lock:
+            self.socket.send()
         self.recv_packets()
     
     def send_payload(self, data):
@@ -177,9 +223,12 @@ class MultiplexClient:
         while self._shall_continue:
             self.step()
             time.sleep(0.01)
+            if self.socket.reset:
+                logger.warning("Socket is reset, stopping client")
+                self._shall_continue = False
 
     def thread_runner(self):
-        self._thread = Thread(target=self._eternal_runner)
+        self._thread = Thread(target=self._eternal_runner, name="multiplex-client")
         self._shall_continue = True
         self._thread.start()
     

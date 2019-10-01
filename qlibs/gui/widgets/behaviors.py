@@ -14,7 +14,7 @@ except ImportError:
 
 class NodeB:
     """
-    Basic node behavior, does not do any effort to position it's children
+    Basic node behavior, does not do any anything to position it's children
     Rendering is separate from behaviors, which only handle events(including resizing)
     """
     type = "node"
@@ -102,7 +102,29 @@ class CentererB(NodeB):
             child.position = tpos
             child.size = tsize
         super().recalc_size()
-            
+
+
+class SizeLimitB(NodeB):
+    type = "centerer"
+    def __init__(self, targ_x, targ_y, child=None):
+        super().__init__()
+        self.targ_x = targ_x
+        self.targ_y = targ_y
+        if child is not None:
+            self.add_child(child)
+    
+    def recalc_size(self):
+        center_x = self.position.x + self.size.x / 2
+        center_y = self.position.y + self.size.y / 2
+
+        tx, ty = min(self.targ_x, self.size.x) / 2, min(self.targ_y, self.size.y) / 2
+        tpos = center_x - tx, center_y - ty
+        tsize = tx*2, ty*2
+        for child in self.children:
+            child.position = tpos
+            child.size = tsize
+        super().recalc_size()
+
 
 class RCPlacerB(NodeB):
     type = "rcplacer"

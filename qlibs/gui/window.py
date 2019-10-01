@@ -84,6 +84,10 @@ class Window:
             return x, y    
         else:
             return x, self.height-y
+
+    @property
+    def size(self):
+        return (self.width, self.height)
     
     def on_scroll(self, window, x, y):
         if self.scroll_callback:

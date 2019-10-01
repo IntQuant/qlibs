@@ -105,6 +105,9 @@ loader = MergerLoader([])
 def add_loader(loader_):
     loader.loaders.append(loader_)
 
+def add_location(rel, location, prefix=None):
+    add_loader(SearchLocationLoader(os.path.join(os.path.dirname(rel), location), prefix))
+
 loader.loaders.append(SearchLocationLoader(get_lib_res_path(), prefix="qlibs/"))
 
 

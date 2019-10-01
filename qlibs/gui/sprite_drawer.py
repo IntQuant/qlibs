@@ -19,6 +19,8 @@ class SpriteDrawer:
         self.ctx = ctx
         self.program = get_storage_of_context(self.ctx).get_program(SHADER_VERTEX, SHADER_FRAGMENT)
         self.texture = self.ctx.texture_array(size, components, data=data)
+        self.texture.repeat_x = False
+        self.texture.repeat_y = False
         self.size = size
         self.prepare()
         self.buffer = None
@@ -85,7 +87,7 @@ class SpriteDrawer:
             self.buffer.write(data)
         self.texture.use()
         try_write(self.program, "mvp", mvp.bytes())
-        self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data)//4) #TODO: test this
+        self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data)//6) #TODO: test this
         if reset:
             self.prepare()
         

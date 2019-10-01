@@ -3,8 +3,8 @@ from .render import DefaultRenderer
 from ..window import Window
 
 class App:
-    def __init__(self, node, **kwargs):
-        self.win = Window(**kwargs)
+    def __init__(self, node, win=None, **kwargs):
+        self.win = win or Window(**kwargs)
         self.ctrl = WindowWidgetController()
         self.ctrl.set_window_node(self.win, node)
         self.ctrl.assign_to_window(self.win)
@@ -16,6 +16,12 @@ class App:
         self.rend.render()
         self.win.swap()
         self.win.wait_events(wait_time)
+
+    def set_node(self, node):
+        self.node = node
+        self.rend.node = node
+        self.ctrl.set_window_node(self.win, node)
+        
 
     @property
     def should_close(self):

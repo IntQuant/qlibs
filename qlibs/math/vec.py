@@ -167,6 +167,9 @@ class IVec:  # Making those immutable is a good idea, right?
     def bytes(self, dtype="f"):
         return array("f", self.v).tobytes()
 
+    def __getstate__(self): return self.v
+    def __setstate__(self, d): self.v = d
+
 
 class MVec(IVec):
     """

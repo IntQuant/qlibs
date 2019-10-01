@@ -9,6 +9,10 @@ from enum import Enum
 from ..collections import ByteBuffer
 from typing import Union, Tuple, Any, Callable
 
+import logging
+
+logger = logging.getLogger("qlibs.net.asyncsocket")
+
 RECVSIZE = 1024 * 8
 
 class AsyncSocket:
@@ -84,7 +88,7 @@ class PacketSocket:
         try:
             self.socket.send(data)
         except (ConnectionResetError, OSError) as e:
-            print(e)
+            logger.debug(e)
             self.reset = True
     
     def recv(self, size=RECVSIZE):
@@ -157,8 +161,6 @@ class AsyncUDPSocket:
             return False
     
     
-
-
 class SelSockType(Enum):
     ACCEPTER = "accept"
     NORMAL = "normal"
@@ -211,33 +213,26 @@ class ServerSelector:
         
     
 def bytes_packet_sender(data):
-    #print("Sending %s of len %s" % (data, len(data)))
     n = len(data)
-    #assert n < 256
     lres = list()
     while n > 0b1111111:
         lres.append((n & 0b1111111) | 0b10000000)
         n >>= 7
     lres.append(n)
-    #lres.reverse()
-    return bytes([n]) + data
+    return bytes(lres) + data
 
 def bytes_packet_reciever(sock):
     while True:
         l = 0
-        #print("recv %s" % l)
         n = 0b10000000
         i = 0
         while n & 0b10000000 > 0:
             n = yield
-            l = l + (n & 0b1111111) << (7*i)
+            l = l + ((n & 0b1111111) << (7*i))
             i += 1
         res = []
         for _ in range(l):
-            #print(_)
             res.append((yield))
-        
-        #print("Recieved", res, bytes(res))
         sock.storage.append(bytes(res))
             
                 

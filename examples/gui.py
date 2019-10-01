@@ -52,6 +52,7 @@ centerer.add_child(placer)
 app = App(centerer)
 while not app.should_close:
     app.render()
+    #win.wait_events()
 
 #Just for tests
 #ctrl.unassign_from_window(win)
