@@ -2,7 +2,65 @@ from ..gui.sprite_drawer import SpriteDrawer
 from ..resources.resource_loader import get_image_data
 from ..math import Matrix4, IDENTITY
 
-class SpriteMaster:
+class SpriteMasterBase:
+    """
+      Base SpriteMaster class which does not handle drawers.
+      Used for forking
+    """
+    def __init__(self, master):
+        self.derive_drawers(master)
+
+    def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
+        drawer_id, sprite_id = self.id_map[id_]
+        drawer = self.drawers[drawer_id]
+        drawer.add_sprite_rect(sprite_id, x, y, w, h, z, color)
+    
+    def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
+        drawer_id, sprite_id = self.id_map[id_]
+        drawer = self.drawers[drawer_id]
+        drawer.add_sprite_centered(sprite_id, x, y, w, h, z, color)
+
+    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1)):
+        drawer_id, sprite_id = self.id_map[id_]
+        drawer = self.drawers[drawer_id]
+        drawer.add_sprite_rotated(sprite_id, x, y, w, h, r, z, color)
+
+    def render(self, mvp=Matrix4(IDENTITY), reset=True):
+        for drawer in self.drawers:
+            drawer.render(mvp=mvp, reset=reset)
+
+    def render_centered(self, center, size, reset=True):
+        mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
+        self.render(mvp=mvp, reset=reset)
+    
+    def derive_drawers(self, master):
+        self.id_map = master.id_map
+        self.drawers = [drawer.fork() for drawer in master.drawers]
+
+
+class ObjectSpriteMaster:
+    def __init__(self, master):
+        self.derive_drawers(master)
+    
+    def add_sprite(self, id_, x, y, w, h, r=0, z=0, color=(1, 1, 1, 1)):
+        drawer_id, sprite_id = self.id_map[id_]
+        drawer = self.drawers[drawer_id]
+        return drawer.add_sprite(id_, x, y, w, h, r, z, color)
+
+    def render(self, mvp=Matrix4(IDENTITY)):
+        for drawer in self.drawers:
+            drawer.render()
+
+    def render_centered(self, center, size):
+        mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
+        self.render()
+    
+    def derive_drawers(self, master):
+        self.id_map = master.id_map
+        self.drawers = [drawer.fork() for drawer in master.drawers]
+
+
+class SpriteMaster(SpriteMasterBase):
     """
     Does loading, managing and drawing. All at once.
     Can also calculate mvps. Quite efficcent in terms of draw calls.
@@ -12,7 +70,8 @@ class SpriteMaster:
         self.drawers = list()
         self.id_map = dict()
         self.images = dict()
-        self.max_sprites_per_drawer = 256 #TODO: get this from ctx
+        self.max_sprites_per_drawer = ctx.info.get('GL_MAX_ARRAY_TEXTURE_LAYERS', 256)
+        self.forks = []
 
     def load_file(self, sprite_id, file_id):
         self.images[sprite_id] = get_image_data(file_id, mode="RGBA")
@@ -41,29 +100,15 @@ class SpriteMaster:
         
         #print(self.id_map)
         #And it is ready!
-    
-    def add_sprite_rect(self, id_, x, y, w, h, z=0):
-        drawer_id, sprite_id = self.id_map[id_]
-        drawer = self.drawers[drawer_id]
-        drawer.add_sprite_rect(sprite_id, x, y, w, h, z)
-    
-    def add_sprite_centered(self, id_, x, y, w, h, z=0):
-        drawer_id, sprite_id = self.id_map[id_]
-        drawer = self.drawers[drawer_id]
-        drawer.add_sprite_centered(sprite_id, x, y, w, h, z)
+        #Update forks
+        for fork in self.forks:
+            fork.derive_drawers(self)
 
-    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0):
-        drawer_id, sprite_id = self.id_map[id_]
-        drawer = self.drawers[drawer_id]
-        drawer.add_sprite_rotated(sprite_id, x, y, w, h, r, z)
-
-    def render(self, mvp=Matrix4(IDENTITY), reset=True):
-        for drawer in self.drawers:
-            drawer.render(mvp=mvp, reset=reset)
-
-    def render_centered(self, center, size, reset=True):
-        mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
-        self.render(mvp=mvp, reset=reset)
-            
+    def fork(self):
+        """
+          Create another sprite master with it's own set of buffers
+        """
+        fork = SpriteMasterBase(self)
+        self.forks.append(fork)
 
         

@@ -6,6 +6,9 @@ import time
 
 import moderngl
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 add_loader(SearchLocationLoader("/home/iquant/Документы"))
 
 win = Window()
@@ -22,7 +25,10 @@ for key in [
     print(key, win.ctx.info[key])
     
 
-drawer = SpriteDrawer(win.ctx, (64, 64, 1), img.data)
+drawer_ini = SpriteDrawer(win.ctx, (64, 64, 1), img.data)
+drawer = drawer_ini.fork()
+obj_drawer = drawer_ini.fork_object_mode()
+sprite = obj_drawer.add_sprite(0, 100, 50, 64, 64, 0, 0)
 
 size = 64
 
@@ -33,5 +39,7 @@ while not win.should_close:
     win.ctx.clear(0.5, 0.5, 0.5)
     mvp = Matrix4.orthogonal_projection(0, win.width, 0, win.height, -1, 1)
     drawer.render(mvp=mvp, reset=True)
+    obj_drawer.render(mvp=mvp)
+    #print("\r", obj_drawer.buffer.read(), end="", sep="")
     win.swap()
     win.wait_events()
