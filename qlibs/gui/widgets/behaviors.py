@@ -143,6 +143,7 @@ class RCPlacerB(NodeB):
     def recalc_size(self):
         n = len(self.children)
         used = 0
+        size_adjust = self.spc*2 * n
 
         for hint in self.size_hints:
             if hint is not None:
@@ -153,15 +154,15 @@ class RCPlacerB(NodeB):
 
         if self.vertical:
             fr = min(self.max_size, (1-used)/n)
-            size =self.size.x-self.spc, (self.size.y*fr)-self.spc
+            size = self.size.x, (self.size.y*fr)
             advancement_index = 1
         else:
             fr = min(self.max_size, (1-used)/n)
-            size = self.size.x*fr-self.spc, (self.size.y)-self.spc
+            size = self.size.x*fr, (self.size.y)
             advancement_index = 0
         
         pos = MVec(self.position)
-        
+
         for hint, child in zip_longest(self.size_hints, self.children):            
             if hint is not None:
                 if self.vertical:
@@ -171,8 +172,8 @@ class RCPlacerB(NodeB):
             else:
                 usize = size
             child.position = pos + MVec(self.spc, self.spc)
-            child.size = usize
-            pos[advancement_index] += usize[advancement_index] + self.spc
+            child.size = (usize[0] - self.spc*2, usize[1] - self.spc*2)
+            pos[advancement_index] += usize[advancement_index]
         super().recalc_size()
 
 

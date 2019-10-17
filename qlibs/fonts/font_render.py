@@ -67,6 +67,9 @@ class DirectFontRender:
         if enable_blending:
             self.ctx.enable_only(moderngl.BLEND)
         
+        if len(color) != 3:
+            raise ValueError("Invalid color - len 3 required")
+
         scale /= self.pixel_size
 
         pos = IVec(x, y)

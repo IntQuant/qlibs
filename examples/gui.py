@@ -10,6 +10,7 @@ import moderngl
 
 centerer = CentererB(100, 100)
 placer = ColumnPlacerB()
+#placer.spc = 20
 bplacer = ScrollableListB()
 for i in range(20):
     button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Текст на кнопке {i}")
@@ -18,17 +19,17 @@ for i in range(20):
     bplacer.add_child(button)
 
 placer.add_child(bplacer)
-placer.add_child(TextInputB())
+placer.add_child(TextInputB(), 0.1)
 row_placer = RowPlacerB()
 
 row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 0.1)
 row_placer.add_child(TextInputB(callback=print))
 
-placer.add_child(row_placer)
+placer.add_child(row_placer, 0.1)
 
 pb = ProgressBarB()
 
-placer.add_child(pb, 0.05)
+placer.add_child(pb, 0.1)
 
 centerer.add_child(placer)
 #centerer.add_child(pb)
@@ -50,6 +51,9 @@ centerer.add_child(placer)
     #time.sleep(0.05)
 
 app = App(centerer)
+
+#app.rend.params["node_bg_color"] = (1, 1, 1, 0.5)
+
 while not app.should_close:
     app.render()
     #win.wait_events()

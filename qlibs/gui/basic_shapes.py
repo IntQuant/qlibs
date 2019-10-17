@@ -39,6 +39,13 @@ class ShapeDrawer:
         self.li_buffer.extend(map(float, p1))
         self.li_buffer.extend(map(float, color))
 
+    def add_line_polygon(self, points, color=(1, 1, 1)):
+        for i in range(len(points)):
+            self.add_line(points[i-1], points[i], color)
+    
+    def add_line_rectangle(self, x, y, w, h, color=(1, 1, 1)):
+        self.add_line_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
+
     def add_triangle(self, points, color=(1, 1, 1)):
         assert len(points) == 3
         assert 3 <= len(color) <= 4
