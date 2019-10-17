@@ -1,6 +1,9 @@
 import glfw
 import moderngl
 
+import logging
+logger = logging.getLogger("qlibs.gui.window")
+
 default_hint_conf = {
     glfw.CONTEXT_VERSION_MAJOR: 3,
     glfw.CONTEXT_VERSION_MINOR: 3,
@@ -12,6 +15,18 @@ default_hint_conf = {
     glfw.RESIZABLE: True,
     glfw.OPENGL_FORWARD_COMPAT: True,
     glfw.SAMPLES: 4,
+}
+
+
+fallback_hint_conf = {
+    glfw.CONTEXT_VERSION_MAJOR: 3,
+    glfw.CONTEXT_VERSION_MINOR: 1,
+    glfw.DOUBLEBUFFER: True,
+    glfw.DEPTH_BITS: 8,
+    glfw.CONTEXT_CREATION_API: glfw.NATIVE_CONTEXT_API,
+    glfw.CLIENT_API: glfw.OPENGL_API,
+    glfw.RESIZABLE: True,
+    glfw.SAMPLES: 1,
 }
 
 class Window:
@@ -30,7 +45,17 @@ class Window:
         for k, v in hint_conf.items():
             glfw.window_hint(k, v)
         
-        self.window = glfw.create_window(width, height, title, None, None)
+        try:
+            #raise glfw.GLFWError("test")
+            self.window = glfw.create_window(width, height, title, None, None)
+        except glfw.GLFWError:
+            logger.warn("Provided config is unavailable, using fallback config")
+            glfw.default_window_hints()
+            for k, v in fallback_hint_conf.items():
+                glfw.window_hint(k, v)
+            self.window = glfw.create_window(width, height, title, None, None)
+            
+
         glfw.set_window_user_pointer(self.window, id(self.window))
         glfw.make_context_current(self.window)
         glfw.swap_interval(swap_interval)

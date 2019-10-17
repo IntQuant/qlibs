@@ -10,6 +10,7 @@ class App:
         self.ctrl.assign_to_window(self.win)
         self.rend = DefaultRenderer(self.win, node)
         self.node = node
+        self.enabled = True
     
     def render(self, wait_time=None):
         self.win.ctx.clear(0, 0, 0, 0)
@@ -22,6 +23,16 @@ class App:
         self.rend.node = node
         self.ctrl.set_window_node(self.win, node)
         
+    def disable(self):
+        if self.enabled:
+            self.enabled = False
+            self.ctrl.unassign_from_window(self.win)
+    
+    def enable(self):
+        if not self.enabled:
+            self.enabled = True
+            self.ctrl.assign_to_window(self.win)
+
 
     @property
     def should_close(self):

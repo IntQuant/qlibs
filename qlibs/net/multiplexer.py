@@ -72,7 +72,6 @@ class MultiplexServer:
         sock = socket.socket()
         sock.bind((host, port))
         sock.listen()
-        #server_socket = AsyncSocket(sock)
         self.socket_selector = ServerSelector(sock, self.on_connect, self.on_read)
         self.events = []
         self.passed_events = []
@@ -115,14 +114,6 @@ class MultiplexServer:
     
     def on_read(self, sock):
         player_id = self.fd_to_id[sock.fileno()]
-        if sock.closed:
-            self.socket_selector.unregister(sock)
-            self.events.append(PlayerLeftEvent(player_id))
-            self.players -= 1
-            logger.info("Player left")
-            self.ready_players.discard(player_id)
-            self.check_all_ready()
-            return
         packets = sock.recv()
         for packet in packets:
             aux_data, payload = packet[:base_struct.size], packet[base_struct.size:]
@@ -132,6 +123,14 @@ class MultiplexServer:
                 self.check_all_ready()
             elif aux_data[0] == 2: #Data
                 self.events.append(PayloadEvent(player_id, payload))
+        if sock.closed:
+            self.socket_selector.unregister(sock)
+            self.events.append(PlayerLeftEvent(player_id))
+            self.players -= 1
+            logger.info("Player left")
+            self.ready_players.discard(player_id)
+            self.check_all_ready()
+            return
     
     def check_all_ready(self):
         if len(self.ready_players) == self.players:
@@ -180,7 +179,6 @@ class MultiplexClient:
     def recv_packets(self):
         packets = self.socket.recv()
         for packet in packets:
-            #print(packet)
             aux_data, payload = packet[:base_struct.size], packet[base_struct.size:]
             try:
                 aux_data = base_struct.unpack(aux_data)
@@ -203,7 +201,6 @@ class MultiplexClient:
                 if self.engine_constructor is None:
                     raise MultiplexerException("Server requested engine reconstruction but engine_constructor is None")
                 logging.debug("Reconstructing engine")
-                print("r")
                 self.engine = self.engine_constructor(payload)
     
     def step(self):
