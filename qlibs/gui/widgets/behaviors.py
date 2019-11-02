@@ -67,19 +67,22 @@ class ButtonB(NodeB):
         self.name = name
         self.text = text or name
         self.textalign = "center"
+        self.hovered = False
         super().__init__()
         
     def handle_event(self, event):
         if event.type == "mouse":
-            hovered = (self.position.x <= event.pos.x <= self.position.x + self.size.x 
+            self.hovered = (self.position.x <= event.pos.x <= self.position.x + self.size.x 
             and self.position.y <= event.pos.y <= self.position.y + self.size.y)
             
-            if hovered:
+            if self.hovered:
                 if event.pressed  and not self.pressed:
                     self.pressed = True
+            else:
+                self.pressed = False
             
             if not event.pressed and self.pressed:
-                if hovered:
+                if self.hovered:
                     self.callback(self.name)
                 self.pressed = False
 
@@ -134,7 +137,6 @@ class RCPlacerB(NodeB):
         self.vertical = vertical
         self.size_hints = list()
         self.max_size = max_size
-        
 
     def add_child(self, child, size_hint=None):
         self.children.append(child)
@@ -243,14 +245,16 @@ class ToggleButtonB(NodeB):
         self.state = False
         self.name = name
         self.text = text or name
+        self.hover = False
         super().__init__()
         
     def handle_event(self, event):
         if event.type == "mouse":
-            if (event.pressed 
-            and self.position.x <= event.pos.x <= self.position.x + self.size.x 
-            and self.position.y <= event.pos.y <= self.position.y + self.size.y
-            ):
+            self.hovered = (
+                self.position.x <= event.pos.x <= self.position.x + self.size.x 
+                and self.position.y <= event.pos.y <= self.position.y + self.size.y
+            )
+            if event.pressed and self.hovered:
                 if not self.pressed:
                     self.state = not self.state
                     self.callback(self.name, self.state)
@@ -308,3 +312,9 @@ class ScrollableListB(NodeB):
             child.size = self.size
             child.position = self.position
             child.recalc_size()
+    
+
+class CustomRenderB(NodeB):
+    type = "customrender"
+    def __init__(self, render):
+        self.render = render

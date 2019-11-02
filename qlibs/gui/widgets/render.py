@@ -14,11 +14,16 @@ DEFAULT_PARAMS = {
     "pb_spacing_main": 2,
     "node_bg_color": (1, 1, 1, 0.1),
     "node_border_color": (1, 1, 1, 0.2),
+    "button_border_inactive_color": (1, 1, 0.5, 0.4),
+    "button_border_hover_color": (0.5, 1, 1, 0.6),
+    "button_border_active_color": (0.5, 1, 1, 0.7),
+    "selectable_inactive_color": (1, 1, 0.6, 0.3),
+    "selectable_active_color": (0.7, 1, 1, 0.7),
     "text_color": (1, 1, 1),
 }
 
 class DefaultRenderer:
-    def __init__(self, window, node, font=None, font_path=None, font_render=None):
+    def __init__(self, window, node, font=None, font_path=None, font_render=None, is_selected_cb=None):
         if font is None and font_path is None:
             font_path = find_reasonable_font()
         self.ctx = window.ctx
@@ -29,13 +34,11 @@ class DefaultRenderer:
         self.window = window
         self.text_queue = []
         self.excludes = ["centerer"]
+        self.buttons = ["button", "togglebutton"]
         self.drawer.default_z = -1
-        #Spacings for progressbars
-        #self.param_pb_spacing_main = 2
-        #self.param_pb_spacing_side = 4
-        #self.param_text_limit = 256
-        #self.param_max_text_size = 32
         self.params = DEFAULT_PARAMS.copy()
+        self.is_selected_cb = is_selected_cb
+        self.matrix = None
     
     def __getattr__(self, key):
         if key.startswith("param_"):
@@ -48,10 +51,41 @@ class DefaultRenderer:
     def render_node(self, node):
         if node.type in self.excludes:
             return
-        #x, y = node.position
-        #w, h = node.size
+        if node.type == "customrender":
+            self.render_drawer()
+            node.render(
+                Matrix4.orthogonal_projection(
+                    node.position.x,
+                    node.position.x+node.size.x,
+                    node.position.y+node.size.y,
+                    node.position.y,
+                ),
+            )
+            return
+
+        is_selected = node.selectable
+        if self.is_selected_cb is not None:
+            is_selected = self.is_selected_cb(node)
+
         self.drawer.add_rectangle(*node.position, *node.size, color=self.param_node_bg_color)
-        self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=self.param_node_border_color)
+        if node.type in self.buttons:
+            active = getattr(node, "state", getattr(node, "pressed", False))
+            hovered = getattr(node, "hovered", False)
+            if active:
+                color = self.param_button_border_active_color
+            elif hovered:
+                color = self.param_button_border_hover_color
+            else:
+                color = self.param_button_border_inactive_color
+            self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=color)
+        elif node.selectable:
+            if is_selected:
+                color = self.param_selectable_active_color
+            else:
+                color = self.param_selectable_inactive_color
+            self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=color)
+        else:
+            self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=self.param_node_border_color)
 
         if node.type == "progressbar":
             if node.size.x > node.size.y:
@@ -86,14 +120,19 @@ class DefaultRenderer:
             self.queue_text(text, *pos, scale=used_scale)
 
             if node.type == "textinput":
-                cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
-                cy = node.position.y+node.size.y/2
-                txh = text_height / 2
-                self.drawer.add_line((cpos, cy-txh), (cpos, cy+txh))
+                if is_selected: #Draw cursor
+                    cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
+                    cy = node.position.y+node.size.y/2
+                    txh = text_height / 2
+                    self.drawer.add_line((cpos, cy-txh), (cpos, cy+txh))
+
+    def render_drawer(self):
+        self.drawer.render(mvp=self.matrix, change_context_state=False)
 
     def render(self):
         self.ctx.enable_only(moderngl.BLEND)
         self.text_queue.clear()
+        self.matrix = Matrix4.orthogonal_projection(0, self.window.width, self.window.height, 0, -1, 1)
         queue = deque()
         queue.append(self.node)
         while queue:
@@ -101,8 +140,7 @@ class DefaultRenderer:
             self.render_node(current)
             for child in current.children:
                 queue.append(child)
-        matrix = Matrix4.orthogonal_projection(0, self.window.width, self.window.height, 0, -1, 1)
-        self.drawer.render(mvp=matrix, change_context_state=False)
+        self.render_drawer()
         for text in self.text_queue:
-            self.font_render.render_string(*text, mvp=matrix, color=self.param_text_color)
+            self.font_render.render_string(*text, mvp=self.matrix, color=self.param_text_color)
             

@@ -259,4 +259,7 @@ class WindowWidgetController:
         win.spec_key_callback = None
         win.scroll_callback = None
     
+    def is_node_selected(self, node):
+        return node in self.selected.values()
+    
     

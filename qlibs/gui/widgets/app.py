@@ -8,7 +8,7 @@ class App:
         self.ctrl = WindowWidgetController()
         self.ctrl.set_window_node(self.win, node)
         self.ctrl.assign_to_window(self.win)
-        self.rend = DefaultRenderer(self.win, node)
+        self.rend = DefaultRenderer(self.win, node, is_selected_cb=self.ctrl.is_node_selected)
         self.node = node
         self.enabled = True
     

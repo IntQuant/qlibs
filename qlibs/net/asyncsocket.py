@@ -29,11 +29,16 @@ class AsyncSocket:
         self.socket.settimeout(0)
         self.buff = ByteBuffer(join_with=b"")
         self.send_size = 1024 * 8 #8kib
+        self.closed = False
     
     def recv(self, amount: int) -> bytes:
         """Try to recieve data from socket"""
         try:
-            return self.socket.recv(amount)
+            res = self.socket.recv(amount)
+            if len(res) == 0:
+                logger.debug("Nothing recieved, assuming connection is closed")
+                self.closed = True
+            return res
         except BlockingIOError:
             return b""
     
@@ -103,13 +108,15 @@ class PacketSocket:
                     result.append(res)
             return result
         except (ConnectionResetError, OSError) as e:
+            if self.closed:
+                logger.debug("Attemped recieving from a closed socket")
             self.reset = True
-            print(e) #Probably need to remove this, hovewer useful when sockets are broken
+            #print(e) #Probably need to remove this, hovewer useful when sockets are broken
             return result
     
     @property
     def closed(self):
-        return self.reset
+        return self.reset or self.socket.closed
 
     def empty(self):
         """True if no values to send left"""
