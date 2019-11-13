@@ -29,7 +29,8 @@ class NodeB:
         if not hasattr(self, "children"):
             self.children = []
         self.image_id = None
-        self.image_mode = None
+        self.image_mode = None #Other options are: "fit", "fill"
+        self.image_ratio = 1
 
     @property
     def position(self):

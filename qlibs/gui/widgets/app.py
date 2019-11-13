@@ -33,7 +33,10 @@ class App:
             self.enabled = True
             self.ctrl.assign_to_window(self.win)
 
-
     @property
     def should_close(self):
         return self.win.should_close
+
+    @property
+    def ctx(self):
+        return self.win.ctx

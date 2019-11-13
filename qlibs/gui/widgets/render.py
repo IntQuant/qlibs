@@ -1,4 +1,5 @@
 from collections import deque
+import warnings
 
 import moderngl
 
@@ -39,14 +40,52 @@ class DefaultRenderer:
         self.params = DEFAULT_PARAMS.copy()
         self.is_selected_cb = is_selected_cb
         self.matrix = None
+        self.sprite_master = None
     
     def __getattr__(self, key):
-        if key.startswith("param_"):
+        if key.startswith("param_"): #TODO - node-specific params
             return self.params[key[6:]]
         raise AttributeError("Unknown key %s" % key)
 
     def queue_text(self, text, x, y, scale=1):
         self.text_queue.append((text, x, y, scale))
+
+    def render_image(self, node):
+        self.render_drawer()
+        #print("Rendering", node.image_id, "at", node.pos)
+        if node.image_mode is None:
+            self.sprite_master.add_sprite_rect(node.image_id, *node.position, *node.size)
+        else:
+            
+            dx = 1
+            ratio = node.size.y / node.size.x
+            dy = dx*node.image_ratio*ratio
+            
+            r = 1    
+            if node.image_mode == "fill":
+                r = max(dx, dy)
+            elif node.image_mode == "fit":
+                r = min(dx, dy)
+            else:
+                warnings.warn("Node %s has invalid image mode %s" % (node, node.image_mode))
+                
+            dx /= r
+            dy /= r
+
+            pxz = 0.5 - dx*0.5
+            pyz = 0.5 - dy*0.5
+            pxo = 0.5 + dx*0.5
+            pyo = 0.5 + dy*0.5
+
+            tpoints = (
+                (pxz, pyz), 
+                (pxo, pyz), 
+                (pxo, pyo), 
+                (pxz, pyo),
+            )
+            
+            self.sprite_master.add_sprite_rect(node.image_id, *node.position, *node.size, tpoints=tpoints)
+        self.sprite_master.render(mvp=self.matrix)
 
     def render_node(self, node):
         if node.type in self.excludes:
@@ -67,7 +106,11 @@ class DefaultRenderer:
         if self.is_selected_cb is not None:
             is_selected = self.is_selected_cb(node)
 
-        self.drawer.add_rectangle(*node.position, *node.size, color=self.param_node_bg_color)
+        if node.image_id is not None:
+            self.render_image(node)
+        else:
+            self.drawer.add_rectangle(*node.position, *node.size, color=self.param_node_bg_color)
+
         if node.type in self.buttons:
             active = getattr(node, "state", getattr(node, "pressed", False))
             hovered = getattr(node, "hovered", False)

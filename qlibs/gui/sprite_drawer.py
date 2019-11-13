@@ -33,13 +33,13 @@ class SpriteDrawerBase:
     def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         data = [
             #First triangle
-            x,   y,   *tpoint[0], id_, z, *color,
-            x+w, y+h, *tpoint[2], id_, z, *color,
-            x+w, y,   *tpoint[1], id_, z, *color,
+            x,   y,   *tpoints[0], id_, z, *color,
+            x+w, y+h, *tpoints[2], id_, z, *color,
+            x+w, y,   *tpoints[1], id_, z, *color,
             #Second triangle
-            x,   y,   *tpoint[0], id_, z, *color,
-            x,   y+h, *tpoint[3], id_, z, *color,
-            x+w, y+h, *tpoint[2], id_, z, *color,
+            x,   y,   *tpoints[0], id_, z, *color,
+            x,   y+h, *tpoints[3], id_, z, *color,
+            x+w, y+h, *tpoints[2], id_, z, *color,
         ]
         self.buffer_data.fromlist(data)
     
@@ -61,13 +61,13 @@ class SpriteDrawerBase:
 
         data = [
             #First triangle
-            *point0, *tpoint[0], id_, z, *color,
-            *point2, *tpoint[2], id_, z, *color,
-            *point1, *tpoint[1], id_, z, *color,
+            *point0, *tpoints[0], id_, z, *color,
+            *point2, *tpoints[2], id_, z, *color,
+            *point1, *tpoints[1], id_, z, *color,
             #Second triangle
-            *point0, *tpoint[0], id_, z, *color,
-            *point3, *tpoint[3], id_, z, *color,
-            *point2, *tpoint[2], id_, z, *color,
+            *point0, *tpoints[0], id_, z, *color,
+            *point3, *tpoints[3], id_, z, *color,
+            *point2, *tpoints[2], id_, z, *color,
         ]
         self.buffer_data.fromlist(data)
 

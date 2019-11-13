@@ -1,9 +1,17 @@
 from qlibs.gui.widgets.behaviors import *
 from qlibs.gui.widgets.app import App
+from qlibs.highlevel.graphics import SpriteMaster
+
 import time
 import moderngl
 
+
+
 centerer = CentererB(100, 100)
+centerer.image_id = "eye"
+centerer.image_mode = "fill"
+centerer.image_ratio = 1
+
 placer = ColumnPlacerB()
 #placer.spc = 20
 bplacer = ScrollableListB()
@@ -29,6 +37,12 @@ centerer.add_child(placer)
 
 app = App(centerer)
 
+spritem = SpriteMaster(app.ctx)
+spritem.load_file("eye", "qlibs/images/eye.png")
+spritem.init()
+
+app.rend.sprite_master = spritem
+app.rend.excludes.clear()
 #app.rend.params["node_bg_color"] = (1, 1, 1, 0.5)
 
 while not app.should_close:
