@@ -13,6 +13,8 @@ QUART_PI = math.pi / 4
 SHADER_VERTEX = "qlibs/shaders/sprite.vert"
 SHADER_FRAGMENT = "qlibs/shaders/sprite.frag"
 
+TEXTURE_POINTS = ((0, 0), (1, 0), (1, 1), (0, 1))
+
 import logging
 logger = logging.getLogger("qlibs.gui.sprite_drawer")
 
@@ -28,23 +30,23 @@ class SpriteDrawerBase:
     def prepare(self):
         self.buffer_data = array("f")
     
-    def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
+    def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         data = [
             #First triangle
-            x,   y,   0, 0, id_, z, *color,
-            x+w, y+h, 1, 1, id_, z, *color,
-            x+w, y,   1, 0, id_, z, *color,
+            x,   y,   *tpoint[0], id_, z, *color,
+            x+w, y+h, *tpoint[2], id_, z, *color,
+            x+w, y,   *tpoint[1], id_, z, *color,
             #Second triangle
-            x,   y,   0, 0, id_, z, *color,
-            x,   y+h, 0, 1, id_, z, *color,
-            x+w, y+h, 1, 1, id_, z, *color,
+            x,   y,   *tpoint[0], id_, z, *color,
+            x,   y+h, *tpoint[3], id_, z, *color,
+            x+w, y+h, *tpoint[2], id_, z, *color,
         ]
         self.buffer_data.fromlist(data)
     
-    def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
-        self.add_sprite_rect(id_, x - w//2, y - h//2, w, h, z, color)
+    def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        self.add_sprite_rect(id_, x - w//2, y - h//2, w, h, z, color, tpoints)
 
-    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1)):
+    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         at = math.atan2(w, h)
         rot = r + math.pi
         d = math.sqrt(w*w + h*h) / 2
@@ -59,13 +61,13 @@ class SpriteDrawerBase:
 
         data = [
             #First triangle
-            *point0,   0, 0, id_, z, *color,
-            *point2, 1, 1, id_,   z, *color,
-            *point1,   1, 0, id_, z, *color,
+            *point0, *tpoint[0], id_, z, *color,
+            *point2, *tpoint[2], id_, z, *color,
+            *point1, *tpoint[1], id_, z, *color,
             #Second triangle
-            *point0,   0, 0, id_, z, *color,
-            *point3, 0, 1, id_,   z, *color,
-            *point2, 1, 1, id_,   z, *color,
+            *point0, *tpoint[0], id_, z, *color,
+            *point3, *tpoint[3], id_, z, *color,
+            *point2, *tpoint[2], id_, z, *color,
         ]
         self.buffer_data.fromlist(data)
 

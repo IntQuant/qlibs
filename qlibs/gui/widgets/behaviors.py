@@ -1,5 +1,6 @@
 from ...math import IVec, MVec
 from itertools import zip_longest
+import warnings
 #TODO: handle negative size
 
 try:
@@ -7,15 +8,14 @@ try:
     clipboard_get = lambda : glfw.get_clipboard_string(None).decode("utf-8")
     clipboard_set = lambda x: glfw.set_clipboard_string(None, x)
 except ImportError:
-    #TODO add proper warning
-    print(__file__, "Could not import glfw, some functions are unavailable")
+    warnings.warn("Could not import glfw, clipboard support is not unavailable")
     clipboard_get = lambda : None
     clipboard_set = lambda x: None
 
 class NodeB:
     """
     Basic node behavior, does not do any anything to position it's children
-    Rendering is separate from behaviors, which only handle events(including resizing)
+    Rendering is separate from behaviors, which only handles events(including resizing)
     """
     type = "node"
     selectable = False
@@ -28,6 +28,8 @@ class NodeB:
             self.size_hint = (None, None)
         if not hasattr(self, "children"):
             self.children = []
+        self.image_id = None
+        self.image_mode = None
 
     @property
     def position(self):
@@ -62,13 +64,13 @@ class NodeB:
 class ButtonB(NodeB):
     type = "button"
     def __init__(self, name, callback, text=None):
+        super().__init__()
         self.callback = callback
         self.pressed = False
         self.name = name
         self.text = text or name
         self.textalign = "center"
         self.hovered = False
-        super().__init__()
         
     def handle_event(self, event):
         if event.type == "mouse":
@@ -100,7 +102,7 @@ class CentererB(NodeB):
     
     def recalc_size(self):
         tpos = (self.position.x + self.sep_x, self.position.y + self.sep_y)
-        tsize = (self.size.x - self.sep_x*2, self.size.y - self.sep_y*2)
+        tsize = (max(self.size.x - self.sep_x*2, 0), max(self.size.y - self.sep_y*2, 0))
         for child in self.children:
             child.position = tpos
             child.size = tsize
@@ -240,13 +242,13 @@ class TextInputB(NodeB):
 class ToggleButtonB(NodeB):
     type = "togglebutton"
     def __init__(self, name, callback, text=None):
+        super().__init__()
         self.callback = callback
         self.pressed = False
         self.state = False
         self.name = name
         self.text = text or name
         self.hover = False
-        super().__init__()
         
     def handle_event(self, event):
         if event.type == "mouse":
@@ -268,8 +270,8 @@ class ToggleButtonB(NodeB):
 class ProgressBarB(NodeB):
     type = "progressbar"
     def __init__(self):
-        self.fraction = 0
         super().__init__()
+        self.fraction = 0
 
 
 class ScrollableListB(NodeB):
@@ -317,4 +319,5 @@ class ScrollableListB(NodeB):
 class CustomRenderB(NodeB):
     type = "customrender"
     def __init__(self, render):
+        super().__init__()
         self.render = render

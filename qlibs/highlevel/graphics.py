@@ -1,4 +1,4 @@
-from ..gui.sprite_drawer import SpriteDrawer
+from ..gui.sprite_drawer import SpriteDrawer, TEXTURE_POINTS
 from ..resources.resource_loader import get_image_data
 from ..math import Matrix4, IDENTITY
 
@@ -10,20 +10,20 @@ class SpriteMasterBase:
     def __init__(self, master):
         self.derive_drawers(master)
 
-    def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
+    def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
-        drawer.add_sprite_rect(sprite_id, x, y, w, h, z, color)
+        drawer.add_sprite_rect(sprite_id, x, y, w, h, z, color, tpoints)
     
-    def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1)):
+    def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
-        drawer.add_sprite_centered(sprite_id, x, y, w, h, z, color)
+        drawer.add_sprite_centered(sprite_id, x, y, w, h, z, color, tpoints)
 
-    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1)):
+    def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
-        drawer.add_sprite_rotated(sprite_id, x, y, w, h, r, z, color)
+        drawer.add_sprite_rotated(sprite_id, x, y, w, h, r, z, color, tpoints)
 
     def render(self, mvp=Matrix4(IDENTITY), reset=True):
         for drawer in self.drawers:
