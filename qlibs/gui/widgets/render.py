@@ -136,6 +136,18 @@ class DefaultRenderer:
             else:
                 self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_side, node.position.y+self.param_pb_spacing_main, node.size.x-self.param_pb_spacing_side*2, node.size.y*node.fraction-self.param_pb_spacing_main*2, color=(1, 1, 1))
 
+        if node.type == "scrollbar":
+            if node.direction == 1:
+                pos_x = node.position.x
+                size_x = node.size.x
+                pos_y = node.position.y + node.size.y * node.pos * 0.9
+                size_y = node.size.y * 0.1
+            else:
+                pos_y = node.position.y
+                size_y = node.size.y
+                pos_x = node.position.x + node.size.x * node.pos * 0.9
+                size_x = node.size.x * 0.1
+            self.drawer.add_rectangle(pos_x, pos_y, size_x, size_y)
         
         if hasattr(node, "text"):
             if len(node.text) > self.param_text_limit: #TODO later
@@ -179,7 +191,7 @@ class DefaultRenderer:
         queue = deque()
         queue.append(self.node)
         while queue:
-            current = queue.popleft()
+            current = queue.pop()
             self.render_node(current)
             for child in current.children:
                 queue.append(child)

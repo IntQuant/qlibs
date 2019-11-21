@@ -4,14 +4,17 @@ class GUIEvent:
     type = "gui"
     shall_pass = True
 
+EMPTY_SET = frozenset()
 
 class MouseEvent(GUIEvent):
     type = "mouse"
-    def __init__(self, x, y, pressed, scroll_up=False, scroll_down=False):
+    def __init__(self, x, y, pressed, scroll_up=False, scroll_down=False, pressed_buttons=EMPTY_SET):
         self.pos = IVec(x, y)
         self.pressed = pressed
+        self.pressed_buttons = pressed_buttons
         self.scroll_up = scroll_up
         self.scroll_down = scroll_down
+        self.used = False
 
 
 class KeyMods:
@@ -30,6 +33,7 @@ class KeyEvent(GUIEvent):
     def __init__(self, key, mods):
         self.key = key
         self.mods = mods
+
 
 class SpecKeyEvent(GUIEvent):
     type = "speckey"

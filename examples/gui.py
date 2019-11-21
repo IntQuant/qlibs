@@ -5,12 +5,10 @@ from qlibs.highlevel.graphics import SpriteMaster
 import time
 import moderngl
 
-
-
 centerer = CentererB(100, 100)
 centerer.image_id = "eye"
 centerer.image_mode = "fill"
-centerer.image_ratio = 1
+centerer.image_ratio = 1 #y / x
 
 placer = ColumnPlacerB()
 #placer.spc = 20
@@ -23,8 +21,11 @@ placer.add_child(bplacer)
 placer.add_child(TextInputB(), 0.1)
 row_placer = RowPlacerB()
 
-row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 0.1)
+row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 1)
 row_placer.add_child(TextInputB(callback=print))
+    
+row_placer.size_hint_func = hint_func_rel #Use hint function to make first widget square
+
 
 placer.add_child(row_placer, 0.1)
 
