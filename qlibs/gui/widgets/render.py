@@ -13,6 +13,23 @@ DEFAULT_PARAMS = {
     "max_text_size": 32,
     "pb_spacing_side": 4,
     "pb_spacing_main": 2,
+    "node_bg_color": (0.1, 0.1, 0.1, 0.8),
+    "node_border_color": (0.5, 0.5, 0.5, 0.8),
+    "button_border_inactive_color": (0.5, 0.5, 0.25, 0.8),
+    "button_border_hover_color": (0.5, 0.7, 0.7, 0.8),
+    "button_border_active_color": (0.5, 1, 1, 0.8),
+    "selectable_inactive_color": (0.5, 0.5, 0.3, 0.8),
+    "selectable_active_color": (0.7, 1, 1, 0.8),
+    "text_color": (1, 1, 1),
+    "scrollbar_color": (1, 1, 1, 0.8),
+    "progressbar_color": (1, 1, 1, 0.8),
+}
+
+OLD_DEFAULT_PARAMS = {
+    "text_limit": 256,
+    "max_text_size": 32,
+    "pb_spacing_side": 4,
+    "pb_spacing_main": 2,
     "node_bg_color": (1, 1, 1, 0.1),
     "node_border_color": (1, 1, 1, 0.2),
     "button_border_inactive_color": (1, 1, 0.5, 0.4),
@@ -21,6 +38,8 @@ DEFAULT_PARAMS = {
     "selectable_inactive_color": (1, 1, 0.6, 0.3),
     "selectable_active_color": (0.7, 1, 1, 0.7),
     "text_color": (1, 1, 1),
+    "scrollbar_color": (1, 1, 1, 0.8),
+    "progressbar_color": (1, 1, 1, 0.8),
 }
 
 class DefaultRenderer:
@@ -132,9 +151,9 @@ class DefaultRenderer:
 
         if node.type == "progressbar":
             if node.size.x > node.size.y:
-                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_main, node.position.y+self.param_pb_spacing_side, node.size.x*node.fraction-self.param_pb_spacing_main*2, node.size.y-self.param_pb_spacing_side*2, color=(1, 1, 1))
+                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_main, node.position.y+self.param_pb_spacing_side, node.size.x*node.fraction-self.param_pb_spacing_main*2, node.size.y-self.param_pb_spacing_side*2, color=self.param_progressbar_color)
             else:
-                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_side, node.position.y+self.param_pb_spacing_main, node.size.x-self.param_pb_spacing_side*2, node.size.y*node.fraction-self.param_pb_spacing_main*2, color=(1, 1, 1))
+                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_side, node.position.y+self.param_pb_spacing_main, node.size.x-self.param_pb_spacing_side*2, node.size.y*node.fraction-self.param_pb_spacing_main*2, color=self.param_progressbar_color)
 
         if node.type == "scrollbar":
             if node.direction == 1:
@@ -147,7 +166,7 @@ class DefaultRenderer:
                 size_y = node.size.y
                 pos_x = node.position.x + node.size.x * node.pos * 0.9
                 size_x = node.size.x * 0.1
-            self.drawer.add_rectangle(pos_x, pos_y, size_x, size_y)
+            self.drawer.add_rectangle(pos_x, pos_y, size_x, size_y, color=self.param_scrollbar_color)
         
         if hasattr(node, "text"):
             if len(node.text) > self.param_text_limit: #TODO later
