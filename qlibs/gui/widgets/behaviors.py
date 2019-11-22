@@ -1,4 +1,4 @@
-from ...math import IVec, MVec
+from ...math import Vec2
 from itertools import zip_longest
 import warnings
 #TODO: handle negative size
@@ -29,9 +29,9 @@ class NodeB:
     selectable = False
     def __init__(self):
         if not hasattr(self, "_position"):
-            self._position = IVec(0, 0)
+            self._position = Vec2(0, 0)
         if not hasattr(self, "_size"):
-            self._size = IVec(100, 100)
+            self._size = Vec2(100, 100)
         if not hasattr(self, "size_hint"):
             self.size_hint = (None, None)
         if not hasattr(self, "children"):
@@ -46,7 +46,7 @@ class NodeB:
     
     @position.setter
     def position(self, val):
-        self._position = IVec(val)
+        self._position = Vec2(*val)
 
     @property
     def size(self):
@@ -54,7 +54,7 @@ class NodeB:
     
     @size.setter
     def size(self, val):
-        self._size = IVec(val)
+        self._size = Vec2(*val)
 
     def recalc_size(self):
         for child in self.children:
@@ -192,7 +192,7 @@ class RCPlacerB(NodeB):
             size = self.size.x*fr, (self.size.y)
             advancement_index = 0
         
-        pos = MVec(self.position)
+        pos = Vec2(*self.position)
 
         for hint, child in zip_longest(size_hints, self.children):            
             if hint is not None:
@@ -202,7 +202,7 @@ class RCPlacerB(NodeB):
                     usize = self.size.x * hint, size[1]
             else:
                 usize = size
-            child.position = pos + MVec(self.spc, self.spc)
+            child.position = pos + Vec2(self.spc, self.spc)
             child.size = (usize[0] - self.spc*2, usize[1] - self.spc*2)
             pos[advancement_index] += usize[advancement_index]
         super().recalc_size()

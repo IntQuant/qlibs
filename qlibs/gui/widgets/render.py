@@ -6,7 +6,7 @@ import moderngl
 from ..basic_shapes import ShapeDrawer
 from ...fonts.font_render import DirectFontRender
 from ...fonts.font_search import find_reasonable_font
-from ...math import Matrix4, MVec
+from ...math import Matrix4, Vec2
 
 DEFAULT_PARAMS = {
     "text_limit": 256,
@@ -53,7 +53,7 @@ class DefaultRenderer:
         self.node = node
         self.window = window
         self.text_queue = []
-        self.excludes = ["centerer"]
+        self.excludes = ["centerer", "scrollablelist"]
         self.buttons = ["button", "togglebutton"]
         self.drawer.default_z = -1
         self.params = DEFAULT_PARAMS.copy()
@@ -107,7 +107,7 @@ class DefaultRenderer:
         self.sprite_master.render(mvp=self.matrix)
 
     def render_node(self, node):
-        if node.type in self.excludes:
+        if node.type in self.excludes and node.image_id is None:
             return
         if node.type == "customrender":
             self.render_drawer()
@@ -185,7 +185,7 @@ class DefaultRenderer:
                 if node.textalign == "left":
                     align_ajust = 0
 
-            pos = MVec(node.position + node.size // 2)
+            pos = node.position + node.size // 2
             pos.x += align_ajust - node.size.x // 2
             text_height = self.font_render.calc_height(text, scale=used_scale)
             if text_height == 0:

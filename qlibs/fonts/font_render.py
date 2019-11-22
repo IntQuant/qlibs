@@ -3,11 +3,12 @@
 """
 
 from array import array
+from functools import lru_cache
 
 import freetype
 
 from ..resources.resource_manager import get_storage_of_context
-from ..math.vec import IVec
+from ..math.vec import IVec, Vec2
 from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
 
@@ -22,9 +23,9 @@ class Glyph:
         """
         Initialize everything from glyph
         """
-        self.advance = IVec(glyph.advance.x, glyph.advance.y)
-        self.size = IVec(glyph.bitmap.width, glyph.bitmap.rows)
-        self.bearing = IVec(glyph.bitmap_left, glyph.bitmap_top)
+        self.advance = Vec2(glyph.advance.x, glyph.advance.y)
+        self.size = Vec2(glyph.bitmap.width, glyph.bitmap.rows)
+        self.bearing = Vec2(glyph.bitmap_left, glyph.bitmap_top)
         data = glyph.bitmap.buffer
         self.texture = ctx.texture(tuple(self.size), 1, bytes(data), dtype="f1", alignment=1)
         self.texture.repeat_x = False
@@ -72,7 +73,7 @@ class DirectFontRender:
 
         scale /= self.pixel_size
 
-        pos = IVec(x, y)
+        pos = Vec2(x, y)
         try_write(self.program, "mvp", mvp.bytes())
         try_write(self.program, "text_color", IVec(color).bytes())
         for char in text:
@@ -115,12 +116,14 @@ class DirectFontRender:
             self.vao.render()
             pos += glyph.advance * (scale / 64)
 
+    @lru_cache(1024)
     def calc_size(self, text, scale=1):
         x = 0
         for char in text:
             x += self.get_glyph(char).advance.x
         return x / 64 * scale / self.pixel_size
     
+    @lru_cache(1024)
     def calc_height(self, text, scale=1, full=False):
         max_y = 0
         min_y = 0

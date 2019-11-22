@@ -2,6 +2,7 @@ from qlibs.gui.widgets.behaviors import *
 from qlibs.gui.widgets.app import App
 from qlibs.highlevel.graphics import SpriteMaster
 
+
 import time
 import moderngl
 
@@ -22,9 +23,12 @@ placer.add_child(TextInputB(), 0.1)
 row_placer = RowPlacerB()
 
 row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 1)
+b2 = ToggleButtonB("togglable", lambda name, state: print(name, state))
+b2.image_id = "eye"
+row_placer.add_child(b2, 1)
 row_placer.add_child(TextInputB(callback=print))
     
-row_placer.size_hint_func = hint_func_rel #Use hint function to make first widget square
+row_placer.size_hint_func = hint_func_rel #Use hint function to make some widgets square
 
 
 placer.add_child(row_placer, 0.1)
@@ -36,6 +40,7 @@ placer.add_child(pb, 0.1)
 centerer.add_child(placer)
 
 
+#exit(0)
 app = App(centerer)
 
 spritem = SpriteMaster(app.ctx)
@@ -43,12 +48,18 @@ spritem.load_file("eye", "qlibs/images/eye.png")
 spritem.init()
 
 app.rend.sprite_master = spritem
-app.rend.excludes.clear()
+#app.rend.excludes.pop(0)
 #app.rend.params["node_bg_color"] = (1, 1, 1, 0.5)
+
+stime = time.time()
+ttime = 10
 
 while not app.should_close:
     app.render(wait_time=0.1)
-    pb.fraction = (time.time()%10)/10
+    ptime = time.time() - stime
+    pb.fraction = (ptime % ttime) / ttime
+    if ptime > ttime:
+        break
     #win.wait_events()
 
 #Just for tests

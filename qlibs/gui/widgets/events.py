@@ -1,4 +1,4 @@
-from ...math import IVec
+from ...math import Vec2
 
 class GUIEvent:
     type = "gui"
@@ -9,7 +9,7 @@ EMPTY_SET = frozenset()
 class MouseEvent(GUIEvent):
     type = "mouse"
     def __init__(self, x, y, pressed, scroll_up=False, scroll_down=False, pressed_buttons=EMPTY_SET):
-        self.pos = IVec(x, y)
+        self.pos = Vec2(x, y)
         self.pressed = pressed
         self.pressed_buttons = pressed_buttons
         self.scroll_up = scroll_up
