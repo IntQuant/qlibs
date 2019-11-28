@@ -72,7 +72,7 @@ class MultiplexServer:
         sock = socket.socket()
         sock.bind((host, port))
         sock.listen()
-        self.socket_selector = ServerSelector(sock, self.on_connect, self.on_read)
+        self.socket_selector = ServerSelector(sock, self._on_connect, self._on_read)
         self.events = []
         self.passed_events = []
         self.current_player_id = -1
@@ -89,7 +89,7 @@ class MultiplexServer:
         self.last_pack = time.monotonic()
         self.pack_delay = 2
 
-    def on_connect(self, sock, addr):
+    def _on_connect(self, sock, addr):
         logger.info("Connection from %s", addr)
         self.current_player_id += 1
         self.fd_to_id[sock.fileno()] = self.current_player_id
@@ -112,7 +112,7 @@ class MultiplexServer:
         logger.info("Done, currently %s online", self.players)
         return sock
     
-    def on_read(self, sock):
+    def _on_read(self, sock):
         player_id = self.fd_to_id[sock.fileno()]
         packets = sock.recv()
         for packet in packets:
@@ -120,7 +120,7 @@ class MultiplexServer:
             aux_data = base_struct.unpack(aux_data)
             if aux_data[0] == 1: #Ready
                 self.ready_players.add(player_id)
-                self.check_all_ready()
+                self._check_all_ready()
             elif aux_data[0] == 2: #Data
                 self.events.append(PayloadEvent(player_id, payload))
         if sock.closed:
@@ -129,23 +129,25 @@ class MultiplexServer:
             self.players -= 1
             logger.info("Player left")
             self.ready_players.discard(player_id)
-            self.check_all_ready()
+            self._check_all_ready()
             return
     
-    def check_all_ready(self):
+    def _check_all_ready(self):
         if len(self.ready_players) == self.players:
-            self.all_ready()
+            self._all_ready()
             self.ready_players.clear()
     
-    def all_ready(self):
+    def _all_ready(self):
         curr = time.monotonic()
+        #logger.debug("All ready in %.2f ms", (curr-self.last_ready)*1000)
         self.events.append(ReadyEvent(curr-self.last_ready))
         self.last_ready = curr
-        for event in self.events:
-            self.passed_events.append(event) #TODO: Send events when they are recieved
-            packet = bytes_packet_sender(convert_event(event))
-            for sock in self.socket_selector.socket_iterator:
-                sock.send(packet)
+        eventdata = b"".join(map(bytes_packet_sender, map(convert_event, self.events)))
+        #for event in self.events:
+        #    self.passed_events.append(event) #TODO: Send events when they are recieved
+        #    packet = bytes_packet_sender(convert_event(event))
+        for sock in self.socket_selector.socket_iterator:
+            sock.send(eventdata)
         self.events.clear()
 
     def serve_forever(self):
@@ -164,6 +166,7 @@ class MultiplexClient:
         #Engine should be a class with step method, accepting float(deltatime) and list of events
         sock = socket.socket()
         sock.connect((host, port))
+        self.pending_packets = []
         self.socket = PacketSocket(sock, bytes_packet_reciever)
         self.engine = engine
         self.engine_constructor = engine_constructor
@@ -174,9 +177,9 @@ class MultiplexClient:
         self.last_step = 0
         self.last_confirmed_step = 0
         self.min_step_time = 0.5
-        self.recv_packets()
+        self._recv_packets()
         
-    def recv_packets(self):
+    def _recv_packets(self):
         packets = self.socket.recv()
         for packet in packets:
             aux_data, payload = packet[:base_struct.size], packet[base_struct.size:]
@@ -205,21 +208,27 @@ class MultiplexClient:
     
     def step(self):
         if self.ready_to_step and time.monotonic() - self.last_step > self.min_step_time:
+            #logging.debug("Waiting for lock...")
             with self.socket_lock:
+                #logging.debug("Performing step...")
                 self.last_step = time.monotonic()
-                self.socket.send(bytes_packet_sender(base_struct.pack(1, 0, 0, 0)))
+                self.pending_packets.append(bytes_packet_sender(base_struct.pack(1, 0, 0, 0)))
+                data = b"".join(self.pending_packets)
+                self.pending_packets.clear()
+                self.socket.send(data)
+                #logging.debug("Done!")
         with self.socket_lock:
             self.socket.send()
-        self.recv_packets()
+        self._recv_packets()
     
     def send_payload(self, data):
         with self.socket_lock:
-            self.socket.send(bytes_packet_sender(base_struct.pack(2, 0, 0, 0)+data))
+            self.pending_packets.append(bytes_packet_sender(base_struct.pack(2, 0, 0, 0)+data))
 
     def _eternal_runner(self):
         while self._shall_continue:
             self.step()
-            time.sleep(0.01)
+            time.sleep(0)
             if self.socket.reset:
                 logger.warning("Socket is reset, stopping client")
                 self._shall_continue = False
@@ -229,6 +238,9 @@ class MultiplexClient:
         self._shall_continue = True
         self._thread.start()
     
+    def run_in_thread(self):
+        self.thread_runner()
+
     def stop_thread(self):
         self._shall_continue = False
         self._thread.join()
