@@ -129,7 +129,6 @@ class Vec(VecBase):  # Making those immutable is a good idea, right? (No)
 
     def __init__(self, *args):
         if len(args) == 1:
-
             self._v = list(args[0])
         else:
             self._v = list(args)
