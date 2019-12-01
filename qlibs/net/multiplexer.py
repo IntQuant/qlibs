@@ -86,6 +86,7 @@ class MultiplexServer:
         self.state = None
         #if self.engine_packer is not None:
         #    self.state = self.engine_packer()
+        self.time_between_selection = 0.01
         self.last_pack = time.monotonic()
         self.pack_delay = 2
 
@@ -153,6 +154,7 @@ class MultiplexServer:
     def serve_forever(self):
         while self.run_thread:
             self.socket_selector.select()
+            time.sleep(self.time_between_selection)
     
     def serve_in_thread(self):
         self._thread = Thread(target=self.serve_forever, daemon=True, name="multiplexer server")
@@ -228,7 +230,8 @@ class MultiplexClient:
     def _eternal_runner(self):
         while self._shall_continue:
             self.step()
-            time.sleep(0)
+            #time.sleep(max(0, min(0.01, self.last_step + self.min_step_time - time.monotonic())))
+            time.sleep(0.1)
             if self.socket.reset:
                 logger.warning("Socket is reset, stopping client")
                 self._shall_continue = False

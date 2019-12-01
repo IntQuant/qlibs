@@ -18,10 +18,13 @@ qlibs/gui/basic_shapes.py
 qlibs/gui/sprite_drawer.py
 qlibs/gui/window.py
 qlibs/gui/widgets/__init__.py
+qlibs/gui/widgets/app.py
 qlibs/gui/widgets/behaviors.py
 qlibs/gui/widgets/controller.py
 qlibs/gui/widgets/events.py
 qlibs/gui/widgets/render.py
+qlibs/highlevel/__init__.py
+qlibs/highlevel/graphics.py
 qlibs/math/__init__.py
 qlibs/math/matrix.py
 qlibs/math/opt.py
@@ -35,6 +38,7 @@ qlibs/net/UDPlink.py
 qlibs/net/__init__.py
 qlibs/net/asyncsocket.py
 qlibs/net/connection.py
+qlibs/net/multiplexer.py
 qlibs/net/qpacket.py
 qlibs/resources/__init__.py
 qlibs/resources/resource_loader.py
@@ -42,6 +46,8 @@ qlibs/resources/resource_manager.py
 qlibs/resources/__pycache__/__init__.cpython-37.pyc
 qlibs/resources/__pycache__/resource_loader.cpython-37.pyc
 qlibs/resources/__pycache__/resource_manager.cpython-37.pyc
+qlibs/resources/storage/images/eye.png
+qlibs/resources/storage/images/save_icon.png
 qlibs/resources/storage/shaders/drawer.frag
 qlibs/resources/storage/shaders/drawer.vert
 qlibs/resources/storage/shaders/lighting.frag
