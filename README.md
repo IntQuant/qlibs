@@ -13,8 +13,8 @@ There are quite a lot of them!
 * More to come.
 
 # Documentation
-Well, it is not quite ready.
-There are examples and list of all docstrings howewer.
+See docs/
+Also there are examples.
 
 # Installation
 * Use `pip install qlibs[full]` to install all dependencies.

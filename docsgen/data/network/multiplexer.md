@@ -1,17 +1,17 @@
-# The guide to multiplexer
+## The guide to multiplexer
 
-## Overview
+### Overview
 
 This module implements lockstep based multiplayer.
 There are two main classes: MultiplexServer and MultiplexClient, in addition to several event classes.
 
-## MultiplexServer
+### MultiplexServer
 
 Server listens to client sockets, accepts connections and sends/recieves events from clients. It does not need to be configured, except giving it a port and optionally **engine_packer**.
 
 Use `server_forever()` or `serve_in_thread()` to start it. Calling `stop_thread()` will stop it.
 
-## MultiplexClient
+### MultiplexClient
 
 Requires engine instance to be initialized plus optional **host** and **port**.
 Optional **engine_constructor** is required for engine reconstruction.
@@ -37,7 +37,7 @@ class Engine:
 It can be run by using `run_in_thread()`. Calling `stop_thread()` will stop it.
 Alternatively `step()` can be used in your mainloop.
 
-## Events
+### Events
 
 There are several types of events (their name field is given in brackets):
 - PlayerJoinedEvent ("playerjoined")
