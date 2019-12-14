@@ -13,7 +13,7 @@ There are quite a lot of them!
 * More to come.
 
 # Documentation
-See docs/
+See docs/index.html
 Also there are examples.
 
 # Installation

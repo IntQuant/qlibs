@@ -1,3 +1,9 @@
+"""
+  Sprite drawer. Uses texture atlas to draw images.
+
+  Low level. Consider using qlibs.highlevel.graphics instead.
+"""
+
 from array import array
 import math
 

@@ -6,21 +6,20 @@
 <body>
     <div class="sidenav">
         <p><a href="index.html">[LINK] Back</a></p>
-<p><a href="#Tutorials.Vector">Tutorials.Vector</a></p>
-<p><a href="#Tutorials.Multiplexer">Tutorials.Multiplexer</a></p>
+<p><a href="#Vector-Tutorial">Vector Tutorial</a></p>
+<p><a href="#Multiplexer-Tutorial">Multiplexer Tutorial</a></p>
     </div>
     <div class="main">
-        <h1 id=Tutorials.Vector>Tutorials.Vector</h2>
-<h2>The guide to vectors</h2>
-<h3>Overview</h3>
+        <h1 id=Vector-Tutorial>Vector Tutorial</h1>
+<h2>Overview</h2>
 <p>Vectors are collections of numbers. They can be added, substracted, multiplied and divided, in addition to several useful methods. Because of that they are great for representing locations and directions.</p>
-<h3>Creating vectors</h3>
+<h2>Creating vectors</h2>
 <ul>
 <li>Vec(iterable) - creates vector from iterable</li>
 <li>Vec(*args) - creates vector as if args were an iterable, so that <code>Vec([0, 1])</code> and <code>Vec(0, 1)</code> are equal.</li>
 <li>Vec2(x, y) - specialized vector class, which is faster(direct access to <strong>x</strong> and <strong>y</strong> fields) and is always two-dimensional.</li>
 </ul>
-<h3>Indexing</h3>
+<h2>Indexing</h2>
 <p>First 4 components of vector can be accessed when they are present like this:</p>
 <div class="highlight python"><pre><span></span><span class="kn">from</span> <span class="nn">qlibs.math</span> <span class="kn">import</span> <span class="n">Vec</span>
 <span class="n">vec</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -31,7 +30,7 @@
 <span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">w</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
-<h3>Operators</h3>
+<h2>Operators</h2>
 <div class="highlight python"><pre><span></span><span class="kn">from</span> <span class="nn">qlibs.math</span> <span class="kn">import</span> <span class="n">Vec</span>
 
 <span class="n">v0</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -69,15 +68,14 @@
 <span class="k">assert</span> <span class="n">v0</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
-<h1 id=Tutorials.Multiplexer>Tutorials.Multiplexer</h2>
-<h2>The guide to multiplexer</h2>
-<h3>Overview</h3>
+<h1 id=Multiplexer-Tutorial>Multiplexer Tutorial</h1>
+<h2>Overview</h2>
 <p>This module implements lockstep based multiplayer.
 There are two main classes: MultiplexServer and MultiplexClient, in addition to several event classes.</p>
-<h3>MultiplexServer</h3>
+<h2>MultiplexServer</h2>
 <p>Server listens to client sockets, accepts connections and sends/recieves events from clients. It does not need to be configured, except giving it a port and optionally <strong>engine_packer</strong>.</p>
 <p>Use <code>server_forever()</code> or <code>serve_in_thread()</code> to start it. Calling <code>stop_thread()</code> will stop it.</p>
-<h3>MultiplexClient</h3>
+<h2>MultiplexClient</h2>
 <p>Requires engine instance to be initialized plus optional <strong>host</strong> and <strong>port</strong>.
 Optional <strong>engine_constructor</strong> is required for engine reconstruction.</p>
 <p>It's field <strong>min_step_time</strong> is <em>obviusly</em> responsible for minimal time between steps.</p>
@@ -97,7 +95,7 @@ Optional <strong>engine_constructor</strong> is required for engine reconstructi
 <p><code>send_payload(data: bytes)</code> will create PayloadEvent with given data.</p>
 <p>It can be run by using <code>run_in_thread()</code>. Calling <code>stop_thread()</code> will stop it.
 Alternatively <code>step()</code> can be used in your mainloop.</p>
-<h3>Events</h3>
+<h2>Events</h2>
 <p>There are several types of events (their name field is given in brackets):</p>
 <ul>
 <li>PlayerJoinedEvent ("playerjoined")</li>

@@ -6,7 +6,7 @@
     left: 0;
     overflow-x: visible;
     overflow-y: scroll;
-    width: 10%;
+    width: 200px;
     background-color: rgb(43, 43, 43);
     padding: 10px;
 }
@@ -25,17 +25,37 @@
     color: aqua;
 }
 
+.modulelist {
+    padding-left: 15px;
+    font-size: small;
+}
+
+.modulelist a {
+    font-size: medium;
+    text-decoration: unset;
+}
+
 .main {
     padding: 10px;
-    padding-left: 11%;
+    padding-left: 220px;
+}
+
+.main em {
+    color: aqua;
+}
+
+.main hr {
+    color: white;
+}
+
+.classmethods {
+    padding-left: 10px;
 }
 
 body {
     background-color: rgb(49, 49, 49);
     color: white;
 }
-
-
 
 .highlight  {
     background: #111111;

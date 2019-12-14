@@ -60,23 +60,23 @@ class Window:
         glfw.make_context_current(self.window)
         glfw.swap_interval(swap_interval)
         #callbacks
-        glfw.set_window_size_callback(self.window, self.on_resize)
-        glfw.set_framebuffer_size_callback(self.window, self.update_viewport)
-        glfw.set_cursor_pos_callback(self.window, self.on_mouse_motion)
-        glfw.set_mouse_button_callback(self.window, self.on_mouse_button)
-        glfw.set_char_mods_callback(self.window, self.on_key_press)
-        glfw.set_key_callback(self.window, self.on_spec_key_press)
-        glfw.set_scroll_callback(self.window, self.on_scroll)
+        glfw.set_window_size_callback(self.window, self._on_resize)
+        glfw.set_framebuffer_size_callback(self.window, self._update_viewport)
+        glfw.set_cursor_pos_callback(self.window, self._on_mouse_motion)
+        glfw.set_mouse_button_callback(self.window, self._on_mouse_button)
+        glfw.set_char_mods_callback(self.window, self._on_key_press)
+        glfw.set_key_callback(self.window, self._on_spec_key_press)
+        glfw.set_scroll_callback(self.window, self._on_scroll)
 
         self.ctx = moderngl.create_context()
 
-    def on_resize(self, win, width, height):
+    def _on_resize(self, win, width, height):
         self.width = width
         self.height = height
         if self.resize_callback:
             self.resize_callback(win, width, height)
     
-    def update_viewport(self, window, width, height):
+    def _update_viewport(self, window, width, height):
         self.ctx.viewport = (0, 0, width, height)
     
     def swap(self):
@@ -114,18 +114,18 @@ class Window:
     def size(self):
         return (self.width, self.height)
     
-    def on_scroll(self, window, x, y):
+    def _on_scroll(self, window, x, y):
         if self.scroll_callback:
             self.scroll_callback(window, x, y)
 
-    def on_mouse_motion(self, window, x, y):
+    def _on_mouse_motion(self, window, x, y):
         if self.mouse_motion_callback:
             if self.flip_mouse_y:
                 self.mouse_motion_callback(window, x, y)
             else:
                 self.mouse_motion_callback(window, x, self.height - y)
 
-    def on_mouse_button(self, window, button, action, mods):
+    def _on_mouse_button(self, window, button, action, mods):
         if self.mouse_button_callback:
             self.mouse_button_callback(window, button, action == glfw.PRESS, mods)
         
@@ -135,11 +135,11 @@ class Window:
     def is_mouse_pressed(self, key):
         return glfw.get_mouse_button(self.window, key)
     
-    def on_key_press(self, window, key, mods):
+    def _on_key_press(self, window, key, mods):
         if self.key_callback:
             self.key_callback(window, key, mods)
     
-    def on_spec_key_press(self, window, key, ukey, pressed, mods):
+    def _on_spec_key_press(self, window, key, ukey, pressed, mods):
         if self.spec_key_callback:
             self.spec_key_callback(window, key, ukey, pressed, mods)
 

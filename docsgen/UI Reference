@@ -1,0 +1,10 @@
+HEADER "The App"
+MODULE qlibs.gui.widgets.app
+
+HEADER UI
+MODULE qlibs.gui.widgets.behaviors
+MODULE qlibs.gui.widgets.controller
+MODULE qlibs.gui.widgets.render
+
+HEADER Events
+MODULE qlibs.gui.widgets.events

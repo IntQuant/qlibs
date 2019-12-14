@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="sidenav">
+        <p><a href="index.html">[LINK] Back</a></p>
+<h1><a href="#The-App">The App</a></h1>
+<p><a href="#qlibs.gui.widgets.app">qlibs.gui.widgets.app</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.appApp>Class App</a></li></ul>
+<h1><a href="#UI">UI</a></h1>
+<p><a href="#qlibs.gui.widgets.behaviors">qlibs.gui.widgets.behaviors</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.behaviorshint_func_rel>Function hint_func_rel</a></li><li><a href=#qlibs.gui.widgets.behaviorsNodeB>Class NodeB</a></li><li><a href=#qlibs.gui.widgets.behaviorsButtonB>Class ButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCentererB>Class CentererB</a></li><li><a href=#qlibs.gui.widgets.behaviorsSizeLimitB>Class SizeLimitB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRCPlacerB>Class RCPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsColumnPlacerB>Class ColumnPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRowPlacerB>Class RowPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsTextInputB>Class TextInputB</a></li><li><a href=#qlibs.gui.widgets.behaviorsToggleButtonB>Class ToggleButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsProgressBarB>Class ProgressBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollableListB>Class ScrollableListB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollBarB>Class ScrollBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCustomRenderB>Class CustomRenderB</a></li></ul>
+<p><a href="#qlibs.gui.widgets.controller">qlibs.gui.widgets.controller</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</a></li></ul>
+<p><a href="#qlibs.gui.widgets.render">qlibs.gui.widgets.render</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.renderDefaultRenderer>Class DefaultRenderer</a></li></ul>
+<h1><a href="#Events">Events</a></h1>
+<p><a href="#qlibs.gui.widgets.events">qlibs.gui.widgets.events</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.eventsGUIEvent>Class GUIEvent</a></li><li><a href=#qlibs.gui.widgets.eventsMouseEvent>Class MouseEvent</a></li><li><a href=#qlibs.gui.widgets.eventsKeyMods>Class KeyMods</a></li><li><a href=#qlibs.gui.widgets.eventsKeyEvent>Class KeyEvent</a></li><li><a href=#qlibs.gui.widgets.eventsSpecKeyEvent>Class SpecKeyEvent</a></li></ul>
+    </div>
+    <div class="main">
+        <h1 id=The-App>The App</h1><hr>
+<h1 id=qlibs.gui.widgets.app>qlibs.gui.widgets.app</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.widgets.appApp>Class App</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.app__init__>Function __init__(self, node, win=None, **kwargs)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.appctx> None</h3>
+<h3 id=qlibs.gui.widgets.appdisable>Function disable(self)</h3>
+<h3 id=qlibs.gui.widgets.appenable>Function enable(self)</h3>
+<h3 id=qlibs.gui.widgets.apprender>Function render(self, wait_time=None)</h3>
+<h3 id=qlibs.gui.widgets.appset_node>Function set_node(self, node)</h3>
+<h3 id=qlibs.gui.widgets.appshould_close> None</h3>
+</div>
+<h1 id=UI>UI</h1><hr>
+<h1 id=qlibs.gui.widgets.behaviors>qlibs.gui.widgets.behaviors</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.widgets.behaviorshint_func_rel>Function hint_func_rel(placer, hints)</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsNodeB>Class NodeB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsButtonB>Class ButtonB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, name, callback, text=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsCentererB>Class CentererB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, sep_x, sep_y, child=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsSizeLimitB>Class SizeLimitB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, targ_x, targ_y, child=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsRCPlacerB>Class RCPlacerB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, spacing=2, vertical=True, max_size=1)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child, size_hint=None)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsColumnPlacerB>Class ColumnPlacerB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, spacing=2)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child, size_hint=None)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsRowPlacerB>Class RowPlacerB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, spacing=2)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child, size_hint=None)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsTextInputB>Class TextInputB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, text="", name="default", callback=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsToggleButtonB>Class ToggleButtonB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, name, callback, text=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsProgressBarB>Class ProgressBarB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsScrollableListB>Class ScrollableListB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, shown_items=10)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsscrollbar_cb>Function scrollbar_cb(self, pos)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsupdate_view>Function update_view(self)</h3>
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsScrollBarB>Class ScrollBarB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, direction="vertical", cb=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsCustomRenderB>Class CustomRenderB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, render)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h1 id=qlibs.gui.widgets.controller>qlibs.gui.widgets.controller</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.controller__init__>Function __init__(self)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.controllerassign_to_window>Function assign_to_window(self, win)</h3>
+<h3 id=qlibs.gui.widgets.controllercheck_reselect>Function check_reselect(self, window)</h3>
+<h3 id=qlibs.gui.widgets.controllerget_selected_node>Function get_selected_node(self, window)</h3>
+<h3 id=qlibs.gui.widgets.controllerget_window_node>Function get_window_node(self, window)</h3>
+<h3 id=qlibs.gui.widgets.controllerhandle_to_selected>Function handle_to_selected(self, window, event)</h3>
+<h3 id=qlibs.gui.widgets.controlleris_node_selected>Function is_node_selected(self, node)</h3>
+<h3 id=qlibs.gui.widgets.controllerkey_handler>Function key_handler(self, window, key, mods)</h3>
+<h3 id=qlibs.gui.widgets.controllermouse_button_handler>Function mouse_button_handler(self, window, button, action, mods)</h3>
+<h3 id=qlibs.gui.widgets.controllermouse_position_handler>Function mouse_position_handler(self, window, x, y)</h3>
+<h3 id=qlibs.gui.widgets.controllerresize_handler>Function resize_handler(self, window, width, height)</h3>
+<h3 id=qlibs.gui.widgets.controllerscroll_handler>Function scroll_handler(self, window, x, y)</h3>
+<h3 id=qlibs.gui.widgets.controllersend_mouse_event>Function send_mouse_event(self, window, scroll_y=0)</h3>
+<h3 id=qlibs.gui.widgets.controllerset_selected_node>Function set_selected_node(self, window, node)</h3>
+<h3 id=qlibs.gui.widgets.controllerset_window_node>Function set_window_node(self, window, node)</h3>
+<h3 id=qlibs.gui.widgets.controllerspec_key_handler>Function spec_key_handler(self, window, key, ukey, pressed, mods)</h3>
+<h3 id=qlibs.gui.widgets.controllerunassign_from_window>Function unassign_from_window(self, win)</h3>
+</div>
+<h1 id=qlibs.gui.widgets.render>qlibs.gui.widgets.render</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.widgets.renderDefaultRenderer>Class DefaultRenderer</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.render__init__>Function __init__(self, window, node, font=None, font_path=None, font_render=None, is_selected_cb=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.renderqueue_text>Function queue_text(self, text, x, y, scale=1)</h3>
+<h3 id=qlibs.gui.widgets.renderrender>Function render(self)</h3>
+<h3 id=qlibs.gui.widgets.renderrender_drawer>Function render_drawer(self)</h3>
+<h3 id=qlibs.gui.widgets.renderrender_image>Function render_image(self, node)</h3>
+<h3 id=qlibs.gui.widgets.renderrender_node>Function render_node(self, node)</h3>
+</div>
+<h1 id=Events>Events</h1><hr>
+<h1 id=qlibs.gui.widgets.events>qlibs.gui.widgets.events</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.widgets.eventsGUIEvent>Class GUIEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.events__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.eventsshall_pass> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.eventstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.eventsMouseEvent>Class MouseEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.events__init__>Function __init__(self, x, y, pressed, scroll_up=False, scroll_down=False, pressed_buttons=EMPTY_SET)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.eventsshall_pass> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.eventstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.eventsKeyMods>Class KeyMods</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.events__init__>Function __init__(self, glfwmods=0)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.eventsKeyEvent>Class KeyEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.events__init__>Function __init__(self, key, mods)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.eventsshall_pass> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.eventstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.eventsSpecKeyEvent>Class SpecKeyEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.events__init__>Function __init__(self, key, mods)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.eventsshall_pass> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.eventstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+    </div> 
+</body>
+</html>

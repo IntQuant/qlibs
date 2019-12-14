@@ -1,3 +1,7 @@
+"""
+  Contains drawers of simple shapes.
+"""
+
 from array import array
 
 import moderngl
@@ -11,6 +15,9 @@ SHADER_FRAGMENT = "qlibs/shaders/drawer.frag"
 
 
 class ShapeDrawer:
+    """
+      Special class for drawing simple shapes: lines, triangles and polygons.
+    """
     def __init__(self, ctx, prog=None):
         self.program = prog or get_storage_of_context(ctx).get_program(
             SHADER_VERTEX, SHADER_FRAGMENT

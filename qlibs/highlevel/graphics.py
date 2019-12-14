@@ -1,3 +1,7 @@
+"""
+  Highlevel graphics things
+"""
+
 from ..gui.sprite_drawer import SpriteDrawer, TEXTURE_POINTS
 from ..resources.resource_loader import get_image_data
 from ..math import Matrix4, IDENTITY
@@ -8,7 +12,7 @@ class SpriteMasterBase:
       Used for forking
     """
     def __init__(self, master):
-        self.derive_drawers(master)
+        self._derive_drawers(master)
 
     def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         drawer_id, sprite_id = self.id_map[id_]
@@ -33,14 +37,19 @@ class SpriteMasterBase:
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
         self.render(mvp=mvp, reset=reset)
     
-    def derive_drawers(self, master):
+    def _derive_drawers(self, master):
         self.id_map = master.id_map
         self.drawers = [drawer.fork() for drawer in master.drawers]
 
 
 class ObjectSpriteMaster:
+    """
+    Like the usual sprite master, but uses "Objects" to manipulate buffers.
+    
+    More effient when you don't need to update everything.
+    """
     def __init__(self, master):
-        self.derive_drawers(master)
+        self._derive_drawers(master)
     
     def add_sprite(self, id_, x, y, w, h, r=0, z=0, color=(1, 1, 1, 1)):
         drawer_id, sprite_id = self.id_map[id_]
@@ -55,7 +64,7 @@ class ObjectSpriteMaster:
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
         self.render()
     
-    def derive_drawers(self, master):
+    def _derive_drawers(self, master):
         self.id_map = master.id_map
         self.drawers = [drawer.fork() for drawer in master.drawers]
 
@@ -63,7 +72,10 @@ class ObjectSpriteMaster:
 class SpriteMaster(SpriteMasterBase):
     """
     Does loading, managing and drawing. All at once.
-    Can also calculate mvps. Quite efficcent in terms of draw calls.
+    
+    Can also calculate mvps.
+    
+    Quite effient in terms of draw calls.
     """
     def __init__(self, ctx):
         self.ctx = ctx
@@ -102,7 +114,7 @@ class SpriteMaster(SpriteMasterBase):
         #And it is ready!
         #Update forks
         for fork in self.forks:
-            fork.derive_drawers(self)
+            fork._derive_drawers(self)
 
     def fork(self):
         """

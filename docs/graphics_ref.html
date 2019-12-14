@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="sidenav">
+        <p><a href="index.html">[LINK] Back</a></p>
+<h1><a href="#Highlevel">Highlevel</a></h1>
+<p><a href="#qlibs.highlevel.graphics">qlibs.highlevel.graphics</a></p>
+<ul class="modulelist"><li><a href=#qlibs.highlevel.graphicsSpriteMasterBase>Class SpriteMasterBase</a></li><li><a href=#qlibs.highlevel.graphicsObjectSpriteMaster>Class ObjectSpriteMaster</a></li><li><a href=#qlibs.highlevel.graphicsSpriteMaster>Class SpriteMaster</a></li></ul>
+<h1><a href="#Fonts">Fonts</a></h1>
+<p><a href="#qlibs.fonts.font_render">qlibs.fonts.font_render</a></p>
+<ul class="modulelist"><li><a href=#qlibs.fonts.font_renderGlyph>Class Glyph</a></li><li><a href=#qlibs.fonts.font_renderDirectFontRender>Class DirectFontRender</a></li></ul>
+<p><a href="#qlibs.fonts.font_search">qlibs.fonts.font_search</a></p>
+<ul class="modulelist"><li><a href=#qlibs.fonts.font_searchfind_reasonable_font>Function find_reasonable_font</a></li></ul>
+<h1><a href="#Low-Level">Low Level</a></h1>
+<p><a href="#qlibs.gui.basic_shapes">qlibs.gui.basic_shapes</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.basic_shapesShapeDrawer>Class ShapeDrawer</a></li></ul>
+<p><a href="#qlibs.gui.sprite_drawer">qlibs.gui.sprite_drawer</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.sprite_drawerSpriteDrawerBase>Class SpriteDrawerBase</a></li><li><a href=#qlibs.gui.sprite_drawerSprite>Class Sprite</a></li><li><a href=#qlibs.gui.sprite_drawerObjectDrawer>Class ObjectDrawer</a></li><li><a href=#qlibs.gui.sprite_drawerSpriteDrawer>Class SpriteDrawer</a></li></ul>
+<p><a href="#qlibs.gui.window">qlibs.gui.window</a></p>
+<ul class="modulelist"><li><a href=#qlibs.gui.windowWindow>Class Window</a></li></ul>
+    </div>
+    <div class="main">
+        <h1 id=Highlevel>Highlevel</h1><hr>
+<h1 id=qlibs.highlevel.graphics>qlibs.highlevel.graphics</h1>
+<p>Highlevel graphics things</p>
+
+<h2 id=qlibs.highlevel.graphicsSpriteMasterBase>Class SpriteMasterBase</h2>
+<p>Base SpriteMaster class which does not handle drawers.
+Used for forking</p>
+
+<div class="classmethods">
+<h3 id=qlibs.highlevel.graphics__init__>Function __init__(self, master)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.highlevel.graphicsadd_sprite_centered>Function add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsadd_sprite_rect>Function add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsadd_sprite_rotated>Function add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsrender>Function render(self, mvp=Matrix4(IDENTITY), reset=True)</h3>
+<h3 id=qlibs.highlevel.graphicsrender_centered>Function render_centered(self, center, size, reset=True)</h3>
+</div>
+<h2 id=qlibs.highlevel.graphicsObjectSpriteMaster>Class ObjectSpriteMaster</h2>
+<p>Like the usual sprite master, but uses "Objects" to manipulate buffers.</p>
+<p>More effient when you don't need to update everything.</p>
+
+<div class="classmethods">
+<h3 id=qlibs.highlevel.graphics__init__>Function __init__(self, master)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.highlevel.graphicsadd_sprite>Function add_sprite(self, id_, x, y, w, h, r=0, z=0, color=(1, 1, 1, 1))</h3>
+<h3 id=qlibs.highlevel.graphicsrender>Function render(self, mvp=Matrix4(IDENTITY))</h3>
+<h3 id=qlibs.highlevel.graphicsrender_centered>Function render_centered(self, center, size)</h3>
+</div>
+<h2 id=qlibs.highlevel.graphicsSpriteMaster>Class SpriteMaster</h2>
+<p>Does loading, managing and drawing. All at once.</p>
+<p>Can also calculate mvps.</p>
+<p>Quite effient in terms of draw calls.</p>
+
+<div class="classmethods">
+<h3 id=qlibs.highlevel.graphics__init__>Function __init__(self, ctx)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.highlevel.graphicsadd_sprite_centered>Function add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsadd_sprite_rect>Function add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsadd_sprite_rotated>Function add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.highlevel.graphicsfork>Function fork(self)</h3>
+<p>Create another sprite master with it's own set of buffers</p>
+
+<h3 id=qlibs.highlevel.graphicsinit>Function init(self)</h3>
+<h3 id=qlibs.highlevel.graphicsload_file>Function load_file(self, sprite_id, file_id)</h3>
+<h3 id=qlibs.highlevel.graphicsrender>Function render(self, mvp=Matrix4(IDENTITY), reset=True)</h3>
+<h3 id=qlibs.highlevel.graphicsrender_centered>Function render_centered(self, center, size, reset=True)</h3>
+</div>
+<h1 id=Fonts>Fonts</h1><hr>
+<h1 id=qlibs.fonts.font_render>qlibs.fonts.font_render</h1>
+<p>Module for rendering text</p>
+
+<h2 id=qlibs.fonts.font_renderGlyph>Class Glyph</h2>
+<p>Class for storing glyph data: <em>advance</em>, <em>size</em>, <em>bearing</em>, and opengl <em>texture</em></p>
+
+<div class="classmethods">
+<h3 id=qlibs.fonts.font_render__init__>Function __init__(self, ctx, glyph)</h3>
+<p>Initialize everything from glyph</p>
+
+</div>
+<h2 id=qlibs.fonts.font_renderDirectFontRender>Class DirectFontRender</h2>
+<p>Render text using font</p>
+
+<div class="classmethods">
+<h3 id=qlibs.fonts.font_render__init__>Function __init__(self, ctx, font: freetype.Face, font_path=None, pixel_size=48, flip_y=False)</h3>
+<p><em>ctx</em> is a moderngl context
+<em>font_path</em> will be used if <em>font</em> is None</p>
+
+<h3 id=qlibs.fonts.font_rendercalc_height> calc_height</h3>
+<h3 id=qlibs.fonts.font_rendercalc_size> calc_size</h3>
+<h3 id=qlibs.fonts.font_renderget_glyph>Function get_glyph(self, char)</h3>
+<h3 id=qlibs.fonts.font_renderrender_string>Function render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True)</h3>
+<p>Render text with given parameters</p>
+
+</div>
+<h1 id=qlibs.fonts.font_search>qlibs.fonts.font_search</h1>
+<p>Searches system fonts</p>
+
+<h2 id=qlibs.fonts.font_searchfind_reasonable_font>Function find_reasonable_font()</h2>
+<p>Try to return system font path, or some other font</p>
+
+<div class="classmethods">
+<h3 id=qlibs.fonts.font_search__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h1 id=Low-Level>Low Level</h1><hr>
+<h1 id=qlibs.gui.basic_shapes>qlibs.gui.basic_shapes</h1>
+<p>Contains drawers of simple shapes.</p>
+
+<h2 id=qlibs.gui.basic_shapesShapeDrawer>Class ShapeDrawer</h2>
+<p>Special class for drawing simple shapes: lines, triangles and polygons.</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.basic_shapes__init__>Function __init__(self, ctx, prog=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.basic_shapesadd_line>Function add_line(self, p0, p1, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesadd_line_polygon>Function add_line_polygon(self, points, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesadd_line_rectangle>Function add_line_rectangle(self, x, y, w, h, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesadd_polygon>Function add_polygon(self, points, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesadd_rectangle>Function add_rectangle(self, x, y, w, h, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesadd_triangle>Function add_triangle(self, points, color=(1, 1, 1))</h3>
+<h3 id=qlibs.gui.basic_shapesprepare>Function prepare(self)</h3>
+<h3 id=qlibs.gui.basic_shapesrender>Function render(self, mvp=Matrix4(IDENTITY), reset=True, change_context_state=True)</h3>
+</div>
+<h1 id=qlibs.gui.sprite_drawer>qlibs.gui.sprite_drawer</h1>
+<p>Sprite drawer. Uses texture atlas to draw images.</p>
+<p>Low level. Consider using qlibs.highlevel.graphics instead.</p>
+
+<h2 id=qlibs.gui.sprite_drawerSpriteDrawerBase>Class SpriteDrawerBase</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.sprite_drawer__init__>Function __init__(self, texture, program, ctx)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.sprite_draweradd_sprite_centered>Function add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_draweradd_sprite_rect>Function add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_draweradd_sprite_rotated>Function add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_drawerprepare>Function prepare(self)</h3>
+<h3 id=qlibs.gui.sprite_drawerrender>Function render(self, mvp=Matrix4(IDENTITY), reset=True)</h3>
+</div>
+<h2 id=qlibs.gui.sprite_drawerSprite>Class Sprite</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.sprite_drawer__init__>Function __init__(self, location, owner, id_, x, y, w, h, r, z, color)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.sprite_drawerremove>Function remove(self)</h3>
+<h3 id=qlibs.gui.sprite_drawerupdate>Function update(self)</h3>
+</div>
+<h2 id=qlibs.gui.sprite_drawerObjectDrawer>Class ObjectDrawer</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.sprite_drawer__init__>Function __init__(self, texture, program, ctx)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.sprite_draweradd_sprite>Function add_sprite(self, id_, x, y, w, h, r=0, z=0, color=(1, 1, 1, 1))</h3>
+<h3 id=qlibs.gui.sprite_drawerassert_buffer>Function assert_buffer(self)</h3>
+<h3 id=qlibs.gui.sprite_drawercalc_buffer_size>Function calc_buffer_size(self)</h3>
+<h3 id=qlibs.gui.sprite_drawerobject_count> None</h3>
+<h3 id=qlibs.gui.sprite_drawerremove_location>Function remove_location(self, location)</h3>
+<h3 id=qlibs.gui.sprite_drawerrender>Function render(self, mvp=Matrix4(IDENTITY))</h3>
+<h3 id=qlibs.gui.sprite_drawerupdate_location>Function update_location(self, location, data)</h3>
+</div>
+<h2 id=qlibs.gui.sprite_drawerSpriteDrawer>Class SpriteDrawer</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.sprite_drawer__init__>Function __init__(self, ctx, size, data, components=4, program=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.sprite_draweradd_sprite_centered>Function add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_draweradd_sprite_rect>Function add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_draweradd_sprite_rotated>Function add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS)</h3>
+<h3 id=qlibs.gui.sprite_drawerfork>Function fork(self)</h3>
+<p>Create another sprite drawer. It will share texture but not buffers</p>
+
+<h3 id=qlibs.gui.sprite_drawerfork_object_mode>Function fork_object_mode(self)</h3>
+<h3 id=qlibs.gui.sprite_drawerprepare>Function prepare(self)</h3>
+<h3 id=qlibs.gui.sprite_drawerrender>Function render(self, mvp=Matrix4(IDENTITY), reset=True)</h3>
+<h3 id=qlibs.gui.sprite_drawerwrite_layer>Function write_layer(self, id_, data)</h3>
+</div>
+<h1 id=qlibs.gui.window>qlibs.gui.window</h1>
+<p>None</p>
+
+<h2 id=qlibs.gui.windowWindow>Class Window</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.window__init__>Function __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.windowclose>Function close(self)</h3>
+<h3 id=qlibs.gui.windowenable_sticky_mouse>Function enable_sticky_mouse(self, action=True)</h3>
+<h3 id=qlibs.gui.windowis_key_pressed>Function is_key_pressed(self, key)</h3>
+<h3 id=qlibs.gui.windowis_mouse_pressed>Function is_mouse_pressed(self, key)</h3>
+<h3 id=qlibs.gui.windowmouse_pos> None</h3>
+<h3 id=qlibs.gui.windowpoll_events>Function poll_events(self)</h3>
+<h3 id=qlibs.gui.windowshould_close> None</h3>
+<h3 id=qlibs.gui.windowsize> None</h3>
+<h3 id=qlibs.gui.windowswap>Function swap(self)</h3>
+<h3 id=qlibs.gui.windowwait_events>Function wait_events(self, timeout=None)</h3>
+</div>
+    </div> 
+</body>
+</html>

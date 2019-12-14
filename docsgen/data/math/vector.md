@@ -1,16 +1,14 @@
-## The guide to vectors
-
-### Overview
+## Overview
 
 Vectors are collections of numbers. They can be added, substracted, multiplied and divided, in addition to several useful methods. Because of that they are great for representing locations and directions.
 
-### Creating vectors
+## Creating vectors
 
 - Vec(iterable) - creates vector from iterable
 - Vec(*args) - creates vector as if args were an iterable, so that `Vec([0, 1])` and `Vec(0, 1)` are equal.
 - Vec2(x, y) - specialized vector class, which is faster(direct access to **x** and **y** fields) and is always two-dimensional.
 
-### Indexing
+## Indexing
 
 First 4 components of vector can be accessed when they are present like this:
 ```python
@@ -24,7 +22,7 @@ assert vec.z == vec[2]
 assert vec.w == vec[3]
 ```
 
-### Operators
+## Operators
 ```python
 from qlibs.math import Vec
 

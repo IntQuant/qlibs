@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="sidenav">
+        <p><a href="index.html">[LINK] Back</a></p>
+<p><a href="#qlibs.net.asyncsocket">qlibs.net.asyncsocket</a></p>
+<ul class="modulelist"><li><a href=#qlibs.net.asyncsocketAsyncSocket>Class AsyncSocket</a></li><li><a href=#qlibs.net.asyncsocketPacketSocket>Class PacketSocket</a></li><li><a href=#qlibs.net.asyncsocketAsyncUDPSocket>Class AsyncUDPSocket</a></li><li><a href=#qlibs.net.asyncsocketSelSockType>Class SelSockType</a></li><li><a href=#qlibs.net.asyncsocketServerSelector>Class ServerSelector</a></li><li><a href=#qlibs.net.asyncsocketbytes_packet_sender>Function bytes_packet_sender</a></li><li><a href=#qlibs.net.asyncsocketbytes_packet_reciever>Function bytes_packet_reciever</a></li></ul>
+<p><a href="#qlibs.net.multiplexer">qlibs.net.multiplexer</a></p>
+<ul class="modulelist"><li><a href=#qlibs.net.multiplexerPlayerJoinedEvent>Class PlayerJoinedEvent</a></li><li><a href=#qlibs.net.multiplexerPlayerLeftEvent>Class PlayerLeftEvent</a></li><li><a href=#qlibs.net.multiplexerPayloadEvent>Class PayloadEvent</a></li><li><a href=#qlibs.net.multiplexerReadyEvent>Class ReadyEvent</a></li><li><a href=#qlibs.net.multiplexerReconstructEvent>Class ReconstructEvent</a></li><li><a href=#qlibs.net.multiplexerMultiplexerException>Class MultiplexerException</a></li><li><a href=#qlibs.net.multiplexerconvert_event>Function convert_event</a></li><li><a href=#qlibs.net.multiplexerMultiplexServer>Class MultiplexServer</a></li><li><a href=#qlibs.net.multiplexerMultiplexClient>Class MultiplexClient</a></li></ul>
+    </div>
+    <div class="main">
+        <h1 id=qlibs.net.asyncsocket>qlibs.net.asyncsocket</h1>
+<p>Async socket library</p>
+
+<h2 id=qlibs.net.asyncsocketAsyncSocket>Class AsyncSocket</h2>
+<p>Async socket - writing and reading don't block.</p>
+<p>Most useful when it is the only socket you need, consider using select if you
+need more sockets</p>
+<p>TCP version</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__>Function __init__(self, socket: SocketType)</h3>
+<p>Initialize using socket</p>
+
+<h3 id=qlibs.net.asyncsocketaccept>Function accept(self) -> Union[Tuple[SocketType, Any], Tuple[None, None]]</h3>
+<p>Accept connection asynchronously. Returns (None, None) is not ready</p>
+
+<h3 id=qlibs.net.asyncsocketempty>Function empty(self) -> bool</h3>
+<p>True if no values to send left</p>
+
+<h3 id=qlibs.net.asyncsocketextra> None</h3>
+<h3 id=qlibs.net.asyncsocketfileno>Function fileno(self)</h3>
+<h3 id=qlibs.net.asyncsocketrecv>Function recv(self, amount: int) -> bytes</h3>
+<p>Try to recieve data from socket</p>
+
+<h3 id=qlibs.net.asyncsocketsend>Function send(self, data: bytes = None) -> int</h3>
+<p>Try to send data to socket; this is buffered</p>
+
+</div>
+<h2 id=qlibs.net.asyncsocketPacketSocket>Class PacketSocket</h2>
+<p>Socket for handling packets, passes recieved bytes to generator</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__>Function __init__(self, socket, processor, *args)</h3>
+<p><em>processor</em> should be a generator. 
+It will recieve new byte when recieving message.
+Use <code>data = yield</code> to recieve one byte as int value</p>
+
+<h3 id=qlibs.net.asyncsocketclosed> None</h3>
+<h3 id=qlibs.net.asyncsocketempty>Function empty(self)</h3>
+<p>True if no values to send left</p>
+
+<h3 id=qlibs.net.asyncsocketextra> None</h3>
+<h3 id=qlibs.net.asyncsocketfileno>Function fileno(self)</h3>
+<h3 id=qlibs.net.asyncsocketrecv>Function recv(self, size=RECVSIZE)</h3>
+<p>Recieve data from socket and feed it to generator</p>
+
+<h3 id=qlibs.net.asyncsocketsend>Function send(self, data:bytes = None)</h3>
+<p>Try to send data to socket; this is buffered</p>
+
+</div>
+<h2 id=qlibs.net.asyncsocketAsyncUDPSocket>Class AsyncUDPSocket</h2>
+<p>Async socket - writing and reading don't block</p>
+<p>Most useful when it is the only socket you need, consider using select if you
+need more sockets</p>
+<p>UDP version</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__>Function __init__(self, socket)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.asyncsocketextra> None</h3>
+<h3 id=qlibs.net.asyncsocketrecv>Function recv(self, amount=RECVSIZE)</h3>
+<p>Recieve data, (None, None) returned if no data available</p>
+
+<h3 id=qlibs.net.asyncsocketsendto>Function sendto(self, data, adress)</h3>
+<p>Try to send packet to adrees; no buffer</p>
+
+<h3 id=qlibs.net.asyncsocketsendto_buff>Function sendto_buff(self, data, adress)</h3>
+<p>Try to send packet to adress; with buffer</p>
+
+</div>
+<h2 id=qlibs.net.asyncsocketSelSockType>Class SelSockType</h2>
+<p>An enumeration.</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocketACCEPTER> None</h3>
+<p>An enumeration.</p>
+
+<h3 id=qlibs.net.asyncsocketNORMAL> None</h3>
+<p>An enumeration.</p>
+
+</div>
+<h2 id=qlibs.net.asyncsocketServerSelector>Class ServerSelector</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__>Function __init__(self, listener: SocketType, on_connect: Callable, on_read: Callable)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.asyncsocketregister>Function register(self, asock: Union[AsyncSocket, PacketSocket])</h3>
+<h3 id=qlibs.net.asyncsocketselect>Function select(self, timeout=None)</h3>
+<h3 id=qlibs.net.asyncsocketsocket_iterator> None</h3>
+<h3 id=qlibs.net.asyncsocketunregister>Function unregister(self, asock: Union[AsyncSocket, PacketSocket])</h3>
+</div>
+<h2 id=qlibs.net.asyncsocketbytes_packet_sender>Function bytes_packet_sender(data)</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.net.asyncsocketbytes_packet_reciever>Function bytes_packet_reciever(sock)</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.asyncsocket__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h1 id=qlibs.net.multiplexer>qlibs.net.multiplexer</h1>
+<p>None</p>
+
+<h2 id=qlibs.net.multiplexerPlayerJoinedEvent>Class PlayerJoinedEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, player_id)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexername> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerPlayerLeftEvent>Class PlayerLeftEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, player_id)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexername> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerPayloadEvent>Class PayloadEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, player_id, data)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexername> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerReadyEvent>Class ReadyEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, timedelta)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexername> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerReconstructEvent>Class ReconstructEvent</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, data)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexername> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerMultiplexerException>Class MultiplexerException</h2>
+<p>Common base class for all non-exit exceptions.</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexerargs> args</h3>
+<h3 id=qlibs.net.multiplexerwith_traceback> with_traceback</h3>
+<p>Exception.with_traceback(tb) --
+set self.<strong>traceback</strong> to tb and return self.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerconvert_event>Function convert_event(event)</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.net.multiplexerMultiplexServer>Class MultiplexServer</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, host="0.0.0.0", port=55126, engine_packer=None)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexerserve_forever>Function serve_forever(self)</h3>
+<h3 id=qlibs.net.multiplexerserve_in_thread>Function serve_in_thread(self)</h3>
+<h3 id=qlibs.net.multiplexerstop_thread>Function stop_thread(self)</h3>
+</div>
+<h2 id=qlibs.net.multiplexerMultiplexClient>Class MultiplexClient</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.net.multiplexer__init__>Function __init__(self, engine, engine_constructor=None, host="localhost", port=55126)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.net.multiplexerrun_in_thread>Function run_in_thread(self)</h3>
+<h3 id=qlibs.net.multiplexersend_payload>Function send_payload(self, data)</h3>
+<h3 id=qlibs.net.multiplexerstep>Function step(self)</h3>
+<h3 id=qlibs.net.multiplexerstop_thread>Function stop_thread(self)</h3>
+<h3 id=qlibs.net.multiplexerthread_runner>Function thread_runner(self)</h3>
+</div>
+    </div> 
+</body>
+</html>

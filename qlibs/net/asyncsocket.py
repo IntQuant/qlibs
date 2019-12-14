@@ -11,15 +11,19 @@ from typing import Union, Tuple, Any, Callable
 
 import logging
 
+__all__ = ["AsyncSocket", "AsyncUDPSocket", "PacketSocket", "ServerSelector", "SelSockType"]
+
 logger = logging.getLogger("qlibs.net.asyncsocket")
 
 RECVSIZE = 1024 * 8
 
 class AsyncSocket:
     """
-      Async socket - writing and reading don't block
-      Most useful when it is the only socket you need, consider using select if you \
-       need more sockets
+      Async socket - writing and reading don't block.
+      
+      Most useful when it is the only socket you need, consider using select if you
+      need more sockets
+
       TCP version
     """
     extra = None
@@ -128,8 +132,10 @@ class PacketSocket:
 class AsyncUDPSocket:
     """
       Async socket - writing and reading don't block
-      Most useful when it is the only socket you need, consider using select if you \
-       need more sockets
+      
+      Most useful when it is the only socket you need, consider using select if you
+      need more sockets
+
       UDP version
     """
     extra = None
