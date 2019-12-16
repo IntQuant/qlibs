@@ -385,3 +385,35 @@ class CustomRenderB(NodeB):
     def __init__(self, render):
         super().__init__()
         self.render = render
+
+
+class RadioButtonGroup:
+    def __init__(self):
+        self.selected = None
+
+class RadioButtonB(NodeB):
+    def __init__(self, group):
+        super().__init__(self)
+        self.group = group
+        if grop.selected is None:
+            grop.selected = self
+    
+    def handle_event(self, event):
+        if event.type == "mouse":
+            self.hovered = (
+                self.position.x <= event.pos.x <= self.position.x + self.size.x 
+                and self.position.y <= event.pos.y <= self.position.y + self.size.y
+            )
+            if self.hovered:
+                event.used = True
+            if event.pressed and self.hovered:
+                if not self.pressed:
+                    self.state = not self.state
+                    self.group.selected = self
+                    self.pressed = True
+            if not event.pressed:
+                self.pressed = False
+
+        super().handle_event(event)
+
+        

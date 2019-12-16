@@ -5,7 +5,7 @@
 </head>
 <body>
     <div class="sidenav">
-        <p><a href="index.html">[LINK] Back</a></p>
+        <p><a href="index.html">🔗 Back</a></p>
 <p><a href="#qlibs.net.asyncsocket">qlibs.net.asyncsocket</a></p>
 <ul class="modulelist"><li><a href=#qlibs.net.asyncsocketAsyncSocket>Class AsyncSocket</a></li><li><a href=#qlibs.net.asyncsocketPacketSocket>Class PacketSocket</a></li><li><a href=#qlibs.net.asyncsocketAsyncUDPSocket>Class AsyncUDPSocket</a></li><li><a href=#qlibs.net.asyncsocketSelSockType>Class SelSockType</a></li><li><a href=#qlibs.net.asyncsocketServerSelector>Class ServerSelector</a></li><li><a href=#qlibs.net.asyncsocketbytes_packet_sender>Function bytes_packet_sender</a></li><li><a href=#qlibs.net.asyncsocketbytes_packet_reciever>Function bytes_packet_reciever</a></li></ul>
 <p><a href="#qlibs.net.multiplexer">qlibs.net.multiplexer</a></p>
@@ -28,6 +28,7 @@ need more sockets</p>
 <h3 id=qlibs.net.asyncsocketaccept>Function accept(self) -> Union[Tuple[SocketType, Any], Tuple[None, None]]</h3>
 <p>Accept connection asynchronously. Returns (None, None) is not ready</p>
 
+<h3 id=qlibs.net.asyncsocketclose>Function close(self)</h3>
 <h3 id=qlibs.net.asyncsocketempty>Function empty(self) -> bool</h3>
 <p>True if no values to send left</p>
 
@@ -45,10 +46,11 @@ need more sockets</p>
 
 <div class="classmethods">
 <h3 id=qlibs.net.asyncsocket__init__>Function __init__(self, socket, processor, *args)</h3>
-<p><em>processor</em> should be a generator. 
+<p><strong>processor</strong> should be a generator. 
 It will recieve new byte when recieving message.
 Use <code>data = yield</code> to recieve one byte as int value</p>
 
+<h3 id=qlibs.net.asyncsocketclose>Function close(self)</h3>
 <h3 id=qlibs.net.asyncsocketclosed> None</h3>
 <h3 id=qlibs.net.asyncsocketempty>Function empty(self)</h3>
 <p>True if no values to send left</p>

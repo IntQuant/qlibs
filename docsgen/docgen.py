@@ -132,11 +132,11 @@ def compile_index(indexname, resname, backlink=None):
 
     print(f"Generating index for {indexpath}")
     if backlink is not None:
-        resindex.append(f'<p><a href="{backlink}.html">[LINK] Back</a></p>')
+        resindex.append(f'<p><a href="{backlink}.html">🔗 Back</a></p>')
 
     for key in index:
         if key in additional_index_files:
-            resindex.append(f'<p><a href="{index[key]}">[LINK] {key}</a></p>')
+            resindex.append(f'<p><a href="{index[key]}">🔗 {key}</a></p>')
         else:
             if isinstance(index[key], DataHeader):
                 resindex.append(f'<h1><a href="#{key.replace(" ", "-")}">{key}</a></h1>')

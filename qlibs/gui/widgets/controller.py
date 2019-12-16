@@ -140,14 +140,23 @@ spec_key_traversion_dict = {
     glfw.KEY_Z: 'z',
 }
 
+def null_event_handler(event): pass
 
 class WindowWidgetController:
+    """
+    Converts events from glfw window to qlibs format and sends them to nodes.
+
+    **additional_event_handler** field will be called when event wasn't used. If **force_send_events** is set to True it will be called anyway.
+    """
     def __init__(self):
         self.children = dict()
         self.mouse_x = 0
         self.mouse_y = 0
         self.mouse_pressed = False
         self.selected = dict()
+        self.pressed_buttons = set()
+        self.additional_event_handler = null_event_handler
+        self.force_send_events = False
 
     def set_window_node(self, window, node):
         if hasattr(window, "window"):
@@ -184,8 +193,10 @@ class WindowWidgetController:
     def send_mouse_event(self, window, scroll_y=0):
         up = scroll_y > 0
         down = scroll_y < 0
-        event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed, up, down)
+        event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed, up, down, pressed_buttons=self.pressed_buttons)
         self.get_window_node(window).handle_event(event)
+        if self.force_send_events or not event.used:
+            self.additional_event_handler(event)
 
     def mouse_position_handler(self, window, x, y):
         node = self.get_window_node(window)
@@ -197,6 +208,10 @@ class WindowWidgetController:
         node = self.get_window_node(window) #Is this required?
         if button == glfw.MOUSE_BUTTON_LEFT:
             self.mouse_pressed = action
+        if action == glfw.PRESS:
+            self.pressed_buttons.add(button)
+        else:
+            self.pressed_buttons.discard(button)
         self.send_mouse_event(window)
         if button == glfw.MOUSE_BUTTON_LEFT and action == glfw.PRESS:
             self.check_reselect(window)
@@ -208,6 +223,8 @@ class WindowWidgetController:
         node = self.get_selected_node(window)
         if node is not None:
             node.handle_event(event)
+        if node is None or self.force_send_events:
+            self.additional_event_handler(event)
 
     def check_reselect(self, window):
         queue = deque()

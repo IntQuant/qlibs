@@ -5,15 +5,15 @@
 </head>
 <body>
     <div class="sidenav">
-        <p><a href="index.html">[LINK] Back</a></p>
+        <p><a href="index.html">🔗 Back</a></p>
 <h1><a href="#The-App">The App</a></h1>
 <p><a href="#qlibs.gui.widgets.app">qlibs.gui.widgets.app</a></p>
 <ul class="modulelist"><li><a href=#qlibs.gui.widgets.appApp>Class App</a></li></ul>
 <h1><a href="#UI">UI</a></h1>
 <p><a href="#qlibs.gui.widgets.behaviors">qlibs.gui.widgets.behaviors</a></p>
-<ul class="modulelist"><li><a href=#qlibs.gui.widgets.behaviorshint_func_rel>Function hint_func_rel</a></li><li><a href=#qlibs.gui.widgets.behaviorsNodeB>Class NodeB</a></li><li><a href=#qlibs.gui.widgets.behaviorsButtonB>Class ButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCentererB>Class CentererB</a></li><li><a href=#qlibs.gui.widgets.behaviorsSizeLimitB>Class SizeLimitB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRCPlacerB>Class RCPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsColumnPlacerB>Class ColumnPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRowPlacerB>Class RowPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsTextInputB>Class TextInputB</a></li><li><a href=#qlibs.gui.widgets.behaviorsToggleButtonB>Class ToggleButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsProgressBarB>Class ProgressBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollableListB>Class ScrollableListB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollBarB>Class ScrollBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCustomRenderB>Class CustomRenderB</a></li></ul>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.behaviorshint_func_rel>Function hint_func_rel</a></li><li><a href=#qlibs.gui.widgets.behaviorsNodeB>Class NodeB</a></li><li><a href=#qlibs.gui.widgets.behaviorsButtonB>Class ButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCentererB>Class CentererB</a></li><li><a href=#qlibs.gui.widgets.behaviorsSizeLimitB>Class SizeLimitB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRCPlacerB>Class RCPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsColumnPlacerB>Class ColumnPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRowPlacerB>Class RowPlacerB</a></li><li><a href=#qlibs.gui.widgets.behaviorsTextInputB>Class TextInputB</a></li><li><a href=#qlibs.gui.widgets.behaviorsToggleButtonB>Class ToggleButtonB</a></li><li><a href=#qlibs.gui.widgets.behaviorsProgressBarB>Class ProgressBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollableListB>Class ScrollableListB</a></li><li><a href=#qlibs.gui.widgets.behaviorsScrollBarB>Class ScrollBarB</a></li><li><a href=#qlibs.gui.widgets.behaviorsCustomRenderB>Class CustomRenderB</a></li><li><a href=#qlibs.gui.widgets.behaviorsRadioButtonGroup>Class RadioButtonGroup</a></li><li><a href=#qlibs.gui.widgets.behaviorsRadioButtonB>Class RadioButtonB</a></li></ul>
 <p><a href="#qlibs.gui.widgets.controller">qlibs.gui.widgets.controller</a></p>
-<ul class="modulelist"><li><a href=#qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</a></li></ul>
+<ul class="modulelist"><li><a href=#qlibs.gui.widgets.controllernull_event_handler>Function null_event_handler</a></li><li><a href=#qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</a></li></ul>
 <p><a href="#qlibs.gui.widgets.render">qlibs.gui.widgets.render</a></p>
 <ul class="modulelist"><li><a href=#qlibs.gui.widgets.renderDefaultRenderer>Class DefaultRenderer</a></li></ul>
 <h1><a href="#Events">Events</a></h1>
@@ -469,11 +469,60 @@ encoding defaults to sys.getdefaultencoding().
 errors defaults to 'strict'.</p>
 
 </div>
+<h2 id=qlibs.gui.widgets.behaviorsRadioButtonGroup>Class RadioButtonGroup</h2>
+<p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.behaviorsRadioButtonB>Class RadioButtonB</h2>
+<p>Basic node behavior, does not do any anything to position it's children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.behaviors__init__>Function __init__(self, group)</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorsadd_child>Function add_child(self, child)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsget_node_by_name>Function get_node_by_name(self, name)</h3>
+<h3 id=qlibs.gui.widgets.behaviorshandle_event>Function handle_event(self, event)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsposition> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorsrecalc_size>Function recalc_size(self)</h3>
+<h3 id=qlibs.gui.widgets.behaviorsselectable> None</h3>
+<p>bool(x) -&gt; bool</p>
+<p>Returns True when the argument x is true, False otherwise.
+The builtins True and False are the only two instances of the class bool.
+The class bool is a subclass of the class int, and cannot be subclassed.</p>
+
+<h3 id=qlibs.gui.widgets.behaviorssize> None</h3>
+<h3 id=qlibs.gui.widgets.behaviorstype> None</h3>
+<p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
 <h1 id=qlibs.gui.widgets.controller>qlibs.gui.widgets.controller</h1>
 <p>None</p>
 
-<h2 id=qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</h2>
+<h2 id=qlibs.gui.widgets.controllernull_event_handler>Function def null_event_handler(event): pass</h2>
 <p>None</p>
+
+<div class="classmethods">
+<h3 id=qlibs.gui.widgets.controller__init__> __init__</h3>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+<h2 id=qlibs.gui.widgets.controllerWindowWidgetController>Class WindowWidgetController</h2>
+<p>Converts events from glfw window to qlibs format and sends them to nodes.</p>
+<p><strong>additional_event_handler</strong> field will be called when event wasn't used. If <strong>force_send_events</strong> is set to True it will be called anyway.</p>
 
 <div class="classmethods">
 <h3 id=qlibs.gui.widgets.controller__init__>Function __init__(self)</h3>

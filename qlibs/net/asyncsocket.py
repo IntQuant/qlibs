@@ -72,6 +72,9 @@ class AsyncSocket:
 
     def fileno(self):
         return self.socket.fileno()
+    
+    def close(self):
+        self.socket.close()
 
 class PacketSocket:
     """
@@ -79,7 +82,7 @@ class PacketSocket:
     """
     extra = None
     def __init__(self, socket, processor, *args):
-        """*processor* should be a generator. 
+        """**processor** should be a generator. 
         It will recieve new byte when recieving message.
         Use `data = yield` to recieve one byte as int value
         """
@@ -128,6 +131,9 @@ class PacketSocket:
 
     def fileno(self):
         return self.socket.fileno()
+    
+    def close(self):
+        self.socket.close()
 
 class AsyncUDPSocket:
     """
