@@ -54,7 +54,7 @@ class DefaultRenderer:
         self.window = window
         self.text_queue = []
         self.excludes = ["centerer", "scrollablelist"]
-        self.buttons = ["button", "togglebutton"]
+        self.buttons = ["button", "togglebutton", "radiobutton"]
         self.drawer.default_z = -1
         self.params = DEFAULT_PARAMS.copy()
         self.is_selected_cb = is_selected_cb
@@ -107,6 +107,8 @@ class DefaultRenderer:
         self.sprite_master.render(mvp=self.matrix)
 
     def render_node(self, node):
+        if node.hidden:
+            return
         if node.type in self.excludes and node.image_id is None:
             return
         if node.type == "customrender":

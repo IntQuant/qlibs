@@ -152,6 +152,7 @@ class WindowWidgetController:
         self.children = dict()
         self.mouse_x = 0
         self.mouse_y = 0
+        #self.last_mods = KeyMods()
         self.mouse_pressed = False
         self.selected = dict()
         self.pressed_buttons = set()
@@ -205,7 +206,7 @@ class WindowWidgetController:
         self.send_mouse_event(window)
     
     def mouse_button_handler(self, window, button, action, mods):
-        node = self.get_window_node(window) #Is this required?
+        self.last_mods = KeyMods(mods)
         if button == glfw.MOUSE_BUTTON_LEFT:
             self.mouse_pressed = action
         if action == glfw.PRESS:

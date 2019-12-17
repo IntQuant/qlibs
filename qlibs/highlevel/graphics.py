@@ -37,6 +37,10 @@ class SpriteMasterBase:
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
         self.render(mvp=mvp, reset=reset)
     
+    def render_rescaled(self, x, y, w, h, reset=True):
+        mvp = Matrix4.orthogonal_projection(x, w, h, y)
+        self.render(mvp=mvp, reset=reset)
+    
     def _derive_drawers(self, master):
         self.id_map = master.id_map
         self.drawers = [drawer.fork() for drawer in master.drawers]
@@ -122,5 +126,6 @@ class SpriteMaster(SpriteMasterBase):
         """
         fork = SpriteMasterBase(self)
         self.forks.append(fork)
+        return fork
 
         

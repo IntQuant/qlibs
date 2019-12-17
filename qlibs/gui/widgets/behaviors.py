@@ -39,6 +39,7 @@ class NodeB:
         self.image_id = None
         self.image_mode = None #Other options are: "fit", "fill"
         self.image_ratio = 1
+        self.hidden = False
 
     @property
     def position(self):
@@ -392,11 +393,12 @@ class RadioButtonGroup:
         self.selected = None
 
 class RadioButtonB(NodeB):
+    type = "radiobutton"
     def __init__(self, group):
-        super().__init__(self)
+        super().__init__()
         self.group = group
-        if grop.selected is None:
-            grop.selected = self
+        if group.selected is None:
+            group.selected = self
     
     def handle_event(self, event):
         if event.type == "mouse":
@@ -408,7 +410,6 @@ class RadioButtonB(NodeB):
                 event.used = True
             if event.pressed and self.hovered:
                 if not self.pressed:
-                    self.state = not self.state
                     self.group.selected = self
                     self.pressed = True
             if not event.pressed:
