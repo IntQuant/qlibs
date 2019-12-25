@@ -60,6 +60,7 @@ class DefaultRenderer:
         self.is_selected_cb = is_selected_cb
         self.matrix = None
         self.sprite_master = None
+        self.image_ident = 0
     
     def __getattr__(self, key):
         if key.startswith("param_"): #TODO - node-specific params
@@ -81,32 +82,29 @@ class DefaultRenderer:
             dy = dx*node.image_ratio*ratio
             
             r = 1    
-            if node.image_mode == "fill":
-                r = max(dx, dy)
-            elif node.image_mode == "fit":
+            if node.image_mode.startswith("fill"):
                 r = min(dx, dy)
+            elif node.image_mode.startswith("fit"):
+                r = max(dx, dy)
             else:
                 warnings.warn("Node %s has invalid image mode %s" % (node, node.image_mode))
                 
             dx /= r
             dy /= r
 
-            pxz = 0.5 - dx*0.5
-            pyz = 0.5 - dy*0.5
-            pxo = 0.5 + dx*0.5
-            pyo = 0.5 + dy*0.5
+            cpos = node.position + node.size/2
 
-            tpoints = (
-                (pxz, pyz), 
-                (pxo, pyz), 
-                (pxo, pyo), 
-                (pxz, pyo),
-            )
-            
-            self.sprite_master.add_sprite_rect(node.image_id, *node.position, *node.size, tpoints=tpoints)
+            if node.image_mode.endswith("cleft"):
+                x = node.position.x + node.size.x*dy * 0.5
+                y = node.position.y + node.size.y*dx * 0.5
+                self.image_ident = node.size.x*dy + 1
+                self.sprite_master.add_sprite_centered(node.image_id, x, y, node.size.x*dy, node.size.y*dx)
+            else:
+                self.sprite_master.add_sprite_centered(node.image_id, *cpos, node.size.x*dy, node.size.y*dx)# tpoints=tpoints)
         self.sprite_master.render(mvp=self.matrix)
 
     def render_node(self, node):
+        self.image_ident = 0
         if node.hidden:
             return
         if node.type in self.excludes and node.image_id is None:
@@ -178,8 +176,8 @@ class DefaultRenderer:
 
             used_scale = min(node.size.y, self.param_max_text_size)
             size = self.font_render.calc_size(text, scale=used_scale)
-            if size > 0 and size > node.size.x:
-                used_scale *= node.size.x / size
+            if size > 0 and size > node.size.x - self.image_ident:
+                used_scale *= (node.size.x-self.image_ident) / size
                 size = self.font_render.calc_size(text, scale=used_scale)
 
             align_ajust = node.size.x // 2 - size // 2
@@ -188,7 +186,7 @@ class DefaultRenderer:
                     align_ajust = 0
 
             pos = node.position + node.size // 2
-            pos.x += align_ajust - node.size.x // 2
+            pos.x += self.image_ident + align_ajust - node.size.x // 2
             text_height = self.font_render.calc_height(text, scale=used_scale)
             if text_height == 0:
                 text_height = self.param_max_text_size

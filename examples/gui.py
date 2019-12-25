@@ -58,8 +58,8 @@ while not app.should_close:
     app.render(wait_time=0.1)
     ptime = time.time() - stime
     pb.fraction = (ptime % ttime) / ttime
-    if ptime > ttime:
-        break
+    #if ptime > ttime:
+    #    break
     #win.wait_events()
 
 #Just for tests

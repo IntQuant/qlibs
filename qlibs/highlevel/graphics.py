@@ -12,7 +12,9 @@ class SpriteMasterBase:
       Used for forking
     """
     def __init__(self, master):
+        self.master = master
         self._derive_drawers(master)
+        self.last_used_matrix = None
 
     def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         drawer_id, sprite_id = self.id_map[id_]
@@ -35,16 +37,31 @@ class SpriteMasterBase:
 
     def render_centered(self, center, size, reset=True):
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
+        self.last_used_matrix = mvp
         self.render(mvp=mvp, reset=reset)
     
     def render_rescaled(self, x, y, w, h, reset=True):
         mvp = Matrix4.orthogonal_projection(x, w, h, y)
         self.render(mvp=mvp, reset=reset)
     
+    def render_like(self, master, reset=True):
+        self.render(mvp=master.last_used_matrix, reset=reset)
+
     def _derive_drawers(self, master):
         self.id_map = master.id_map
         self.drawers = [drawer.fork() for drawer in master.drawers]
 
+    def clear(self):
+        for drawer in self.drawers:
+            drawer.clear()
+
+    def fork(self):
+        """
+          Create another sprite master with it's own set of buffers
+        """
+        fork = SpriteMasterBase(self.master)
+        self.master.forks.append(fork)
+        return fork
 
 class ObjectSpriteMaster:
     """
@@ -86,11 +103,14 @@ class SpriteMaster(SpriteMasterBase):
         self.drawers = list()
         self.id_map = dict()
         self.images = dict()
+        #self.load_calls = list()
         self.max_sprites_per_drawer = ctx.info.get('GL_MAX_ARRAY_TEXTURE_LAYERS', 256)
         self.forks = []
+        self.last_used_matrix = None
 
     def load_file(self, sprite_id, file_id):
         self.images[sprite_id] = get_image_data(file_id, mode="RGBA")
+        #self.load_calls.append((sprite_id, file_id))
 
     def init(self):
         self.drawers.clear()

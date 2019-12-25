@@ -230,7 +230,7 @@ class WindowWidgetController:
     def check_reselect(self, window):
         queue = deque()
         queue.append(self.get_window_node(window))
-        cand = queue[0]
+        cand = None
         mx, my = self.mouse_x, self.mouse_y
         while queue:
             current = queue.popleft()

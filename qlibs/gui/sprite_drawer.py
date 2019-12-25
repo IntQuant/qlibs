@@ -50,7 +50,7 @@ class SpriteDrawerBase:
         self.buffer_data.fromlist(data)
     
     def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
-        self.add_sprite_rect(id_, x - w//2, y - h//2, w, h, z, color, tpoints)
+        self.add_sprite_rect(id_, x - w/2, y - h/2, w, h, z, color, tpoints)
 
     def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
         at = math.atan2(w, h)
@@ -94,6 +94,9 @@ class SpriteDrawerBase:
         self.vao.render(moderngl.TRIANGLES, vertices=len(self.buffer_data)//10) #TODO: test this
         if reset:
             self.prepare()
+
+    def clear(self):
+        self.prepare()
 
     def __del__(self):
         if self.buffer is not None:

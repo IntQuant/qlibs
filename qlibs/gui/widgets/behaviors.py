@@ -1,6 +1,7 @@
 from ...math import Vec2
 from itertools import zip_longest
 import warnings
+from .events import GUIEvent
 #TODO: handle negative size
 
 try:
@@ -18,7 +19,7 @@ def hint_func_rel(placer, hints):
         adv = 0
     else:
         adv = 1
-    return [placer.size[adv]/placer.size[1-adv]*hint if hint is not None else None for hint in hints]
+    return [placer.size[adv]/max(placer.size[1-adv], 1)*hint if hint is not None else None for hint in hints]
 
 class NodeB:
     """
@@ -61,16 +62,16 @@ class NodeB:
         for child in self.children:
             child.recalc_size()
     
-    def add_child(self, child):
+    def add_child(self, child: "NodeB"):
         self.children.append(child)
         self.recalc_size()
     
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.shall_pass:
             for child in self.children:
                 child.handle_event(event)
     
-    def get_node_by_name(self, name):
+    def get_node_by_name(self, name: str):
         for chld in self.children:
             if chld.name == name:
                 return chld
@@ -83,7 +84,7 @@ class NodeB:
 
 class ButtonB(NodeB):
     type = "button"
-    def __init__(self, name, callback, text=None):
+    def __init__(self, name: str, callback, text=None):
         super().__init__()
         self.callback = callback
         self.pressed = False
@@ -92,7 +93,7 @@ class ButtonB(NodeB):
         self.textalign = "center"
         self.hovered = False
         
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
             self.hovered = (self.position.x <= event.pos.x <= self.position.x + self.size.x 
             and self.position.y <= event.pos.y <= self.position.y + self.size.y)
@@ -231,7 +232,7 @@ class TextInputB(NodeB):
         self.cursor = 0
         self.textalign = "left"
         
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.type == "key":
             key = event.key
             self.text = self.text[:self.cursor] + key + self.text[self.cursor:]
@@ -278,7 +279,7 @@ class ToggleButtonB(NodeB):
         self.text = text or name
         self.hover = False
         
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
             self.hovered = (
                 self.position.x <= event.pos.x <= self.position.x + self.size.x 
@@ -330,7 +331,7 @@ class ScrollableListB(NodeB):
         self.placer.children = self.full_list[self.cursor:self.cursor+self.shown_items]
         self.recalc_size()
 
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
             if (self.position.x <= event.pos.x <= self.position.x + self.size.x 
             and self.position.y <= event.pos.y <= self.position.y + self.size.y):
@@ -368,7 +369,7 @@ class ScrollBarB(NodeB):
         self.cb = cb
         self.pos = 0
     
-    def handle_event(self, event):
+    def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
             if (self.position.x <= event.pos.x <= self.position.x + self.size.x 
             and self.position.y <= event.pos.y <= self.position.y + self.size.y
