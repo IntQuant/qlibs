@@ -122,7 +122,9 @@ class SpriteMaster(SpriteMasterBase):
                 cnt[img.size] = list()
 
             cnt[img.size].append(img)
-            img.sprite = sprite
+            if not hasattr(img, "sprite"):
+                img.sprite = []
+            img.sprite.insert(0, sprite)
         
         #Create drawers
         for size, images in cnt.items():
@@ -132,7 +134,7 @@ class SpriteMaster(SpriteMasterBase):
                 data = b"".join((img.data for img in images[i:i+am]))
                 self.drawers.append(SpriteDrawer(self.ctx, (*size, am), data))
                 for j, img in enumerate(images[i:i+am]):
-                    self.id_map[img.sprite] = (drawer_id, j)
+                    self.id_map[img.sprite.pop()] = (drawer_id, j)
         
         #print(self.id_map)
         #And it is ready!

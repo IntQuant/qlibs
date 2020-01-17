@@ -72,6 +72,7 @@ class MultiplexServer:
         sock = socket.socket()
         sock.bind((host, port))
         sock.listen()
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.socket_selector = ServerSelector(sock, self._on_connect, self._on_read)
         self.events = []
         self.passed_events = []
@@ -100,8 +101,8 @@ class MultiplexServer:
         if self.engine_packer is not None:
             if time.monotonic() - self.last_pack > self.pack_delay:
                 self.state = self.engine_packer() or self.state
+                self.passed_events.clear()
         if self.state is not None:
-            self.passed_events.clear()
             self.last_pack = time.monotonic()
             pl = convert_event(ReconstructEvent(self.state))
             logger.debug("Sending reconstruct packet len %s", len(pl))
@@ -144,8 +145,8 @@ class MultiplexServer:
         self.events.append(ReadyEvent(curr-self.last_ready))
         self.last_ready = curr
         eventdata = b"".join(map(bytes_packet_sender, map(convert_event, self.events)))
-        #for event in self.events:
-        #    self.passed_events.append(event) #TODO: Send events when they are recieved
+        for event in self.events:
+            self.passed_events.append(event) #TODO: Send events when they are recieved
         #    packet = bytes_packet_sender(convert_event(event))
         for sock in self.socket_selector.socket_iterator:
             sock.send(eventdata)
@@ -167,6 +168,7 @@ class MultiplexClient:
     def __init__(self, engine, engine_constructor=None, host="localhost", port=55126):
         #Engine should be a class with step method, accepting float(deltatime) and list of events
         sock = socket.socket()
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         sock.connect((host, port))
         self.pending_packets = []
         self.socket = PacketSocket(sock, bytes_packet_reciever)
@@ -230,8 +232,8 @@ class MultiplexClient:
     def _eternal_runner(self):
         while self._shall_continue:
             self.step()
-            #time.sleep(max(0, min(0.01, self.last_step + self.min_step_time - time.monotonic())))
-            time.sleep(0.1)
+            time.sleep(max(0, min(0.01, self.last_step + self.min_step_time - time.monotonic())))
+            #time.sleep(0.1)
             if self.socket.reset:
                 logger.warning("Socket is reset, stopping client")
                 self._shall_continue = False

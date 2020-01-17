@@ -92,7 +92,7 @@ class DataHeader:
         self.text = text
 
 def compile_index(indexname, resname, backlink=None):
-    indexpath = os.path.join("./docsgen/", indexname)
+    indexpath = os.path.join("./docsgen/index", indexname)
     resfile = os.path.join("./docs/", resname)
     
     index = dict()
@@ -105,7 +105,7 @@ def compile_index(indexname, resname, backlink=None):
             if len(line) < 2:
                 continue
             cmd, *data = quotesplit(line)
-            if cmd == "LINK":
+            if cmd == "INCLUDE":
                 path, file = data
                 index[path] = file
             elif cmd == "INDEX":

@@ -11,7 +11,7 @@ from typing import Union, Tuple, Any, Callable
 
 import logging
 
-__all__ = ["AsyncSocket", "AsyncUDPSocket", "PacketSocket", "ServerSelector", "SelSockType"]
+__all__ = ["AsyncSocket", "AsyncUDPSocket", "PacketSocket", "ServerSelector", "SelSockType", "bytes_packet_sender", "bytes_packet_reciever"]
 
 logger = logging.getLogger("qlibs.net.asyncsocket")
 

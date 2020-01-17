@@ -2,6 +2,7 @@ from ...math import Vec2
 from itertools import zip_longest
 import warnings
 from .events import GUIEvent
+import weakref
 #TODO: handle negative size
 
 try:
@@ -14,12 +15,22 @@ except ImportError:
     clipboard_set = lambda x: None
 
 
+#__all__ = ["hint_func_rel", "NodeB", "ButtonB", "CentererB", "ColumnPlacerB", "CustomRenderB", "ProgressBarB", "RadioButtonB", "RadioButtonGroup"]
+
 def hint_func_rel(placer, hints):
     if placer.vertical:
         adv = 0
     else:
         adv = 1
     return [placer.size[adv]/max(placer.size[1-adv], 1)*hint if hint is not None else None for hint in hints]
+
+def hint_func_abs(placer, hints):
+    if placer.vertical:
+        adv = 0
+    else:
+        adv = 1
+    return [hint/placer.size[1-adv] if hint is not None else None for hint in hints]
+
 
 class NodeB:
     """
@@ -28,7 +39,9 @@ class NodeB:
     """
     type = "node"
     selectable = False
-    def __init__(self):
+    def __init__(self, name=None):
+        if not hasattr(self, "name"):
+            self.name = name
         if not hasattr(self, "_position"):
             self._position = Vec2(0, 0)
         if not hasattr(self, "_size"):
@@ -79,8 +92,19 @@ class NodeB:
             v = chld.get_node_by_name(name)
             if v is not None:
                 return v
-
         return None
+    
+    def __getitem__(self, key):
+        if not hasattr(self, "_storage"):
+            self._storage = weakref.WeakValueDictionary()
+        v = self._storage.get(key, None)
+        if v is None:
+            v = self.get_node_by_name(key)
+            if v is not None:
+                self._storage[key] = v
+        if v is None:
+            raise KeyError(f"Node not found: {key}")
+        return v
 
 class ButtonB(NodeB):
     type = "button"
@@ -211,12 +235,18 @@ class RCPlacerB(NodeB):
 
 
 class ColumnPlacerB(RCPlacerB):
+    """
+      Places children vertically
+    """
     type = "columnplacer"
     def __init__(self, spacing=2):
         super().__init__(spacing, vertical=True)
 
 
 class RowPlacerB(RCPlacerB):
+    """
+      Places children horizontally
+    """
     type = "rowplacer"
     def __init__(self, spacing=2):
         super().__init__(spacing, vertical=False)

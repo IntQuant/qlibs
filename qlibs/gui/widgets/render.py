@@ -23,6 +23,7 @@ DEFAULT_PARAMS = {
     "text_color": (1, 1, 1),
     "scrollbar_color": (1, 1, 1, 0.8),
     "progressbar_color": (1, 1, 1, 0.8),
+    "img_flip": True,
 }
 
 OLD_DEFAULT_PARAMS = {
@@ -94,11 +95,15 @@ class DefaultRenderer:
 
             cpos = node.position + node.size/2
 
+            sizey = node.size.y*dx
+            if self.param_img_flip:
+                sizey *= -1
+
             if node.image_mode.endswith("cleft"):
                 x = node.position.x + node.size.x*dy * 0.5
                 y = node.position.y + node.size.y*dx * 0.5
                 self.image_ident = node.size.x*dy + 1
-                self.sprite_master.add_sprite_centered(node.image_id, x, y, node.size.x*dy, node.size.y*dx)
+                self.sprite_master.add_sprite_centered(node.image_id, x, y, node.size.x*dy, sizey)
             else:
                 self.sprite_master.add_sprite_centered(node.image_id, *cpos, node.size.x*dy, node.size.y*dx)# tpoints=tpoints)
         self.sprite_master.render(mvp=self.matrix)

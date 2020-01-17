@@ -53,7 +53,7 @@ class Engine:
         
 engine = Engine()
 client = MultiplexClient(engine)
-client.min_step_time=0.1
+client.min_step_time=0.01
 client.thread_runner()
 
 win = Window()
