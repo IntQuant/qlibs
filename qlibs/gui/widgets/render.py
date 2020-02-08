@@ -13,12 +13,13 @@ DEFAULT_PARAMS = {
     "max_text_size": 32,
     "pb_spacing_side": 4,
     "pb_spacing_main": 2,
-    "node_bg_color": (0.1, 0.1, 0.1, 0.8),
-    "node_border_color": (0.5, 0.5, 0.5, 0.8),
-    "button_border_inactive_color": (0.5, 0.5, 0.25, 0.8),
+    "node_bg_color": (0.1, 0.1, 0.1, 1),
+    "text_node_bg_color": (0.05, 0.05, 0.05, 1),
+    "node_border_color": (0.2, 0.2, 0.2, 1),
+    "button_border_inactive_color": (0.5, 0.5, 0.5, 1),
     "button_border_hover_color": (0.5, 0.7, 0.7, 0.8),
     "button_border_active_color": (0.5, 1, 1, 0.8),
-    "selectable_inactive_color": (0.5, 0.5, 0.3, 0.8),
+    "selectable_inactive_color": (0.2, 0.2, 0.2, 1),
     "selectable_active_color": (0.7, 1, 1, 0.8),
     "text_color": (1, 1, 1),
     "scrollbar_color": (1, 1, 1, 0.8),
@@ -133,7 +134,11 @@ class DefaultRenderer:
         if node.image_id is not None:
             self.render_image(node)
         else:
-            self.drawer.add_rectangle(*node.position, *node.size, color=self.param_node_bg_color)
+            if node.type == "textinput":
+                color = self.param_text_node_bg_color
+            else:
+                color = self.param_node_bg_color
+            self.drawer.add_rectangle(*node.position, *node.size, color=color)
 
         if node.type in self.buttons:
             active = getattr(node, "state", getattr(node, "pressed", False))

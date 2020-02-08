@@ -14,7 +14,7 @@ except ImportError:
     clipboard_get = lambda : None
     clipboard_set = lambda x: None
 
-
+#TODO
 #__all__ = ["hint_func_rel", "NodeB", "ButtonB", "CentererB", "ColumnPlacerB", "CustomRenderB", "ProgressBarB", "RadioButtonB", "RadioButtonGroup"]
 
 def hint_func_rel(placer, hints):
@@ -387,7 +387,32 @@ class ScrollableListB(NodeB):
         self.scrollbar.size = (self.scrollbar_size, self.size.y)
         self.scrollbar.recalc_size()
 
+
+class ScrollableStringListB(ScrollableListB):
+    def __init__(self, callback=None, shown_items=10, override_node_type=True):
+        super().__init__(shown_items)
+        self.callback = callback
+        self._override_node_type = override_node_type
     
+    def callback_adapter(self, num):
+        if self.callback is not None:
+            self.callback(self.cursor+num)
+
+    def update_view(self):
+        if len(self.placer.children) != self.shown_items:
+            self.placer.children = [ButtonB(name=i, callback=self.callback_adapter) for i in range(self.shown_items)]
+            if self._override_node_type:
+                for child in self.placer.children:
+                    child.type = "node"
+        
+        for child in self.placer.children:
+            child.text = ""
+
+
+        for child, data in zip(self.placer.children, self.full_list[self.cursor:self.cursor+self.shown_items]):
+            child.text = data
+
+
 class ScrollBarB(NodeB):
     type = "scrollbar"
     def __init__(self, direction="vertical", cb=None):
@@ -425,7 +450,7 @@ class RadioButtonGroup:
 
 class RadioButtonB(NodeB):
     type = "radiobutton"
-    def __init__(self, group):
+    def __init__(self, group: RadioButtonGroup):
         super().__init__()
         self.group = group
         if group.selected is None:

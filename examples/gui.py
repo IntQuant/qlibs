@@ -13,10 +13,16 @@ centerer.image_ratio = 1 #y / x
 
 placer = ColumnPlacerB()
 #placer.spc = 20
+'''
 bplacer = ScrollableListB()
 for i in range(20):
-    button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Текст на кнопке {i}")
+    button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Text on button {i}")
     bplacer.add_child(button)
+'''
+bplacer = ScrollableStringListB(callback=print)
+for i in range(20):
+    bplacer.add_child(f"Text on button {i}")
+    
 
 placer.add_child(bplacer)
 placer.add_child(TextInputB(), 0.1)
