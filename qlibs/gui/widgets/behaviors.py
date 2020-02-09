@@ -107,6 +107,9 @@ class NodeB:
         return v
 
 class ButtonB(NodeB):
+    """
+      Basic button. Callback will be called with button's name as parameter. **text** is displayed text
+    """
     type = "button"
     def __init__(self, name: str, callback, text=None):
         super().__init__()
@@ -138,6 +141,9 @@ class ButtonB(NodeB):
 
 
 class CentererB(NodeB):
+    """
+      Makes it's children smaller by **sep_x** and **sep_y** from each side
+    """
     type = "centerer"
     def __init__(self, sep_x, sep_y, child=None):
         super().__init__()
@@ -156,6 +162,9 @@ class CentererB(NodeB):
 
 
 class SizeLimitB(NodeB):
+    """
+      Limits size of it's children
+    """
     type = "centerer"
     def __init__(self, targ_x, targ_y, child=None):
         super().__init__()
@@ -299,6 +308,9 @@ class TextInputB(NodeB):
 
 
 class ToggleButtonB(NodeB):
+    """
+      Just like button, but toggleable. Callback also recieves **self.state**, which is True is button is active
+    """
     type = "togglebutton"
     def __init__(self, name, callback, text=None):
         super().__init__()
@@ -329,6 +341,9 @@ class ToggleButtonB(NodeB):
 
 
 class ProgressBarB(NodeB):
+    """
+      Progress bar. **self.fraction** is how full it is, with value from 0 to 1 inclusively.
+    """
     type = "progressbar"
     def __init__(self):
         super().__init__()
@@ -336,6 +351,9 @@ class ProgressBarB(NodeB):
 
 
 class ScrollableListB(NodeB):
+    """
+      List which can be scrolled
+    """
     type = "scrollablelist"
     def __init__(self, shown_items=10):
         super().__init__()
@@ -389,6 +407,12 @@ class ScrollableListB(NodeB):
 
 
 class ScrollableStringListB(ScrollableListB):
+    """
+      Scrollable list of strings. Has **full_list** property which contains used list.
+      Callback should be a function with one argument - index of clicked string.
+      **override_node_type** changes type of buttons to node, so that they are renderer like usual NodeB.
+      Call `self.update_view()` after changing **self.full_list** to update
+    """
     def __init__(self, callback=None, shown_items=10, override_node_type=True):
         super().__init__(shown_items)
         self.callback = callback
@@ -415,13 +439,15 @@ class ScrollableStringListB(ScrollableListB):
 
 class ScrollBarB(NodeB):
     type = "scrollbar"
-    def __init__(self, direction="vertical", cb=None):
+    def __init__(self, direction="vertical", callback=None, cb=None):
         super().__init__()
         possible = ["vertical", "horizontal"]
         if direction not in possible:
             raise ValueError("Wrong direction value %s, should one of %s" % (direction, possible))
         self.direction = 1 if direction == "vertical" else 0
-        self.cb = cb
+        self.callback = cb or callback
+        if cb is not None:
+            warnings.warn("Please use callback instead of cb", DeprecationWarning)
         self.pos = 0
     
     def handle_event(self, event: GUIEvent):
@@ -433,8 +459,8 @@ class ScrollBarB(NodeB):
                 if event.pressed:
                     ratio = (event.pos[self.direction] - self.position[self.direction]) / self.size[self.direction]
                     self.pos = max(0, min(1, ratio))
-                    if self.cb is not None:
-                        self.cb(self.pos)
+                    if self.callback is not None:
+                        self.callback(self.pos)
 
 
 class CustomRenderB(NodeB):
