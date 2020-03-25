@@ -1,3 +1,9 @@
+"""
+  Requires multiplexer server to be lauched first (see multiplexer_server.py example)
+  Note: requires pymunk to be install
+  Note: uses pickle over network, which is not secure
+"""
+
 from qlibs.net.multiplexer import MultiplexClient, MultiplexServer
 from qlibs.gui.window import Window
 from qlibs.gui.basic_shapes import ShapeDrawer

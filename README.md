@@ -13,7 +13,7 @@ There are quite a lot of them!
 * More to come.
 
 # Documentation
-See docs/index.html
+See qlibs.handtruth.com
 Also there are examples.
 
 # Installation

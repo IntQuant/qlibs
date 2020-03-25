@@ -1,3 +1,7 @@
+"""
+  Requires model to be available (none are bundled with qlibs)
+"""
+
 from qlibs.resources import resource_loader, resource_manager
 from qlibs.math.vec import MVec
 

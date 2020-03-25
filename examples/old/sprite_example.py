@@ -42,4 +42,4 @@ while not win.should_close:
     obj_drawer.render(mvp=mvp)
     #print("\r", obj_drawer.buffer.read(), end="", sep="")
     win.swap()
-    win.wait_events()
+    win.wait_events(0.1)

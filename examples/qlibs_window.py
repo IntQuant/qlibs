@@ -1,3 +1,7 @@
+"""
+  Using window directly
+"""
+
 import time
 
 from qlibs.gui.window import Window

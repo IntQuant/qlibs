@@ -1,3 +1,7 @@
+"""
+  Example showing basically everything of widgets
+"""
+
 from qlibs.gui.widgets.behaviors import *
 from qlibs.gui.widgets.app import App
 from qlibs.highlevel.graphics import SpriteMaster

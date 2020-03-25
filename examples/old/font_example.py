@@ -1,3 +1,7 @@
+"""
+  Note: requires moderngl_window
+"""
+
 from qlibs.fonts.font_search import find_reasonable_font
 from qlibs.fonts.font_render import DirectFontRender
 from qlibs.math.matrix import Matrix4
@@ -30,7 +34,7 @@ class BasicWindowConfig(mglw.WindowConfig):
         ortho = Matrix4.orthogonal_projection(0, self.window_size[0], 0, self.window_size[1])
         
         self.renderer.render_string("%.2f" % time, 100, 100, 1, mvp=ortho)
-        self.renderer.render_string("Пиветик!", 100, 200, 1, mvp=ortho)
+        self.renderer.render_string("Приветик!", 100, 200, 1, mvp=ortho)
 
         if time > 30:
             raise Exit()

@@ -1,3 +1,7 @@
+"""
+  Requires multiplexer server to be lauched first (see multiplexer_server.py example)
+"""
+
 from qlibs.net.multiplexer import MultiplexClient, MultiplexServer
 from qlibs.gui.widgets.app import App
 from qlibs.gui.widgets.behaviors import *
@@ -8,7 +12,6 @@ import random
 #port = random.randint(2000, 20000)
 
 #MultiplexServer(host="127.0.0.1", port=port).serve_in_thread()
-sleep(1)
 
 class Engine:
     def __init__(self):
@@ -34,6 +37,7 @@ class Engine:
 engine = Engine()
 client = MultiplexClient(engine)
 client.thread_runner()
+client.min_step_time = 0.1
 #client.send_payload(b"test_data")
 
 def add_one(x):
