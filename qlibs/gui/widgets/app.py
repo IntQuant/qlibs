@@ -16,7 +16,10 @@ class App:
         self.win.ctx.clear(0, 0, 0, 0)
         self.rend.render()
         self.win.swap()
-        self.win.wait_events(wait_time)
+        if wait_time <= 0:
+            self.win.poll_events()
+        else:
+            self.win.wait_events(wait_time)
 
     def set_node(self, node):
         self.node = node

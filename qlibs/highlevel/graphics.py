@@ -5,6 +5,7 @@
 from ..gui.sprite_drawer import SpriteDrawer, TEXTURE_POINTS
 from ..resources.resource_loader import get_image_data
 from ..math import Matrix4, IDENTITY
+import weakref
 
 class SpriteMasterBase:
     """
@@ -98,15 +99,16 @@ class SpriteMaster(SpriteMasterBase):
     
     Quite effient in terms of draw calls.
     """
-    def __init__(self, ctx):
+    def __init__(self, ctx, program=None):
         self.ctx = ctx
         self.drawers = list()
         self.id_map = dict()
         self.images = dict()
         #self.load_calls = list()
         self.max_sprites_per_drawer = ctx.info.get('GL_MAX_ARRAY_TEXTURE_LAYERS', 256)
-        self.forks = []
+        self.forks = weakref.WeakValueDictionary()
         self.last_used_matrix = None
+        self.program = program
 
     def load_file(self, sprite_id, file_id):
         self.images[sprite_id] = get_image_data(file_id, mode="RGBA")
@@ -132,22 +134,23 @@ class SpriteMaster(SpriteMasterBase):
                 drawer_id = len(self.drawers)
                 am = min(len(images)-i, self.max_sprites_per_drawer)
                 data = b"".join((img.data for img in images[i:i+am]))
-                self.drawers.append(SpriteDrawer(self.ctx, (*size, am), data))
+                self.drawers.append(SpriteDrawer(self.ctx, (*size, am), data, program=self.program))
                 for j, img in enumerate(images[i:i+am]):
                     self.id_map[img.sprite.pop()] = (drawer_id, j)
         
         #print(self.id_map)
         #And it is ready!
         #Update forks
-        for fork in self.forks:
+        for fork in list(self.forks.values()):
             fork._derive_drawers(self)
+            
 
     def fork(self):
         """
-          Create another sprite master with it's own set of buffers
+          Create another sprite master with it's own set of buffers(their content is not copied)
         """
         fork = SpriteMasterBase(self)
-        self.forks.append(fork)
+        self.forks[id(fork)] = fork
         return fork
 
         

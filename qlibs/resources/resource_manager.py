@@ -48,7 +48,7 @@ class PerContextStorage:
         texture = self.texture_storage.get(r_path, None)
         if texture is None:
             img = get_image_data(r_path)
-            texture = self.ctx.texture(img.size, 3, img.data)
+            texture = self.ctx.texture(img.size, 4, img.data)
             texture.build_mipmaps()
             self.texture_storage[r_path] = texture
         return texture

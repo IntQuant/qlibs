@@ -8,6 +8,7 @@ import moderngl
 
 from ..resources.resource_manager import get_storage_of_context
 from ..math.matrix import Matrix4, IDENTITY
+from ..math import Vec2
 from ..util import try_write
 
 SHADER_VERTEX = "qlibs/shaders/drawer.vert"
@@ -18,13 +19,14 @@ class ShapeDrawer:
     """
       Special class for drawing simple shapes: lines, triangles and polygons.
     """
-    def __init__(self, ctx, prog=None):
+    def __init__(self, ctx, prog=None, additional_inputs=tuple()):
         self.program = prog or get_storage_of_context(ctx).get_program(
             SHADER_VERTEX, SHADER_FRAGMENT
         )
         self.default_z = 0.
         self.ctx= ctx
         self.buffer = None
+        self.additional_inputs = additional_inputs
         self.prepare()
 
     def prepare(self):
@@ -53,23 +55,33 @@ class ShapeDrawer:
     def add_line_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_line_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
 
-    def add_triangle(self, points, color=(1, 1, 1)):
+    
+    def add_triangle(self, points, color=(1, 1, 1), additional_data=None):
         assert len(points) == 3
         assert 3 <= len(color) <= 4
         if len(color) == 3:
             color = list(color) + [1]
-
-        for point in points:
+        
+        for i, point in enumerate(points):
             assert 2 <= len(point) <= 3
             if len(point) == 2:
                 point = list(point) + [self.default_z]
 
             self.tr_buffer.extend(map(float, point))
             self.tr_buffer.extend(map(float, color))
+            if additional_data is not None:
+                self.tr_buffer.extend(additional_data[i])
     
-    def add_polygon(self, points, color=(1, 1, 1)):
+    def add_polygon(self, points, color=(1, 1, 1), additional_data=None):
         for i in range(len(points)-2):
-            self.add_triangle((points[0], points[i+1], points[i+2]), color)
+            if additional_data is None:
+                self.add_triangle((points[0], points[i+1], points[i+2]), color)
+            else:
+                self.add_triangle((points[0], points[i+1], points[i+2]), color, (additional_data[0], additional_data[i+1], additional_data[i+2]))
+    
+    def add_nonconvex_polygon(self, points, center, color=(1, 1, 1)):
+        for i in range(len(points)):
+            self.add_triangle((center, points[i-1], points[i]), color)
     
     def add_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
@@ -87,7 +99,7 @@ class ShapeDrawer:
             ):
             self.buffer = self.ctx.buffer(reserve=4*amortized_len, dynamic=True)
             self.vao = self.ctx.simple_vertex_array(
-                self.program, self.buffer, "in_vert", "color"
+                self.program, self.buffer, "in_vert", "color", *self.additional_inputs
             )
         self.buffer.write(self.tr_buffer)
         self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer)//7)

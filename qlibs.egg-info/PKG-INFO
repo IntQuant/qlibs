@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: qlibs
-Version: 0.2.4a0
+Version: 0.2.5
 Summary: Networking, gui, math and more
 Home-page: https://bitbucket.org/IntQuant/qlibs/
 Author: IQuant
@@ -21,8 +21,8 @@ Description: # Welcome to QLibs
         * More to come.
         
         # Documentation
-        Well, it is not quite ready.
-        There are examples and list of all docstrings howewer.
+        See qlibs.handtruth.com
+        Also there are examples.
         
         # Installation
         * Use `pip install qlibs[full]` to install all dependencies.

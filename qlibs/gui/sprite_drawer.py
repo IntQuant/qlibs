@@ -143,6 +143,9 @@ class Sprite:
         self.owner.remove_location(self._location)
 
 class ObjectDrawer():
+    """
+      Untested
+    """
     def __init__(self, texture, program, ctx):
         self.texture = texture
         self.program = program
@@ -175,6 +178,7 @@ class ObjectDrawer():
             self.vao = self.ctx.simple_vertex_array(self.program, self.buffer, "pos", "tpos", "z", "tint")
 
     def render(self, mvp=Matrix4(IDENTITY)):
+        self.texture.use()
         try_write(self.program, "mvp", mvp.bytes())
         self.vao.render(moderngl.TRIANGLES, vertices=self.object_count*self.vertices_per_object)
     

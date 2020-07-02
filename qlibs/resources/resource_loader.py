@@ -84,7 +84,7 @@ def get_res_data(path):
         return f.read()
 
 @weak_ref_cache
-def get_image_data(r_path, mode="RGB"):
+def get_image_data(r_path, mode="RGBA"):
     if os.path.isabs(r_path):
         path = r_path
     else:

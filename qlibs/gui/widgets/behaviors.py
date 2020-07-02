@@ -7,7 +7,12 @@ import weakref
 
 try:
     import glfw
-    clipboard_get = lambda : glfw.get_clipboard_string(None).decode("utf-8")
+    def clipboard_get():
+        try:
+            return glfw.get_clipboard_string(None).decode("utf-8")
+        except glfw.GLFWError:
+            return ""
+    #clipboard_get = lambda : glfw.get_clipboard_string(None).decode("utf-8")
     clipboard_set = lambda x: glfw.set_clipboard_string(None, x)
 except ImportError:
     warnings.warn("Could not import glfw, clipboard support is not unavailable")
@@ -270,6 +275,7 @@ class TextInputB(NodeB):
         self.callback = callback
         self.cursor = 0
         self.textalign = "left"
+        self.name = name
         
     def handle_event(self, event: GUIEvent):
         if event.type == "key":
@@ -435,6 +441,7 @@ class ScrollableStringListB(ScrollableListB):
 
         for child, data in zip(self.placer.children, self.full_list[self.cursor:self.cursor+self.shown_items]):
             child.text = data
+        self.recalc_size()
 
 
 class ScrollBarB(NodeB):

@@ -8,4 +8,5 @@ out vec4 color;
 
 void main() {
     color = texture(text, mtpos) * fcolor;
+    if (color.a<0.001) discard;
 }

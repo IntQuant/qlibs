@@ -9,6 +9,7 @@ VERTNAMES = {"x": 0, "y": 1, "z": 2, "w": 3}
 NUMERICAL = Number
 
 class VecBase:
+    __slots__ = tuple()
     def __eq__(self, other):
         try:
             if len(self) != len(other):
@@ -91,14 +92,14 @@ class VecBase:
         return self
 
     def __neg__(self):
-        return self.__class__(map(lambda x: -x, self))
+        return self.__class__(*map(lambda x: -x, self))
 
     def __abs__(self):
-        return self.__class__(map(abs, self))
+        return self.__class__(*map(abs, self))
 
     def normalized(self):
         ln = self.len()
-        return self.__class__(map(lambda x: x / ln, self))
+        return self.__class__(*map(lambda x: x / ln, self))
 
     def len_sqr(self):
         return math.fsum(map(lambda x: x ** 2, self))
@@ -115,7 +116,7 @@ class VecBase:
     def normalize(self):
         ln = self.len()
         for i, e in enumerate(self):
-            self._v[i] = e / ln
+            self[i] = e / ln
 
     def as_n_d(self, n):
         if n <= len(self):
@@ -135,6 +136,11 @@ class Vec(VecBase):  # Making those immutable is a good idea, right? (No)
 
         #for v in self.v:
         #    assert isinstance(v, Number)
+
+    def normalize(self):
+        ln = self.len()
+        for i, e in enumerate(self):
+            self._v[i] = e / ln
 
     def __len__(self):
         return len(self._v)
@@ -200,6 +206,24 @@ class Vec2(VecBase):
 
     def __add__(self, oth):
         return Vec2(self.x+oth.x, self.y+oth.y)
+    
+    def __neg__(self):
+        return self.__class__(-self.x, -self.y)
+
+    @property
+    def angle(self) -> float:
+        return math.atan2(self.y, self.x)
+    
+    @angle.setter
+    def _(self, value):
+        l = self.len()
+        self.x, self.y = math.cos(value)*l, math.sin(value)*l
+    
+    def rotate(self, angle) -> "Vec2":
+        c = self.angle + angle
+        l = self.len()
+        return Vec2(math.cos(c)*l, math.sin(c)*l)
+
 
 MVec = Vec
 IVec = Vec

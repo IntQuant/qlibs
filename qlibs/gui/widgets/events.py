@@ -36,6 +36,7 @@ class KeyEvent(GUIEvent):
 
 
 class SpecKeyEvent(GUIEvent):
+    shall_pass = False
     type = "speckey"
     def __init__(self, key, mods):
         self.key = key

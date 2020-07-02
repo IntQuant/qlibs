@@ -68,7 +68,10 @@ class Window:
         glfw.set_key_callback(self.window, self._on_spec_key_press)
         glfw.set_scroll_callback(self.window, self._on_scroll)
 
-        self.ctx = moderngl.create_context()
+        try:
+            self.ctx = moderngl.create_context()
+        except:
+            self.ctx = moderngl.create_context(libgl='libGL.so.1')
 
     def _on_resize(self, win, width, height):
         self.width = width

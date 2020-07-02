@@ -117,14 +117,18 @@ class DefaultRenderer:
             return
         if node.type == "customrender":
             self.render_drawer()
-            node.render(
-                Matrix4.orthogonal_projection(
-                    node.position.x,
-                    node.position.x+node.size.x,
-                    node.position.y+node.size.y,
-                    node.position.y,
-                ),
-            )
+            #mvp = Matrix4.orthogonal_projection(
+            #    node.position.x,
+            #    node.position.x+node.size.x,
+            #    node.position.y+node.size.y,
+            #    node.position.y,
+            #)
+            bak = self.ctx.viewport
+            try:
+                self.ctx.viewport = (node.position.x, node.position.y, node.size.x, node.size.y)
+                node.render(node)
+            finally:
+                self.ctx.viewport = bak
             return
 
         is_selected = node.selectable
