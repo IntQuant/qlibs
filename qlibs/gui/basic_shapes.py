@@ -31,7 +31,9 @@ class ShapeDrawer:
 
     def prepare(self):
         self.tr_buffer = array("f")
+        self.tr_amount = 0
         self.li_buffer = array("f")
+        self.li_amount = 0
 
     def add_line(self, p0, p1, color=(1, 1, 1)):
         if len(color) == 3:
@@ -47,6 +49,7 @@ class ShapeDrawer:
         self.li_buffer.extend(map(float, color))
         self.li_buffer.extend(map(float, p1))
         self.li_buffer.extend(map(float, color))
+        self.li_amount += 1
 
     def add_line_polygon(self, points, color=(1, 1, 1)):
         for i in range(len(points)):
@@ -71,6 +74,7 @@ class ShapeDrawer:
             self.tr_buffer.extend(map(float, color))
             if additional_data is not None:
                 self.tr_buffer.extend(additional_data[i])
+        self.tr_amount += 1
     
     def add_polygon(self, points, color=(1, 1, 1), additional_data=None):
         for i in range(len(points)-2):
@@ -102,9 +106,9 @@ class ShapeDrawer:
                 self.program, self.buffer, "in_vert", "color", *self.additional_inputs
             )
         self.buffer.write(self.tr_buffer)
-        self.vao.render(moderngl.TRIANGLES, vertices=len(self.tr_buffer)//7)
+        self.vao.render(moderngl.TRIANGLES, vertices=self.tr_amount*3)
         self.buffer.write(self.li_buffer)
-        self.vao.render(moderngl.LINES, vertices=len(self.li_buffer)//7)
+        self.vao.render(moderngl.LINES, vertices=self.li_amount*2)
         
         if reset:
             self.prepare()
