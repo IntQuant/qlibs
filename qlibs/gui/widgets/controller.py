@@ -172,7 +172,10 @@ class WindowWidgetController:
         if hasattr(window, "window"):
             window = window.window
         id_ = glfw.get_window_user_pointer(window)
-        return self.children[id_]
+        try:
+            return self.children[id_]
+        except KeyError as e:
+            raise RuntimeError("No node assigned to window") from e
     
     def set_selected_node(self, window, node):
         if hasattr(window, "window"):

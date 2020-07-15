@@ -4,21 +4,23 @@
 
 from array import array
 from functools import lru_cache
+import weakref
 
 import freetype
+import moderngl
 
 from ..resources.resource_manager import get_storage_of_context
 from ..math.vec import IVec, Vec2
 from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
 
-import moderngl
+global_cache = weakref.WeakValueDictionary()
 
 class Glyph:
     """
       Class for storing glyph data: *advance*, *size*, *bearing*, and opengl *texture*
     """
-    #TODO: add slots
+    __slots__ = ("advance", "size", "bearing", "texture", "__weakref__")
     def __init__(self, ctx, glyph):
         """
         Initialize everything from glyph
@@ -55,10 +57,17 @@ class DirectFontRender:
     
     def get_glyph(self, char):
         glyph = self.cache.get(char, None)
+        global_key = (id(self.ctx), self.pixel_size, char)
+        if glyph is None:
+            try:
+                glyph = global_cache[global_key]
+            except KeyError:
+                glyph = None
         if glyph is None:
             self.font.load_char(char)
             glyph = Glyph(self.ctx, self.font.glyph)
             self.cache[char] = glyph
+            global_cache[global_key] = glyph
         return glyph
 
     def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True):

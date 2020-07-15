@@ -16,7 +16,7 @@ class App:
         self.win.ctx.clear(0, 0, 0, 0)
         self.rend.render()
         self.win.swap()
-        if wait_time <= 0:
+        if wait_time is not None and wait_time <= 0:
             self.win.poll_events()
         else:
             self.win.wait_events(wait_time)

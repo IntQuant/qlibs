@@ -1,12 +1,11 @@
 import setuptools
-import qlibs
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="qlibs",
-    version=qlibs.VERSION,
+    version="0.2.7",
     author="IQuant",
     author_email="quant3234@gmail.com",
     description="Networking, gui, math and more",
