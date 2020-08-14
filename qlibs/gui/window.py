@@ -15,12 +15,13 @@ default_hint_conf = {
     glfw.RESIZABLE: True,
     glfw.OPENGL_FORWARD_COMPAT: True,
     glfw.SAMPLES: 4,
+    glfw.REFRESH_RATE: 60,
 }
 
 
 fallback_hint_conf = {
     glfw.CONTEXT_VERSION_MAJOR: 3,
-    glfw.CONTEXT_VERSION_MINOR: 1,
+    glfw.CONTEXT_VERSION_MINOR: 3,
     glfw.DOUBLEBUFFER: True,
     glfw.DEPTH_BITS: 8,
     glfw.CONTEXT_CREATION_API: glfw.NATIVE_CONTEXT_API,
@@ -30,7 +31,7 @@ fallback_hint_conf = {
 }
 
 class Window:
-    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf):
+    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, fullscreen=False):
         self.width = width
         self.height = height
         self.resize_callback = None
@@ -44,10 +45,20 @@ class Window:
         glfw.init()
         for k, v in hint_conf.items():
             glfw.window_hint(k, v)
-        
+        monitor = None
+        if fullscreen:
+            monitor = glfw.get_primary_monitor()
+            mode = glfw.get_video_mode(monitor)
+            width = mode.size.width
+            height = mode.size.height
+            #width = 1920
+            #height = 1080
+            glfw.window_hint(glfw.RED_BITS, mode.bits.red)
+            glfw.window_hint(glfw.GREEN_BITS, mode.bits.green)
+            glfw.window_hint(glfw.BLUE_BITS, mode.bits.blue)
+            glfw.window_hint(glfw.REFRESH_RATE, mode.refresh_rate)
         try:
-            #raise glfw.GLFWError("test")
-            self.window = glfw.create_window(width, height, title, None, None)
+            self.window = glfw.create_window(width, height, title, monitor, None)
         except glfw.GLFWError:
             logger.warn("Provided config is unavailable, using fallback config")
             glfw.default_window_hints()

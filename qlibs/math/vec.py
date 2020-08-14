@@ -89,7 +89,7 @@ class VecBase:
         return self.__floordiv__(other)
 
     def __pos__(self):
-        return self
+        return self.__class__(*self)
 
     def __neg__(self):
         return self.__class__(*map(lambda x: -x, self))

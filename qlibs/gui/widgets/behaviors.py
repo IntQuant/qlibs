@@ -34,6 +34,8 @@ def hint_func_abs(placer, hints):
         adv = 0
     else:
         adv = 1
+    if placer.size[1-adv] == 0:
+        return hints
     return [hint/placer.size[1-adv] if hint is not None else None for hint in hints]
 
 
@@ -157,6 +159,18 @@ class CentererB(NodeB):
         if child is not None:
             self.add_child(child)
     
+    @property
+    def child(self):
+        return self.children[0]
+    
+    @child.setter
+    def child(self, val):
+        if self.children:
+            self.children[0] = val
+        else:
+            self.children.append(val)
+        self.recalc_size()
+
     def recalc_size(self):
         tpos = (self.position.x + self.sep_x, self.position.y + self.sep_y)
         tsize = (max(self.size.x - self.sep_x*2, 0), max(self.size.y - self.sep_y*2, 0))
@@ -204,6 +218,7 @@ class RCPlacerB(NodeB):
     def add_child(self, child, size_hint=None):
         self.children.append(child)
         self.size_hints.append(size_hint)
+        self.recalc_size()
 
     def recalc_size(self):
         n = len(self.children)
@@ -271,11 +286,23 @@ class TextInputB(NodeB):
     selectable = True
     def __init__(self, text="", name="default", callback=None):
         super().__init__()
-        self.text = text
+        self._text = text
         self.callback = callback
         self.cursor = 0
         self.textalign = "left"
         self.name = name
+
+    @property
+    def text(self):
+        return self._text
+    
+    @text.setter
+    def text(self, value):
+        self._text = value
+        if len(self._text) < self.cursor:
+            self.cursor = len(self._text)
+        if self.cursor < 0:
+            self.cursor = 0
         
     def handle_event(self, event: GUIEvent):
         if event.type == "key":
@@ -285,8 +312,8 @@ class TextInputB(NodeB):
         if event.type == "speckey":
             if event.key == "backspace":
                 if self.cursor > 0:
-                    self.text = self.text[:self.cursor-1] + self.text[self.cursor:]
                     self.cursor -= 1
+                    self.text = self.text[:self.cursor] + self.text[self.cursor+1:]
             elif event.key == "delete":
                 if self.cursor < len(self.text):
                     self.text = self.text[:self.cursor] + self.text[self.cursor+1:]
