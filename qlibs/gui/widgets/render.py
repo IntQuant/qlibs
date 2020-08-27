@@ -126,6 +126,7 @@ class DefaultRenderer:
             bak = self.ctx.viewport
             try:
                 self.ctx.viewport = (node.position.x, node.position.y, node.size.x, node.size.y)
+                node.ctx = self.ctx
                 node.render(node)
             finally:
                 self.ctx.viewport = bak
