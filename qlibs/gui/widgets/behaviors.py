@@ -113,6 +113,15 @@ class NodeB:
             raise KeyError(f"Node not found: {key}")
         return v
 
+class TextNodeB(NodeB):
+    type="text"
+    def __init__(self, text, *, scale=32, name=None):
+        super().__init__()
+        self.name = name
+        self.text = text
+        self.scale = scale
+
+
 class ButtonB(NodeB):
     """
       Basic button. Callback will be called with button's name as parameter. **text** is displayed text

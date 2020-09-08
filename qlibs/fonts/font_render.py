@@ -125,6 +125,29 @@ class DirectFontRender:
             self.vao.render()
             pos += glyph.advance * (scale / 64)
 
+    def render_multiline(self, text, x, y, max_line_len, *, scale=32, vertical_advance=None, min_sep=10, **kwargs):
+        words = text.split()
+        i = -1
+        line = list()
+        cur_line_len = 0
+        words.reverse()
+        cy = y
+        if vertical_advance is None:
+            vertical_advance = scale * (1 if self.flip_y else -1)
+        while words:
+            word_len = self.calc_size(words[-1], scale) + min_sep
+            if word_len + cur_line_len <= max_line_len:
+                cur_line_len += word_len
+                line.append(words.pop())
+            if word_len + cur_line_len > max_line_len or not words:
+                cx = x
+                for word in line:
+                    self.render_string(word, cx, cy, scale=scale, **kwargs)
+                    cx += self.calc_size(word, scale=scale) + min_sep
+                line.clear()
+                cur_line_len = 0
+                cy += vertical_advance
+            
     @lru_cache(1024)
     def calc_size(self, text, scale=1):
         x = 0

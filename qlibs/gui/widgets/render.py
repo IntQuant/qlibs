@@ -69,8 +69,8 @@ class DefaultRenderer:
             return self.params[key[6:]]
         raise AttributeError("Unknown key %s" % key)
 
-    def queue_text(self, text, x, y, scale=1):
-        self.text_queue.append((text, x, y, scale))
+    def queue_text(self, text, x, y, scale=1, multiline=False):
+        self.text_queue.append((text, x, y, scale, multiline))
 
     def render_image(self, node):
         self.render_drawer()
@@ -184,36 +184,40 @@ class DefaultRenderer:
             self.drawer.add_rectangle(pos_x, pos_y, size_x, size_y, color=self.param_scrollbar_color)
         
         if hasattr(node, "text"):
-            if len(node.text) > self.param_text_limit: #TODO later
-                text = node.text[:self.param_text_limit//2] + "..." + node.text[-self.param_text_limit//2:]
+            if node.type == "text":
+                self.queue_text(node.text, node.position.x+2, node.position.y+node.scale, node.scale, node.size.x-4)
             else:
-                text = node.text
+                
+                if len(node.text) > self.param_text_limit: #TODO later
+                    text = node.text[:self.param_text_limit//2] + "..." + node.text[-self.param_text_limit//2:]
+                else:
+                    text = node.text
 
-            used_scale = min(node.size.y, self.param_max_text_size)
-            size = self.font_render.calc_size(text, scale=used_scale)
-            if size > 0 and size > node.size.x - self.image_ident:
-                used_scale *= (node.size.x-self.image_ident) / size
+                used_scale = min(node.size.y, self.param_max_text_size)
                 size = self.font_render.calc_size(text, scale=used_scale)
+                if size > 0 and size > node.size.x - self.image_ident:
+                    used_scale *= (node.size.x-self.image_ident) / size
+                    size = self.font_render.calc_size(text, scale=used_scale)
 
-            align_ajust = node.size.x // 2 - size // 2
-            if hasattr(node, "textalign"):
-                if node.textalign == "left":
-                    align_ajust = 0
+                align_ajust = node.size.x // 2 - size // 2
+                if hasattr(node, "textalign"):
+                    if node.textalign == "left":
+                        align_ajust = 0
 
-            pos = node.position + node.size // 2
-            pos.x += self.image_ident + align_ajust - node.size.x // 2
-            text_height = self.font_render.calc_height(text, scale=used_scale)
-            if text_height == 0:
-                text_height = self.param_max_text_size
-            pos.y += text_height // 2
-            self.queue_text(text, *pos, scale=used_scale)
+                pos = node.position + node.size // 2
+                pos.x += self.image_ident + align_ajust - node.size.x // 2
+                text_height = self.font_render.calc_height(text, scale=used_scale)
+                if text_height == 0:
+                    text_height = self.param_max_text_size
+                pos.y += text_height // 2
+                self.queue_text(text, *pos, scale=used_scale)
 
-            if node.type == "textinput":
-                if is_selected: #Draw cursor
-                    cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
-                    cy = node.position.y+node.size.y/2
-                    txh = text_height / 2
-                    self.drawer.add_line((cpos, cy-txh), (cpos, cy+txh))
+                if node.type == "textinput":
+                    if is_selected: #Draw cursor
+                        cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
+                        cy = node.position.y+node.size.y/2
+                        txh = text_height / 2
+                        self.drawer.add_line((cpos, cy-txh), (cpos, cy+txh))
 
     def render_drawer(self):
         self.drawer.render(mvp=self.matrix, change_context_state=False)
@@ -230,6 +234,10 @@ class DefaultRenderer:
             for child in current.children:
                 queue.append(child)
         self.render_drawer()
-        for text in self.text_queue:
-            self.font_render.render_string(*text, mvp=self.matrix, color=self.param_text_color)
+        for text_data in self.text_queue:
+            *text, multiline = text_data
+            if not multiline:
+                self.font_render.render_string(*text, mvp=self.matrix, color=self.param_text_color)
+            else:
+                self.font_render.render_multiline(*text[:3], multiline, mvp=self.matrix)
             

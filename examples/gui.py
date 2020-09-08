@@ -30,6 +30,7 @@ for i in range(20):
 
 placer.add_child(bplacer)
 placer.add_child(TextInputB(), 0.1)
+placer.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
 row_placer = RowPlacerB()
 
 row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 1)
@@ -49,8 +50,6 @@ placer.add_child(pb, 0.1)
 
 centerer.add_child(placer)
 
-
-#exit(0)
 app = App(centerer)
 
 spritem = SpriteMaster(app.ctx)
@@ -68,9 +67,3 @@ while not app.should_close:
     app.render(wait_time=0.1)
     ptime = time.time() - stime
     pb.fraction = (ptime % ttime) / ttime
-    #if ptime > ttime:
-    #    break
-    #win.wait_events()
-
-#Just for tests
-#ctrl.unassign_from_window(win)
