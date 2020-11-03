@@ -3,9 +3,9 @@ from .render import DefaultRenderer
 from ..window import Window
 
 class App:
-    def __init__(self, node, win=None, **kwargs):
+    def __init__(self, node, win=None, ctrl=None, **kwargs):
         self.win = win or Window(**kwargs)
-        self.ctrl = WindowWidgetController()
+        self.ctrl = ctrl or WindowWidgetController()
         self.ctrl.set_window_node(self.win, node)
         self.ctrl.assign_to_window(self.win)
         self.rend = DefaultRenderer(self.win, node, is_selected_cb=self.ctrl.is_node_selected)
@@ -14,6 +14,7 @@ class App:
     
     def render(self, wait_time=None):
         self.win.ctx.clear(0, 0, 0, 0)
+        self.win.make_context_current()
         self.rend.render()
         self.win.swap()
         if wait_time is not None and wait_time <= 0:

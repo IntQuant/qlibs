@@ -215,7 +215,7 @@ class Vec2(VecBase):
         return math.atan2(self.y, self.x)
     
     @angle.setter
-    def _(self, value):
+    def angle(self, value):
         l = self.len()
         self.x, self.y = math.cos(value)*l, math.sin(value)*l
     

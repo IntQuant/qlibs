@@ -46,7 +46,7 @@ class NodeB:
     """
     type = "node"
     selectable = False
-    def __init__(self, name=None):
+    def __init__(self, name=None, text=None):
         if not hasattr(self, "name"):
             self.name = name
         if not hasattr(self, "_position"):
@@ -61,6 +61,8 @@ class NodeB:
         self.image_mode = None #Other options are: "fit", "fill"
         self.image_ratio = 1
         self.hidden = False
+        if text is not None:
+            self.text = text
 
     @property
     def position(self):
@@ -387,9 +389,10 @@ class ProgressBarB(NodeB):
       Progress bar. **self.fraction** is how full it is, with value from 0 to 1 inclusively.
     """
     type = "progressbar"
-    def __init__(self):
+    def __init__(self, name=None):
         super().__init__()
         self.fraction = 0
+        self.name = name
 
 
 class ScrollableListB(NodeB):
@@ -455,10 +458,11 @@ class ScrollableStringListB(ScrollableListB):
       **override_node_type** changes type of buttons to node, so that they are renderer like usual NodeB.
       Call `self.update_view()` after changing **self.full_list** to update
     """
-    def __init__(self, callback=None, shown_items=10, override_node_type=True):
+    def __init__(self, callback=None, shown_items=10, override_node_type=True, name=None):
         super().__init__(shown_items)
         self.callback = callback
         self._override_node_type = override_node_type
+        self.name = name
     
     def callback_adapter(self, num):
         if self.callback is not None:

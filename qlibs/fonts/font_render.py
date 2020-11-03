@@ -5,6 +5,7 @@
 from array import array
 from functools import lru_cache
 import weakref
+from enum import Enum, auto
 
 import freetype
 import moderngl
@@ -15,6 +16,22 @@ from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
 
 global_cache = weakref.WeakValueDictionary()
+
+class FormattedTextToken(Enum):
+    LINEBREAK = auto()
+
+
+class FormattedText:
+    def __init__(self, text=None):
+        self.tokens = list()
+        if text is not None:
+            self.parse(text)
+
+    def parse(self, text):
+        for line in text.splitlines():
+            self.tokens.extend(line.split())
+            self.tokens.append(FormattedTextToken.LINEBREAK)
+
 
 class Glyph:
     """
@@ -126,7 +143,14 @@ class DirectFontRender:
             pos += glyph.advance * (scale / 64)
 
     def render_multiline(self, text, x, y, max_line_len, *, scale=32, vertical_advance=None, min_sep=10, **kwargs):
-        words = text.split()
+        if not isinstance(text, FormattedText):
+            ftext = FormattedText()
+            ftext.parse(text)
+        else:
+            ftext = text
+
+        words = list(ftext.tokens)
+        
         i = -1
         line = list()
         cur_line_len = 0
@@ -135,11 +159,21 @@ class DirectFontRender:
         if vertical_advance is None:
             vertical_advance = scale * (1 if self.flip_y else -1)
         while words:
-            word_len = self.calc_size(words[-1], scale) + min_sep
-            if word_len + cur_line_len <= max_line_len:
+            is_word = isinstance(words[-1], str)
+            if is_word:
+                word_len = self.calc_size(words[-1], scale) + min_sep
+            else:
+                word_len = 0
+            if is_word and word_len + cur_line_len <= max_line_len:
                 cur_line_len += word_len
                 line.append(words.pop())
-            if word_len + cur_line_len > max_line_len or not words:
+            finish_line = word_len + cur_line_len > max_line_len or not words
+            if not is_word:
+                token = words.pop()
+                if token is FormattedTextToken.LINEBREAK:
+                    finish_line = True
+
+            if finish_line:
                 cx = x
                 for word in line:
                     self.render_string(word, cx, cy, scale=scale, **kwargs)

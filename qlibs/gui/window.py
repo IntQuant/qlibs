@@ -12,7 +12,6 @@ default_hint_conf = {
     glfw.CONTEXT_CREATION_API: glfw.NATIVE_CONTEXT_API,
     glfw.CLIENT_API: glfw.OPENGL_API,
     glfw.OPENGL_PROFILE: glfw.OPENGL_CORE_PROFILE,
-    glfw.RESIZABLE: True,
     glfw.OPENGL_FORWARD_COMPAT: True,
     glfw.SAMPLES: 4,
     glfw.REFRESH_RATE: 60,
@@ -26,12 +25,11 @@ fallback_hint_conf = {
     glfw.DEPTH_BITS: 8,
     glfw.CONTEXT_CREATION_API: glfw.NATIVE_CONTEXT_API,
     glfw.CLIENT_API: glfw.OPENGL_API,
-    glfw.RESIZABLE: True,
     glfw.SAMPLES: 1,
 }
 
 class Window:
-    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, fullscreen=False):
+    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, resizable=True, fullscreen=False):
         self.width = width
         self.height = height
         self.resize_callback = None
@@ -43,6 +41,7 @@ class Window:
         self.flip_mouse_y = True #flipped relativly to usual math-y respresentation
 
         glfw.init()
+        glfw.window_hint(glfw.RESIZABLE, resizable)
         for k, v in hint_conf.items():
             glfw.window_hint(k, v)
         monitor = None
@@ -83,6 +82,9 @@ class Window:
             self.ctx = moderngl.create_context()
         except:
             self.ctx = moderngl.create_context(libgl='libGL.so.1')
+
+    def make_context_current(self):
+        glfw.make_context_current(self.window)
 
     def _on_resize(self, win, width, height):
         self.width = width

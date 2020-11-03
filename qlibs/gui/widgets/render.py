@@ -166,9 +166,9 @@ class DefaultRenderer:
 
         if node.type == "progressbar":
             if node.size.x > node.size.y:
-                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_main, node.position.y+self.param_pb_spacing_side, node.size.x*node.fraction-self.param_pb_spacing_main*2, node.size.y-self.param_pb_spacing_side*2, color=self.param_progressbar_color)
+                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_main, node.position.y+self.param_pb_spacing_side, (node.size.x-self.param_pb_spacing_main*2)*node.fraction, node.size.y-self.param_pb_spacing_side*2, color=self.param_progressbar_color)
             else:
-                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_side, node.position.y+self.param_pb_spacing_main, node.size.x-self.param_pb_spacing_side*2, node.size.y*node.fraction-self.param_pb_spacing_main*2, color=self.param_progressbar_color)
+                self.drawer.add_rectangle(node.position.x+self.param_pb_spacing_side, node.position.y+self.param_pb_spacing_main, node.size.x-self.param_pb_spacing_side*2, (node.size.y-self.param_pb_spacing_side*2)*node.fraction, color=self.param_progressbar_color)
 
         if node.type == "scrollbar":
             if node.direction == 1:
