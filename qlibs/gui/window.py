@@ -41,7 +41,7 @@ class Window:
         self.flip_mouse_y = True #flipped relativly to usual math-y respresentation
 
         glfw.init()
-        glfw.window_hint(glfw.RESIZABLE, resizable)
+        glfw.window_hint(glfw.RESIZABLE, resizable and not fullscreen)
         for k, v in hint_conf.items():
             glfw.window_hint(k, v)
         monitor = None
@@ -56,6 +56,7 @@ class Window:
             glfw.window_hint(glfw.GREEN_BITS, mode.bits.green)
             glfw.window_hint(glfw.BLUE_BITS, mode.bits.blue)
             glfw.window_hint(glfw.REFRESH_RATE, mode.refresh_rate)
+            
         try:
             self.window = glfw.create_window(width, height, title, monitor, None)
         except glfw.GLFWError:
@@ -64,7 +65,9 @@ class Window:
             for k, v in fallback_hint_conf.items():
                 glfw.window_hint(k, v)
             self.window = glfw.create_window(width, height, title, None, None)
-            
+        
+        if fullscreen:
+            self.width, self.height = glfw.get_framebuffer_size(self.window) #Required on windows
 
         glfw.set_window_user_pointer(self.window, id(self.window))
         glfw.make_context_current(self.window)
