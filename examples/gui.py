@@ -23,7 +23,7 @@ for i in range(20):
     button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Text on button {i}")
     bplacer.add_child(button)
 '''
-bplacer = ScrollableStringListB(callback=print)
+bplacer = ScrollableStringListB(callback=print, shown_items=5)
 for i in range(20):
     bplacer.add_child(f"Text on button {i}")
     

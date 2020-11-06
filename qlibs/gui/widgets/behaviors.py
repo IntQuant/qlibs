@@ -163,8 +163,8 @@ class CentererB(NodeB):
       Makes it's children smaller by **sep_x** and **sep_y** from each side
     """
     type = "centerer"
-    def __init__(self, sep_x, sep_y, child=None):
-        super().__init__()
+    def __init__(self, sep_x, sep_y, child=None, **kwargs):
+        super().__init__(**kwargs)
         self.sep_x = sep_x
         self.sep_y = sep_y
         if child is not None:
@@ -196,8 +196,8 @@ class SizeLimitB(NodeB):
       Limits size of it's children
     """
     type = "centerer"
-    def __init__(self, targ_x, targ_y, child=None):
-        super().__init__()
+    def __init__(self, targ_x, targ_y, child=None, **kwargs):
+        super().__init__(**kwargs)
         self.targ_x = targ_x
         self.targ_y = targ_y
         if child is not None:
@@ -218,8 +218,8 @@ class SizeLimitB(NodeB):
 
 class RCPlacerB(NodeB):
     type = "rcplacer"
-    def __init__(self, spacing=2, vertical=True, max_size=1):
-        super().__init__()
+    def __init__(self, spacing=2, vertical=True, max_size=1, **kwargs):
+        super().__init__(**kwargs)
         self.spc = spacing
         self.vertical = vertical
         self.size_hints = list()
@@ -279,8 +279,8 @@ class ColumnPlacerB(RCPlacerB):
       Places children vertically
     """
     type = "columnplacer"
-    def __init__(self, spacing=2):
-        super().__init__(spacing, vertical=True)
+    def __init__(self, spacing=2, **kwargs):
+        super().__init__(spacing, vertical=True, **kwargs)
 
 
 class RowPlacerB(RCPlacerB):
@@ -288,18 +288,18 @@ class RowPlacerB(RCPlacerB):
       Places children horizontally
     """
     type = "rowplacer"
-    def __init__(self, spacing=2):
-        super().__init__(spacing, vertical=False)
+    def __init__(self, spacing=2, **kwargs):
+        super().__init__(spacing, vertical=False, **kwargs)
 
 
 class TextInputB(NodeB):
     type = "textinput"
     selectable = True
-    def __init__(self, text="", name="default", callback=None):
-        super().__init__()
+    def __init__(self, text="", name="default", callback=None, **kwargs):
+        super().__init__(**kwargs)
         self._text = text
         self.callback = callback
-        self.cursor = 0
+        self.cursor = len(text)
         self.textalign = "left"
         self.name = name
 
@@ -356,8 +356,8 @@ class ToggleButtonB(NodeB):
       Just like button, but toggleable. Callback also recieves **self.state**, which is True is button is active
     """
     type = "togglebutton"
-    def __init__(self, name, callback, text=None):
-        super().__init__()
+    def __init__(self, name, callback, text=None, **kwargs):
+        super().__init__(**kwargs)
         self.callback = callback
         self.pressed = False
         self.state = False
@@ -389,8 +389,8 @@ class ProgressBarB(NodeB):
       Progress bar. **self.fraction** is how full it is, with value from 0 to 1 inclusively.
     """
     type = "progressbar"
-    def __init__(self, name=None):
-        super().__init__()
+    def __init__(self, name=None, **kwargs):
+        super().__init__(**kwargs)
         self.fraction = 0
         self.name = name
 
@@ -400,8 +400,8 @@ class ScrollableListB(NodeB):
       List which can be scrolled
     """
     type = "scrollablelist"
-    def __init__(self, shown_items=10):
-        super().__init__()
+    def __init__(self, shown_items=10, **kwargs):
+        super().__init__(**kwargs)
         self.full_list = []
         self.cursor = 0
         self.shown_items = shown_items
@@ -458,8 +458,8 @@ class ScrollableStringListB(ScrollableListB):
       **override_node_type** changes type of buttons to node, so that they are renderer like usual NodeB.
       Call `self.update_view()` after changing **self.full_list** to update
     """
-    def __init__(self, callback=None, shown_items=10, override_node_type=True, name=None):
-        super().__init__(shown_items)
+    def __init__(self, callback=None, shown_items=10, override_node_type=True, name=None, **kwargs):
+        super().__init__(shown_items, **kwargs)
         self.callback = callback
         self._override_node_type = override_node_type
         self.name = name
@@ -486,8 +486,8 @@ class ScrollableStringListB(ScrollableListB):
 
 class ScrollBarB(NodeB):
     type = "scrollbar"
-    def __init__(self, direction="vertical", callback=None, cb=None):
-        super().__init__()
+    def __init__(self, direction="vertical", callback=None, cb=None, **kwargs):
+        super().__init__(**kwargs)
         possible = ["vertical", "horizontal"]
         if direction not in possible:
             raise ValueError("Wrong direction value %s, should one of %s" % (direction, possible))
@@ -512,8 +512,8 @@ class ScrollBarB(NodeB):
 
 class CustomRenderB(NodeB):
     type = "customrender"
-    def __init__(self, render):
-        super().__init__()
+    def __init__(self, render, **kwargs):
+        super().__init__(**kwargs)
         self.render = render
 
 
@@ -523,8 +523,8 @@ class RadioButtonGroup:
 
 class RadioButtonB(NodeB):
     type = "radiobutton"
-    def __init__(self, group: RadioButtonGroup):
-        super().__init__()
+    def __init__(self, group: RadioButtonGroup, **kwargs):
+        super().__init__(**kwargs)
         self.group = group
         if group.selected is None:
             group.selected = self
