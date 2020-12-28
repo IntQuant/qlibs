@@ -56,7 +56,7 @@ class VecBase:
         return self.__sub__(other)
 
     def __mul__(self, other):
-        if isinstance(other, Vec):
+        if isinstance(other, VecBase):
             return self.map_by_verticle(other, lambda x, y: x * y)
         elif isinstance(other, NUMERICAL):
             return self.__class__(*map(lambda x: x * other, self))
@@ -67,23 +67,23 @@ class VecBase:
         return self.__mul__(other)
 
     def __truediv__(self, other):
-        if isinstance(other, Vec):
+        if isinstance(other, VecBase):
             return self.map_by_verticle(other, lambda x, y: x / y)
         elif isinstance(other, NUMERICAL):
             return self.__class__(*map(lambda x: x / other, self))
         else:
-            raise TypeError("Cannot divide vector by " + str(type(other)))
+            raise TypeError("Cannot true divide vector by " + str(type(other)))
 
     def __itruediv__(self, other):
         return self.__truediv__(other)
 
     def __floordiv__(self, other):
-        if isinstance(other, Vec):
+        if isinstance(other, VecBase):
             return self.map_by_verticle(other, lambda x, y: x / y)
         elif isinstance(other, NUMERICAL):
             return self.__class__(*map(lambda x: x // other, self))
         else:
-            raise TypeError("Cannot divide vector by " + str(type(other)))
+            raise TypeError("Cannot floor divide vector by " + str(type(other)))
 
     def __ifloordiv__(self, other):
         return self.__floordiv__(other)

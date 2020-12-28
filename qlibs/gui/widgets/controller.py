@@ -1,6 +1,9 @@
 import glfw
 from ...math import IVec
 from .events import *
+import logging
+logger = logging.getLogger("qlibs|window_controller")
+logger.setLevel(logging.DEBUG)
 
 from collections import deque
 
@@ -182,6 +185,7 @@ class WindowWidgetController:
             window = window.window
         id_ = glfw.get_window_user_pointer(window)
         self.selected[id_] = node
+        logger.debug(self.selected)
 
     def get_selected_node(self, window):
         if hasattr(window, "window"):
@@ -198,6 +202,7 @@ class WindowWidgetController:
         up = scroll_y > 0
         down = scroll_y < 0
         event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed, up, down, pressed_buttons=self.pressed_buttons)
+        #logger.debug("Sending mouse event to %s", self.get_window_node(window))
         self.get_window_node(window).handle_event(event)
         if self.force_send_events or not event.used:
             self.additional_event_handler(event)
@@ -209,6 +214,7 @@ class WindowWidgetController:
         self.send_mouse_event(window)
     
     def mouse_button_handler(self, window, button, action, mods):
+        logger.debug("mouse button event")
         self.last_mods = KeyMods(mods)
         if button == glfw.MOUSE_BUTTON_LEFT:
             self.mouse_pressed = action
@@ -225,12 +231,14 @@ class WindowWidgetController:
 
     def handle_to_selected(self, window, event):
         node = self.get_selected_node(window)
+        logger.debug("Sent %s to %s (window %s)", event, node, window)
         if node is not None:
             node.handle_event(event)
         if node is None or self.force_send_events:
             self.additional_event_handler(event)
 
     def check_reselect(self, window):
+        logger.debug("Checking reselection in %s", window)
         queue = deque()
         queue.append(self.get_window_node(window))
         cand = None
@@ -241,6 +249,7 @@ class WindowWidgetController:
                 cand = current
             for child in current.children:
                 queue.append(child)
+        logger.debug("Selected %s", cand)
         self.set_selected_node(window, cand)
 
     def key_handler(self, window, key, mods):

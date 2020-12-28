@@ -23,9 +23,11 @@ class App:
             self.win.wait_events(wait_time)
 
     def set_node(self, node):
-        self.node = node
-        self.rend.node = node
-        self.ctrl.set_window_node(self.win, node)
+        if self.node is not node:
+            self.node = node
+            self.rend.node = node
+            self.ctrl.set_window_node(self.win, node)
+            self.enable()
         
     def disable(self):
         if self.enabled:

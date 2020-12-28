@@ -194,15 +194,16 @@ class DefaultRenderer:
                     text = node.text
 
                 used_scale = min(node.size.y, self.param_max_text_size)
+                ident = 8
                 size = self.font_render.calc_size(text, scale=used_scale)
-                if size > 0 and size > node.size.x - self.image_ident:
-                    used_scale *= (node.size.x-self.image_ident) / size
+                if size > 0 and size > node.size.x - self.image_ident - ident:
+                    used_scale *= (node.size.x-self.image_ident-ident) / size
                     size = self.font_render.calc_size(text, scale=used_scale)
 
                 align_ajust = node.size.x // 2 - size // 2
                 if hasattr(node, "textalign"):
                     if node.textalign == "left":
-                        align_ajust = 0
+                        align_ajust = ident / 2
 
                 pos = node.position + node.size // 2
                 pos.x += self.image_ident + align_ajust - node.size.x // 2

@@ -87,7 +87,7 @@ class MultiplexServer:
         self.state = None
         #if self.engine_packer is not None:
         #    self.state = self.engine_packer()
-        self.time_between_selection = 0.01
+        self.time_between_selection = 0.001
         self.last_pack = time.monotonic()
         self.pack_delay = 2
 
@@ -239,7 +239,7 @@ class MultiplexClient:
                 self._shall_continue = False
 
     def thread_runner(self):
-        self._thread = Thread(target=self._eternal_runner, name="multiplex-client")
+        self._thread = Thread(target=self._eternal_runner, name="multiplex-client", daemon=True)
         self._shall_continue = True
         self._thread.start()
     
