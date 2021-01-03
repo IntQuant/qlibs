@@ -4,6 +4,7 @@
 
 from array import array
 from functools import lru_cache
+from typing import Text
 import weakref
 from enum import Enum, auto
 
@@ -17,13 +18,27 @@ from ..util import try_write
 
 global_cache = weakref.WeakValueDictionary()
 
+class TextAlign(Enum):
+    LEFT = auto()
+    CENTER = auto()
+
 class FormattedTextToken(Enum):
     LINEBREAK = auto()
 
 
+class FormattingData(dict):
+    def __getattr__(self, name):
+        return self[name]
+    
+    def copy(self):
+        return FormattingData(**self)
+
+
 class FormattedText:
-    def __init__(self, text=None):
-        self.tokens = list()
+    def __init__(self, text=None, tokens=None, **kwargs):
+        self.tokens = tokens or list()
+        if kwargs:
+            self.tokens.insert(0, FormattingData(**kwargs))
         if text is not None:
             self.parse(text)
 
@@ -52,6 +67,7 @@ class Glyph:
 
     def __del__(self):
         self.texture.release()
+
 
 class DirectFontRender:
     """
@@ -87,7 +103,7 @@ class DirectFontRender:
             global_cache[global_key] = glyph
         return glyph
 
-    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True):
+    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True, **kwargs):
         """
         Render text with given parameters
         """
@@ -148,7 +164,8 @@ class DirectFontRender:
             ftext.parse(text)
         else:
             ftext = text
-
+        
+        formatting_data = FormattingData(align=TextAlign.LEFT, **kwargs)
         words = list(ftext.tokens)
         
         i = -1
@@ -164,19 +181,25 @@ class DirectFontRender:
                 word_len = self.calc_size(words[-1], scale) + min_sep
             else:
                 word_len = 0
-            if is_word and word_len + cur_line_len <= max_line_len:
+            if is_word and (word_len + cur_line_len <= max_line_len or cur_line_len == 0):
                 cur_line_len += word_len
-                line.append(words.pop())
+                line.append((words.pop(), formatting_data))
             finish_line = word_len + cur_line_len > max_line_len or not words
             if not is_word:
                 token = words.pop()
                 if token is FormattedTextToken.LINEBREAK:
                     finish_line = True
+                if isinstance(token, FormattingData):
+                    formatting_data = formatting_data.copy()
+                    formatting_data.update(token)
 
             if finish_line:
-                cx = x
-                for word in line:
-                    self.render_string(word, cx, cy, scale=scale, **kwargs)
+                if formatting_data.align is TextAlign.CENTER:
+                    cx = x + (max_line_len - cur_line_len) // 2
+                else:
+                    cx = x
+                for word, formatting in line:
+                    self.render_string(word, cx, cy, scale=scale, **formatting)
                     cx += self.calc_size(word, scale=scale) + min_sep
                 line.clear()
                 cur_line_len = 0

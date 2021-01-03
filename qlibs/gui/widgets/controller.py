@@ -3,7 +3,7 @@ from ...math import IVec
 from .events import *
 import logging
 logger = logging.getLogger("qlibs|window_controller")
-logger.setLevel(logging.DEBUG)
+#logger.setLevel(logging.DEBUG)
 
 from collections import deque
 
@@ -155,7 +155,6 @@ class WindowWidgetController:
         self.children = dict()
         self.mouse_x = 0
         self.mouse_y = 0
-        #self.last_mods = KeyMods()
         self.mouse_pressed = False
         self.selected = dict()
         self.pressed_buttons = set()
@@ -202,15 +201,12 @@ class WindowWidgetController:
         up = scroll_y > 0
         down = scroll_y < 0
         event = MouseEvent(self.mouse_x, self.mouse_y, self.mouse_pressed, up, down, pressed_buttons=self.pressed_buttons)
-        #logger.debug("Sending mouse event to %s", self.get_window_node(window))
         self.get_window_node(window).handle_event(event)
         if self.force_send_events or not event.used:
             self.additional_event_handler(event)
 
     def mouse_position_handler(self, window, x, y):
-        node = self.get_window_node(window)
-        self.mouse_x = x
-        self.mouse_y = y
+        self.mouse_x, self.mouse_y = window.mouse_pos_flipped
         self.send_mouse_event(window)
     
     def mouse_button_handler(self, window, button, action, mods):
@@ -278,7 +274,7 @@ class WindowWidgetController:
         node = self.get_window_node(win)
         node.size = win.width, win.height
         node.recalc_size()
-        self.mouse_x, self.mouse_y = win.mouse_pos
+        self.mouse_x, self.mouse_y = win.mouse_pos_flipped
         self.mouse_pressed = False
 
     def unassign_from_window(self, win):

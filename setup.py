@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qlibs",
-    version="0.2.10",
+    version="0.3.0",
     author="IQuant",
     author_email="quant3234@gmail.com",
     description="Networking, gui, math and more",
@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://bitbucket.org/IntQuant/qlibs/",
     packages=setuptools.find_packages(),
+    license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

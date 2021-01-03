@@ -38,7 +38,7 @@ class Window:
         self.scroll_callback = None
         self.key_callback = None
         self.spec_key_callback = None
-        self.flip_mouse_y = True #flipped relativly to usual math-y respresentation
+        self.flip_mouse_y = False #flipped relativly to usual math-y respresentation
 
         glfw.init()
         glfw.window_hint(glfw.RESIZABLE, resizable and not fullscreen)
@@ -130,23 +130,33 @@ class Window:
             return x, self.height-y
 
     @property
+    def mouse_pos_normal(self):
+        x, y = glfw.get_cursor_pos(self.window)
+        return x, self.height-y
+
+    @property
+    def mouse_pos_flipped(self):
+        x, y = glfw.get_cursor_pos(self.window)
+        return x, y
+
+    @property
     def size(self):
         return (self.width, self.height)
     
     def _on_scroll(self, window, x, y):
         if self.scroll_callback:
-            self.scroll_callback(window, x, y)
+            self.scroll_callback(self, x, y)
 
     def _on_mouse_motion(self, window, x, y):
         if self.mouse_motion_callback:
             if self.flip_mouse_y:
-                self.mouse_motion_callback(window, x, y)
+                self.mouse_motion_callback(self, x, y)
             else:
-                self.mouse_motion_callback(window, x, self.height - y)
+                self.mouse_motion_callback(self, x, self.height - y)
 
     def _on_mouse_button(self, window, button, action, mods):
         if self.mouse_button_callback:
-            self.mouse_button_callback(window, button, action == glfw.PRESS, mods)
+            self.mouse_button_callback(self, button, action == glfw.PRESS, mods)
         
     def is_key_pressed(self, key):
         return glfw.get_key(self.window, key)
@@ -156,11 +166,11 @@ class Window:
     
     def _on_key_press(self, window, key, mods):
         if self.key_callback:
-            self.key_callback(window, key, mods)
+            self.key_callback(self, key, mods)
     
     def _on_spec_key_press(self, window, key, ukey, pressed, mods):
         if self.spec_key_callback:
-            self.spec_key_callback(window, key, ukey, pressed, mods)
+            self.spec_key_callback(self, key, ukey, pressed, mods)
 
     def enable_sticky_mouse(self, action=True):
         glfw.set_input_mode(self.window, glfw.STICKY_MOUSE_BUTTONS, action)

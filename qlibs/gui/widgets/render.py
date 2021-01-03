@@ -4,7 +4,7 @@ import warnings
 import moderngl
 
 from ..basic_shapes import ShapeDrawer
-from ...fonts.font_render import DirectFontRender
+from ...fonts.font_render import DirectFontRender, FormattedText
 from ...fonts.font_search import find_reasonable_font
 from ...math import Matrix4, Vec2
 
@@ -69,8 +69,8 @@ class DefaultRenderer:
             return self.params[key[6:]]
         raise AttributeError("Unknown key %s" % key)
 
-    def queue_text(self, text, x, y, scale=1, multiline=False):
-        self.text_queue.append((text, x, y, scale, multiline))
+    def queue_text(self, text, x, y, scale=1, multiline=False, scissor_params=None):
+        self.text_queue.append((text, x, y, scale, scissor_params, multiline))
 
     def render_image(self, node):
         self.render_drawer()
@@ -184,8 +184,11 @@ class DefaultRenderer:
             self.drawer.add_rectangle(pos_x, pos_y, size_x, size_y, color=self.param_scrollbar_color)
         
         if hasattr(node, "text"):
-            if node.type == "text":
-                self.queue_text(node.text, node.position.x+2, node.position.y+node.scale, node.scale, node.size.x-4)
+            if node.type == "text" or isinstance(node.text, FormattedText):
+                pos = Vec2(*node.position)
+                pos.y = self.window.height - pos.y - node.size.y
+                scissor = (*pos, *node.size)
+                self.queue_text(node.text, node.position.x+2, node.position.y+node.scale, node.scale, multiline=node.size.x-4, scissor_params=scissor)
             else:
                 
                 if len(node.text) > self.param_text_limit: #TODO later
@@ -224,21 +227,27 @@ class DefaultRenderer:
         self.drawer.render(mvp=self.matrix, change_context_state=False)
 
     def render(self):
-        self.ctx.enable_only(moderngl.BLEND)
-        self.text_queue.clear()
-        self.matrix = Matrix4.orthogonal_projection(0, self.window.width, self.window.height, 0, -1, 1)
-        queue = deque()
-        queue.append(self.node)
-        while queue:
-            current = queue.pop()
-            self.render_node(current)
-            for child in current.children:
-                queue.append(child)
-        self.render_drawer()
-        for text_data in self.text_queue:
-            *text, multiline = text_data
-            if not multiline:
-                self.font_render.render_string(*text, mvp=self.matrix, color=self.param_text_color)
-            else:
-                self.font_render.render_multiline(*text[:3], multiline, mvp=self.matrix)
+        try:
+            self.ctx.enable_only(moderngl.BLEND)
+            self.text_queue.clear()
+            self.matrix = Matrix4.orthogonal_projection(0, self.window.width, self.window.height, 0, -1, 1)
+            queue = deque()
+            queue.append(self.node)
+            while queue:
+                current = queue.pop()
+                self.render_node(current)
+                for child in current.children:
+                    queue.append(child)
+            self.render_drawer()
+            
+            for text_data in self.text_queue:
+                *text, scissor, multiline = text_data
+                if not multiline:
+                    self.font_render.render_string(*text, mvp=self.matrix, color=self.param_text_color)
+                else:
+                    self.ctx.scissor = scissor
+                    self.font_render.render_multiline(*text[:3], multiline, mvp=self.matrix)
+                    self.ctx.scissor = None
+        finally:
+            self.ctx.scissor = None
             

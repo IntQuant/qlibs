@@ -90,7 +90,7 @@ class ShapeDrawer:
     def add_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
     
-    def render(self, mvp=Matrix4(IDENTITY), reset=True, change_context_state=True):
+    def render(self, mvp=Matrix4(IDENTITY), reset=True, change_context_state=False):
         if change_context_state:
             self.ctx.enable_only(moderngl.NOTHING)
         try_write(self.program, "mvp", mvp.bytes())
