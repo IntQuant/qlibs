@@ -4,6 +4,7 @@
 
 from array import array
 from functools import lru_cache
+from qlibs.fonts import font_loader, font_search
 from typing import Text
 import weakref
 from enum import Enum, auto
@@ -48,7 +49,7 @@ class FormattedText:
             self.tokens.append(FormattedTextToken.LINEBREAK)
 
 
-class Glyph:
+class GGlyph:
     """
       Class for storing glyph data: *advance*, *size*, *bearing*, and opengl *texture*
     """
@@ -73,14 +74,16 @@ class DirectFontRender:
     """
       Render text using font
     """
-    def __init__(self, ctx, font: freetype.Face, font_path=None, pixel_size=48, flip_y=False):
+    def __init__(self, ctx, font=None, font_path=None, pixel_size=48, flip_y=False, default_font="default"):
         """
         *ctx* is a moderngl context
-        *font_path* will be used if *font* is None
+        *font_path* and *font* - ignored
+        *default_font* - name of default font
         """
         self.ctx = ctx
-        self.font = font or freetype.Face(font_path)
-        self.font.set_pixel_sizes(0, pixel_size)
+        #self.font = font or freetype.Face(font_path)
+        #self.font.set_pixel_sizes(0, pixel_size)
+        self.font = default_font
         self.pixel_size = pixel_size
         self.cache = dict()
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
@@ -88,22 +91,22 @@ class DirectFontRender:
         self.buffer = None
         self.flip_y = flip_y
     
-    def get_glyph(self, char):
+    def get_glyph(self, char, font_name=None):
+        font_name = font_name or self.font
         glyph = self.cache.get(char, None)
-        global_key = (id(self.ctx), self.pixel_size, char)
+        global_key = (font_name, id(self.ctx), self.pixel_size, char)
         if glyph is None:
             try:
                 glyph = global_cache[global_key]
             except KeyError:
                 glyph = None
         if glyph is None:
-            self.font.load_char(char)
-            glyph = Glyph(self.ctx, self.font.glyph)
+            glyph = GGlyph(self.ctx, font_loader.font_loader.get().get(font_name, char))
             self.cache[char] = glyph
             global_cache[global_key] = glyph
         return glyph
 
-    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True, **kwargs):
+    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True, font=None, **kwargs):
         """
         Render text with given parameters
         """
@@ -119,7 +122,7 @@ class DirectFontRender:
         try_write(self.program, "mvp", mvp.bytes())
         try_write(self.program, "text_color", IVec(color).bytes())
         for char in text:
-            glyph = self.get_glyph(char) 
+            glyph = self.get_glyph(char, font_name=font) 
             glyph.texture.use()
             h = glyph.size.y * scale
             w = glyph.size.x * scale
@@ -158,7 +161,7 @@ class DirectFontRender:
             self.vao.render()
             pos += glyph.advance * (scale / 64)
 
-    def render_multiline(self, text, x, y, max_line_len, *, scale=32, vertical_advance=None, min_sep=10, **kwargs):
+    def render_multiline(self, text, x, y, max_line_len, *, scale=32, vertical_advance=None, min_sep=15, **kwargs):
         if not isinstance(text, FormattedText):
             ftext = FormattedText()
             ftext.parse(text)
@@ -178,13 +181,13 @@ class DirectFontRender:
         while words:
             is_word = isinstance(words[-1], str)
             if is_word:
-                word_len = self.calc_size(words[-1], scale) + min_sep
+                word_len = self.calc_size(words[-1], scale)
             else:
                 word_len = 0
+            finish_line = word_len + cur_line_len > max_line_len
             if is_word and (word_len + cur_line_len <= max_line_len or cur_line_len == 0):
-                cur_line_len += word_len
+                cur_line_len += word_len + min_sep
                 line.append((words.pop(), formatting_data))
-            finish_line = word_len + cur_line_len > max_line_len or not words
             if not is_word:
                 token = words.pop()
                 if token is FormattedTextToken.LINEBREAK:
@@ -193,9 +196,9 @@ class DirectFontRender:
                     formatting_data = formatting_data.copy()
                     formatting_data.update(token)
 
-            if finish_line:
+            if finish_line or not words:
                 if formatting_data.align is TextAlign.CENTER:
-                    cx = x + (max_line_len - cur_line_len) // 2
+                    cx = x + (max_line_len - cur_line_len + min_sep) // 2
                 else:
                     cx = x
                 for word, formatting in line:

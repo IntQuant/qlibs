@@ -188,7 +188,7 @@ class DefaultRenderer:
                 pos = Vec2(*node.position)
                 pos.y = self.window.height - pos.y - node.size.y
                 scissor = (*pos, *node.size)
-                self.queue_text(node.text, node.position.x+2, node.position.y+node.scale, node.scale, multiline=node.size.x-4, scissor_params=scissor)
+                self.queue_text(node.text, node.position.x+4, node.position.y+node.scale, node.scale, multiline=node.size.x-8, scissor_params=scissor)
             else:
                 
                 if len(node.text) > self.param_text_limit: #TODO later

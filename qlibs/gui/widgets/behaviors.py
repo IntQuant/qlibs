@@ -21,6 +21,27 @@ except ImportError:
 
 #TODO
 #__all__ = ["hint_func_rel", "NodeB", "ButtonB", "CentererB", "ColumnPlacerB", "CustomRenderB", "ProgressBarB", "RadioButtonB", "RadioButtonGroup"]
+__all__ = [
+    "ButtonB",
+    "CentererB",
+    "ColumnPlacerB",
+    "CustomRenderB",
+    "NodeB",
+    "ProgressBarB",
+    "RadioButtonB",
+    "RadioButtonGroup",
+    "RCPlacerB",
+    "RowPlacerB",
+    "ScrollableListB",
+    "ScrollableStringListB",
+    "ScrollBarB",
+    "SizeLimitB",
+    "TextInputB",
+    "TextNodeB",
+    "ToggleButtonB",
+    "hint_func_rel",
+    "hint_func_abs",
+]
 
 def hint_func_rel(placer, hints):
     if placer.vertical:
@@ -193,7 +214,7 @@ class CentererB(NodeB):
 
 class SizeLimitB(NodeB):
     """
-      Limits size of it's children
+      Limits size of it's children.
     """
     type = "centerer"
     def __init__(self, targ_x, targ_y, child=None, **kwargs):
@@ -217,14 +238,17 @@ class SizeLimitB(NodeB):
 
 
 class RCPlacerB(NodeB):
+    """
+      Places it's children either horizontally or vertically, with size_hint controlling their (relative) size.
+    """
     type = "rcplacer"
-    def __init__(self, spacing=2, vertical=True, max_size=1, **kwargs):
+    def __init__(self, spacing=2, vertical=True, max_size=1, size_hint_func=None, **kwargs):
         super().__init__(**kwargs)
         self.spc = spacing
         self.vertical = vertical
         self.size_hints = list()
         self.max_size = max_size
-        self.size_hint_func = None
+        self.size_hint_func = size_hint_func
 
     def add_child(self, child, size_hint=None):
         self.children.append(child)
@@ -276,7 +300,8 @@ class RCPlacerB(NodeB):
 
 class ColumnPlacerB(RCPlacerB):
     """
-      Places children vertically
+      Places children vertically.
+      See RCPlacerB for more.
     """
     type = "columnplacer"
     def __init__(self, spacing=2, **kwargs):
@@ -285,7 +310,8 @@ class ColumnPlacerB(RCPlacerB):
 
 class RowPlacerB(RCPlacerB):
     """
-      Places children horizontally
+      Places children horizontally.
+      See RCPlacerB for more.
     """
     type = "rowplacer"
     def __init__(self, spacing=2, **kwargs):
@@ -293,6 +319,10 @@ class RowPlacerB(RCPlacerB):
 
 
 class TextInputB(NodeB):
+    """
+      Allows to edit it's *text*. 
+      *callback* is called on enter and gets current text as an argument.
+    """
     type = "textinput"
     selectable = True
     def __init__(self, text="", name="default", callback=None, **kwargs):
@@ -485,6 +515,12 @@ class ScrollableStringListB(ScrollableListB):
 
 
 class ScrollBarB(NodeB):
+    """
+      ScrollBar.
+      *direction* can be one of ["vertical", "horizontal"].
+      *callback* is called when updated, with **self.pos** as an argument.
+      **self.pos** is a position (ranges from 0 to 1 inclusive).
+    """
     type = "scrollbar"
     def __init__(self, direction="vertical", callback=None, cb=None, **kwargs):
         super().__init__(**kwargs)
@@ -511,6 +547,9 @@ class ScrollBarB(NodeB):
 
 
 class CustomRenderB(NodeB):
+    """
+      *render* is a callback. This will be called by rendering, with viewport set to node's position and size. Recieves this node as an argument.
+    """
     type = "customrender"
     def __init__(self, render, **kwargs):
         super().__init__(**kwargs)
@@ -518,10 +557,16 @@ class CustomRenderB(NodeB):
 
 
 class RadioButtonGroup:
+    """
+      Group of buttons.
+    """
     def __init__(self):
         self.selected = None
 
 class RadioButtonB(NodeB):
+    """
+      Just like ToggleButtonB, but only one button from the group can be active at once.
+    """
     type = "radiobutton"
     def __init__(self, group: RadioButtonGroup, **kwargs):
         super().__init__(**kwargs)
