@@ -1,6 +1,7 @@
 ## Qlibs 0.4.-1
  - Font system being reworked
  - Fixed weird word wrapping behavior
+ - ScrollableListB and ScrollableStringListB now have target_size property
 
 ## Qlibs 0.3.2
  - Some fixes for text rendering

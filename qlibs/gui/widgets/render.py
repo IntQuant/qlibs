@@ -57,6 +57,7 @@ class DefaultRenderer:
         self.text_queue = []
         self.excludes = ["centerer", "scrollablelist"]
         self.buttons = ["button", "togglebutton", "radiobutton"]
+        self.border_excludes = ["node", "textnode", "textinput"]
         self.drawer.default_z = -1
         self.params = DEFAULT_PARAMS.copy()
         self.is_selected_cb = is_selected_cb
@@ -162,7 +163,8 @@ class DefaultRenderer:
                 color = self.param_selectable_inactive_color
             self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=color)
         else:
-            self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=self.param_node_border_color)
+            if node.type not in self.border_excludes:
+                self.drawer.add_line_rectangle(*node.position, node.size.x, node.size.y, color=self.param_node_border_color)
 
         if node.type == "progressbar":
             if node.size.x > node.size.y:

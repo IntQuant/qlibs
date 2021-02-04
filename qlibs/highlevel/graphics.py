@@ -18,34 +18,51 @@ class SpriteMasterBase:
         self.last_used_matrix = None
 
     def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        """Add sprite, specified by the rectangle"""
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
         drawer.add_sprite_rect(sprite_id, x, y, w, h, z, color, tpoints)
     
     def add_sprite_centered(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        """Add sprite, specified by the rectangle, centered"""
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
         drawer.add_sprite_centered(sprite_id, x, y, w, h, z, color, tpoints)
 
     def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        """Add sprite, specified by the rectangle, centered and rotated by **r**"""
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
         drawer.add_sprite_rotated(sprite_id, x, y, w, h, r, z, color, tpoints)
 
     def render(self, mvp=Matrix4(IDENTITY), reset=True):
+        """
+        Renders everything.
+        When **reset** is True, resets buffers.
+        """
         for drawer in self.drawers:
             drawer.render(mvp=mvp, reset=reset)
 
     def render_centered(self, center, size, reset=True):
+        """
+        Automatically calculates orthogonal projection and renders, using it.
+        Area with center at **center** and of size **size** will be seen.
+        """
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
         self.last_used_matrix = mvp
         self.render(mvp=mvp, reset=reset)
     
     def render_rescaled(self, x, y, w, h, reset=True):
+        """
+        Calculates orthogonal projection with the given parameters and renders, using it.
+        """
         mvp = Matrix4.orthogonal_projection(x, w, h, y)
         self.render(mvp=mvp, reset=reset)
     
     def render_like(self, master, reset=True):
+        """
+        Renders with the same matrix another **master** did.
+        """
         self.render(mvp=master.last_used_matrix, reset=reset)
 
     def _derive_drawers(self, master):
@@ -53,6 +70,9 @@ class SpriteMasterBase:
         self.drawers = [drawer.fork() for drawer in master.drawers]
 
     def clear(self):
+        """
+        Resets buffers
+        """
         for drawer in self.drawers:
             drawer.clear()
 
@@ -68,7 +88,7 @@ class ObjectSpriteMaster:
     """
     Like the usual sprite master, but uses "Objects" to manipulate buffers.
     
-    More effient when you don't need to update everything.
+    More effient when you don't need to update everything. (TODO)
     """
     def __init__(self, master):
         self._derive_drawers(master)
@@ -76,7 +96,7 @@ class ObjectSpriteMaster:
     def add_sprite(self, id_, x, y, w, h, r=0, z=0, color=(1, 1, 1, 1)):
         drawer_id, sprite_id = self.id_map[id_]
         drawer = self.drawers[drawer_id]
-        return drawer.add_sprite(id_, x, y, w, h, r, z, color)
+        return drawer_id, drawer.add_sprite(sprite_id, x, y, w, h, r, z, color)
 
     def render(self, mvp=Matrix4(IDENTITY)):
         for drawer in self.drawers:
@@ -84,7 +104,7 @@ class ObjectSpriteMaster:
 
     def render_centered(self, center, size):
         mvp = Matrix4.orthogonal_projection(center[0]-size[0]/2, center[0]+size[0]/2, center[1]-size[1]/2, center[1]+size[1]/2)
-        self.render()
+        self.render(mvp)
     
     def _derive_drawers(self, master):
         self.id_map = master.id_map
@@ -98,6 +118,8 @@ class SpriteMaster(SpriteMasterBase):
     Can also calculate mvps.
     
     Quite effient in terms of draw calls.
+
+    See **SpriteMasterBase** for more.
     """
     def __init__(self, ctx, program=None):
         self.ctx = ctx
@@ -111,10 +133,18 @@ class SpriteMaster(SpriteMasterBase):
         self.program = program
 
     def load_file(self, sprite_id, file_id):
+        """
+        Load a sprite from file, using build-in resource system.
+        Sprite from **file_id** will be mapped to **sprite_id**        
+        """
         self.images[sprite_id] = get_image_data(file_id, mode="RGBA")
         #self.load_calls.append((sprite_id, file_id))
 
     def init(self):
+        """
+        Init. Call this after loading all required sprites.
+        Uploads sprites to gpu.
+        """
         self.drawers.clear()
         self.id_map.clear()
         #Count sizes

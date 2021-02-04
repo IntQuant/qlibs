@@ -68,6 +68,9 @@ def convert_event(event):
 
 
 class MultiplexServer:
+    """
+    Server for multiplexer
+    """
     def __init__(self, host="0.0.0.0", port=55126, engine_packer=None):
         sock = socket.socket()
         sock.bind((host, port))
@@ -165,6 +168,9 @@ class MultiplexServer:
         self.run_thread = False
 
 class MultiplexClient:
+    """
+    Client for multiplexer
+    """
     def __init__(self, engine, engine_constructor=None, host="localhost", port=55126):
         #Engine should be a class with step method, accepting float(deltatime) and list of events
         sock = socket.socket()

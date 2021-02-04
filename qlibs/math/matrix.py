@@ -11,12 +11,13 @@ from .vec import IVec, MVec as Vec
 ZEROS_16 = [0] * 16
 IDENTITY = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 
+__all__ = ["Matrix4"]
 
 class Matrix4:
-    __slots__ = ("_data",)
     """
     4 by 4 Matrix class which allows [i, j] indexing
     """
+    __slots__ = ("_data",)
 
     def __init__(self, data=None, dtype="f", raw_init=None):
         """

@@ -17,20 +17,22 @@ centerer.image_ratio = 1 #y / x
 
 placer = ColumnPlacerB()
 #placer.spc = 20
-'''
-bplacer = ScrollableListB()
+
+bplacer1 = ScrollableListB()
 for i in range(20):
     button = ButtonB(f"{i}", lambda x: print(f"hi from {x}"), text=f"Text on button {i}")
-    bplacer.add_child(button)
-'''
-bplacer = ScrollableStringListB(callback=print, shown_items=5)
-for i in range(20):
-    bplacer.add_child(f"Text on button {i}")
-    
+    bplacer1.add_child(button)
 
-placer.add_child(bplacer)
+bplacer2 = ScrollableStringListB(callback=print)
+for i in range(20):
+    bplacer2.add_child(f"Text in stringlist {i}")
+    
+bplacers = RowPlacerB()
+bplacers.add_child(bplacer1)
+bplacers.add_child(bplacer2)
+placer.add_child(bplacers)
 placer.add_child(TextInputB(), 0.1)
-placer.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
+placer.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"), 0.2)
 row_placer = RowPlacerB()
 
 row_placer.add_child(ToggleButtonB("togglable", lambda name, state: print(name, state)), 1)

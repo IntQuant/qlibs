@@ -427,10 +427,11 @@ class ProgressBarB(NodeB):
 
 class ScrollableListB(NodeB):
     """
-      List which can be scrolled
+      List which can be scrolled.
+      If *target_size* is not None(default), amount of shown items will be adjusted automatically.
     """
     type = "scrollablelist"
-    def __init__(self, shown_items=10, **kwargs):
+    def __init__(self, shown_items=10, target_size=50, **kwargs):
         super().__init__(**kwargs)
         self.full_list = []
         self.cursor = 0
@@ -441,9 +442,11 @@ class ScrollableListB(NodeB):
         self.scrollbar_size = 10
         self.scrollbar = ScrollBarB(cb=self.scrollbar_cb)
         self.children.append(self.scrollbar)
+        self.target_size = target_size
+        #self.update_view()
         
     def scrollbar_cb(self, pos):
-        self.cursor = round(len(self.full_list)*pos)
+        self.cursor = round((len(self.full_list)-1)*pos)
         self.update_view()
 
     def add_child(self, child):
@@ -451,6 +454,7 @@ class ScrollableListB(NodeB):
         self.update_view()
     
     def update_view(self):
+        self.placer.max_size = 1 / self.shown_items
         self.placer.children = self.full_list[self.cursor:self.cursor+self.shown_items]
         self.recalc_size()
 
@@ -462,17 +466,22 @@ class ScrollableListB(NodeB):
                 if event.scroll_up:
                     if self.cursor > 0:
                         self.cursor -= 1
-                        self.scrollbar.pos = self.cursor / len(self.full_list)
+                        self.scrollbar.pos = self.cursor / (len(self.full_list)-1)
                         self.update_view()
                 if event.scroll_down:
-                    if self.cursor < len(self.full_list):
+                    if self.cursor < len(self.full_list)-1:
                         self.cursor += 1
-                        self.scrollbar.pos = self.cursor / len(self.full_list)
+                        self.scrollbar.pos = self.cursor / (len(self.full_list)-1)
                         self.update_view()
 
         super().handle_event(event)
     
     def recalc_size(self):
+        if self.target_size is not None:
+            v = max(1, int(self.size.y // self.target_size))
+            if v != self.shown_items:
+                self.shown_items = v
+                self.update_view()
         self.placer.size = self.size.x-self.scrollbar_size, self.size.y
         self.placer.position = self.position
         self.placer.recalc_size()
@@ -486,19 +495,22 @@ class ScrollableStringListB(ScrollableListB):
       Scrollable list of strings. Has **full_list** property which contains used list.
       Callback should be a function with one argument - index of clicked string.
       **override_node_type** changes type of buttons to node, so that they are renderer like usual NodeB.
-      Call `self.update_view()` after changing **self.full_list** to update
+      Call `self.update_view()` after changing **self.full_list** to update.
+      If *target_size* is not None(default), amount of shown items will be adjusted automatically.
     """
-    def __init__(self, callback=None, shown_items=10, override_node_type=True, name=None, **kwargs):
+    def __init__(self, callback=None, shown_items=10, target_size=50, override_node_type=True, name=None, **kwargs):
         super().__init__(shown_items, **kwargs)
         self.callback = callback
         self._override_node_type = override_node_type
         self.name = name
+        self.target_size = target_size
     
     def callback_adapter(self, num):
         if self.callback is not None:
             self.callback(self.cursor+num)
 
     def update_view(self):
+        self.placer.max_size = 1 / self.shown_items
         if len(self.placer.children) != self.shown_items:
             self.placer.children = [ButtonB(name=i, callback=self.callback_adapter) for i in range(self.shown_items)]
             if self._override_node_type:
@@ -563,6 +575,7 @@ class RadioButtonGroup:
     def __init__(self):
         self.selected = None
 
+
 class RadioButtonB(NodeB):
     """
       Just like ToggleButtonB, but only one button from the group can be active at once.
@@ -591,4 +604,7 @@ class RadioButtonB(NodeB):
 
         super().handle_event(event)
 
-        
+
+class RootNodeB(NodeB):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
