@@ -2,6 +2,11 @@
   Example showing basically everything of widgets
 """
 
+from logging import warning
+import warnings
+
+warnings.simplefilter("once", DeprecationWarning)
+
 from qlibs.gui.widgets.behaviors import *
 from qlibs.gui.widgets.app import App
 from qlibs.highlevel.graphics import SpriteMaster
@@ -10,7 +15,7 @@ from qlibs.highlevel.graphics import SpriteMaster
 import time
 import moderngl
 
-centerer = CentererB(100, 100)
+centerer = WindowNodeB()
 centerer.image_id = "eye"
 centerer.image_mode = "fill"
 centerer.image_ratio = 1 #y / x
@@ -52,7 +57,21 @@ placer.add_child(pb, 0.1)
 
 centerer.add_child(placer)
 
-app = App(centerer)
+app = App(centerer, width=1000, height=800)
+
+wnd2 = WindowNodeB()
+wnd2.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
+app.root_node.layers["wnd2"] = wnd2
+wnd3 = WindowNodeB()
+wnd3.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
+app.root_node.layers["wnd3"] = wnd3
+
+app.root_node.layers["main"].ext_docked = True
+
+def docked_cb(name, v):
+    app.root_node.layers["main"].ext_docked = v
+
+row_placer.add_child(ToggleButtonB("docked", docked_cb, state=True), 1)
 
 spritem = SpriteMaster(app.ctx)
 spritem.load_file("eye", "qlibs/images/eye.png")

@@ -4,6 +4,7 @@
 
 from array import array
 from functools import lru_cache
+import warnings
 from qlibs.fonts import font_loader, font_search
 from typing import Text
 import weakref
@@ -16,6 +17,7 @@ from ..resources.resource_manager import get_storage_of_context
 from ..math.vec import IVec, Vec2
 from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
+from ..gui.window import current_context
 
 global_cache = weakref.WeakValueDictionary()
 
@@ -74,15 +76,16 @@ class DirectFontRender:
     """
       Render text using font
     """
-    def __init__(self, ctx, font=None, font_path=None, pixel_size=48, flip_y=False, default_font="default"):
+    def __init__(self, ctx=None, font=None, font_path=None, pixel_size=48, flip_y=False, default_font="default"):
         """
-        *ctx* is a moderngl context
-        *font_path* and *font* - ignored
-        *default_font* - name of default font
+        *ctx* is a moderngl context.
+        *font_path* and *font* are deprecated and ignored.
+        *default_font* - name of default font.
         """
+        ctx = ctx or current_context.get()
+        if font is not None or font_path is not None:
+            warnings.warn("font and font_path are not supported anymore", category=DeprecationWarning)
         self.ctx = ctx
-        #self.font = font or freetype.Face(font_path)
-        #self.font.set_pixel_sizes(0, pixel_size)
         self.font = default_font
         self.pixel_size = pixel_size
         self.cache = dict()

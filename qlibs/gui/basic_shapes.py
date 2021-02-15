@@ -11,6 +11,8 @@ from ..math.matrix import Matrix4, IDENTITY
 from ..math import Vec2
 from ..util import try_write
 
+from .window import current_context
+
 SHADER_VERTEX = "qlibs/shaders/drawer.vert"
 SHADER_FRAGMENT = "qlibs/shaders/drawer.frag"
 
@@ -18,8 +20,10 @@ SHADER_FRAGMENT = "qlibs/shaders/drawer.frag"
 class ShapeDrawer:
     """
       Special class for drawing simple shapes: lines, triangles and polygons.
+      TODO: document parameters
     """
-    def __init__(self, ctx, prog=None, additional_inputs=tuple()):
+    def __init__(self, ctx=None, prog=None, additional_inputs=tuple()):
+        ctx = ctx or current_context.get()
         self.program = prog or get_storage_of_context(ctx).get_program(
             SHADER_VERTEX, SHADER_FRAGMENT
         )

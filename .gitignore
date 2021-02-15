@@ -3,3 +3,4 @@ dist/*
 build/*
 qlibs.egg-info
 _build
+__pycache__

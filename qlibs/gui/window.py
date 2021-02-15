@@ -1,5 +1,6 @@
 import glfw
 import moderngl
+from contextvars import ContextVar
 
 import logging
 logger = logging.getLogger("qlibs.gui.window")
@@ -29,7 +30,7 @@ fallback_hint_conf = {
 }
 
 class Window:
-    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, resizable=True, fullscreen=False):
+    def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, resizable=True, fullscreen=False, transparent=False):
         self.width = width
         self.height = height
         self.resize_callback = None
@@ -42,6 +43,7 @@ class Window:
 
         glfw.init()
         glfw.window_hint(glfw.RESIZABLE, resizable and not fullscreen)
+        glfw.window_hint(glfw.TRANSPARENT_FRAMEBUFFER, transparent)
         for k, v in hint_conf.items():
             glfw.window_hint(k, v)
         monitor = None
@@ -87,6 +89,8 @@ class Window:
             self.ctx = moderngl.create_context(libgl='libGL.so.1')
 
     def make_context_current(self):
+        current_window.set(self)
+        current_context.set(self.ctx)
         glfw.make_context_current(self.window)
 
     def _on_resize(self, win, width, height):
@@ -176,6 +180,7 @@ class Window:
         glfw.set_input_mode(self.window, glfw.STICKY_MOUSE_BUTTONS, action)
 
     
-
+current_context: ContextVar[moderngl.Context] = ContextVar("current_context")
+current_window: ContextVar[Window] = ContextVar("current_window")
 
     

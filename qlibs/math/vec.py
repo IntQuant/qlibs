@@ -208,6 +208,10 @@ class VecBase:
         else:
             return self.__class__(self._v + ([0] * (n - len(self))))
 
+    def in_box(self, a, b):
+        return all(av <= v <= bv for v, av, bv in zip(self, a, b))
+
+
 
 class Vec(VecBase):  # Making those immutable is a good idea, right? (No)
     """

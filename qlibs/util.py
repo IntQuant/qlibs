@@ -3,7 +3,7 @@
 """
 
 from weakref import WeakValueDictionary
-from collections import Hashable
+from collections.abc import Hashable
 
 
 def try_write(prog, at, data):

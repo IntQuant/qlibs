@@ -1,8 +1,10 @@
+from contextvars import ContextVar
 from ...math import Vec2
 from itertools import zip_longest
 import warnings
 from .events import GUIEvent
 import weakref
+from collections import defaultdict
 #TODO: handle negative size
 
 try:
@@ -39,8 +41,11 @@ __all__ = [
     "TextInputB",
     "TextNodeB",
     "ToggleButtonB",
+    "WindowNodeB",
+    "RootNodeB",
     "hint_func_rel",
     "hint_func_abs",
+    "current_root_node",
 ]
 
 def hint_func_rel(placer, hints):
@@ -76,14 +81,24 @@ class NodeB:
             self._size = Vec2(100, 100)
         if not hasattr(self, "size_hint"):
             self.size_hint = (None, None)
-        if not hasattr(self, "children"):
+        if not hasattr(self, "children") and type(self) != RootNodeB:
             self.children = []
         self.image_id = None
         self.image_mode = None #Other options are: "fit", "fill"
         self.image_ratio = 1
         self.hidden = False
         if text is not None:
-            self.text = text
+            self.__text = text
+        else:
+            self.__text = ""
+    
+    @property
+    def text(self):
+        return self.__text
+    
+    @text.setter
+    def text(self, value):
+        self.__text = value
 
     @property
     def position(self):
@@ -242,7 +257,7 @@ class RCPlacerB(NodeB):
       Places it's children either horizontally or vertically, with size_hint controlling their (relative) size.
     """
     type = "rcplacer"
-    def __init__(self, spacing=2, vertical=True, max_size=1, size_hint_func=None, **kwargs):
+    def __init__(self, spacing=0, vertical=True, max_size=1, size_hint_func=None, **kwargs):
         super().__init__(**kwargs)
         self.spc = spacing
         self.vertical = vertical
@@ -258,7 +273,7 @@ class RCPlacerB(NodeB):
     def recalc_size(self):
         n = len(self.children)
         used = 0
-        size_adjust = self.spc*2 * n
+        size_adjust = self.spc*2
 
         if self.size_hint_func is None:
             size_hints = self.size_hints
@@ -304,7 +319,7 @@ class ColumnPlacerB(RCPlacerB):
       See RCPlacerB for more.
     """
     type = "columnplacer"
-    def __init__(self, spacing=2, **kwargs):
+    def __init__(self, spacing=0, **kwargs):
         super().__init__(spacing, vertical=True, **kwargs)
 
 
@@ -314,7 +329,7 @@ class RowPlacerB(RCPlacerB):
       See RCPlacerB for more.
     """
     type = "rowplacer"
-    def __init__(self, spacing=2, **kwargs):
+    def __init__(self, spacing=0, **kwargs):
         super().__init__(spacing, vertical=False, **kwargs)
 
 
@@ -386,14 +401,14 @@ class ToggleButtonB(NodeB):
       Just like button, but toggleable. Callback also recieves **self.state**, which is True is button is active
     """
     type = "togglebutton"
-    def __init__(self, name, callback, text=None, **kwargs):
+    def __init__(self, name, callback, text=None, state=False, **kwargs):
         super().__init__(**kwargs)
         self.callback = callback
         self.pressed = False
-        self.state = False
+        self.state = state
         self.name = name
         self.text = text or name
-        self.hover = False
+        self.hovered = False
         
     def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
@@ -440,7 +455,7 @@ class ScrollableListB(NodeB):
         self.placer.max_size = 1 / self.shown_items
         self.children.append(self.placer)
         self.scrollbar_size = 10
-        self.scrollbar = ScrollBarB(cb=self.scrollbar_cb)
+        self.scrollbar = ScrollBarB(callback=self.scrollbar_cb)
         self.children.append(self.scrollbar)
         self.target_size = target_size
         #self.update_view()
@@ -485,8 +500,8 @@ class ScrollableListB(NodeB):
         self.placer.size = self.size.x-self.scrollbar_size, self.size.y
         self.placer.position = self.position
         self.placer.recalc_size()
-        self.scrollbar.position = self.placer.position.x + self.placer.size.x, self.placer.position.y
-        self.scrollbar.size = (self.scrollbar_size, self.size.y)
+        self.scrollbar.position = self.placer.position.x + self.placer.size.x, self.placer.position.y + self.placer.spc
+        self.scrollbar.size = (self.scrollbar_size, self.size.y - self.placer.spc*2)
         self.scrollbar.recalc_size()
 
 
@@ -513,9 +528,9 @@ class ScrollableStringListB(ScrollableListB):
         self.placer.max_size = 1 / self.shown_items
         if len(self.placer.children) != self.shown_items:
             self.placer.children = [ButtonB(name=i, callback=self.callback_adapter) for i in range(self.shown_items)]
-            if self._override_node_type:
-                for child in self.placer.children:
-                    child.type = "node"
+            #if self._override_node_type:
+            #    for child in self.placer.children:
+            #        child.type = "node"
         
         for child in self.placer.children:
             child.text = ""
@@ -544,18 +559,22 @@ class ScrollBarB(NodeB):
         if cb is not None:
             warnings.warn("Please use callback instead of cb", DeprecationWarning)
         self.pos = 0
+        self._is_dragged = False
     
     def handle_event(self, event: GUIEvent):
         if event.type == "mouse":
             if (self.position.x <= event.pos.x <= self.position.x + self.size.x 
             and self.position.y <= event.pos.y <= self.position.y + self.size.y
-            ):
-                event.used = True
+            ) or self._is_dragged:
                 if event.pressed:
+                    event.used = True
                     ratio = (event.pos[self.direction] - self.position[self.direction]) / self.size[self.direction]
                     self.pos = max(0, min(1, ratio))
                     if self.callback is not None:
                         self.callback(self.pos)
+                    self._is_dragged = True
+                else:
+                    self._is_dragged = False
 
 
 class CustomRenderB(NodeB):
@@ -605,6 +624,148 @@ class RadioButtonB(NodeB):
         super().handle_event(event)
 
 
+class WindowNodeB(NodeB):
+    type = "window"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._dragged = False
+        self._last_mouse_pos = Vec2(0, 0)
+        self.ext_extra_priority = 0
+        self._docked = False
+        self.size = (300, 300)
+        self.min_size = Vec2(100, 100)
+        self.recalc_size()
+    
+    @property
+    def ext_docked(self):
+        return self._docked
+
+    @ext_docked.setter
+    def ext_docked(self, value):
+        if value != self._docked:
+            self._docked = value
+            current_root_node.get().requires_size_recalculation = True
+
+    def recalc_size(self):
+        spcy = 20
+        spcb = 10
+        self.content_pos = self.position + Vec2(4, spcy)
+        self.content_size = self.size - Vec2(8, spcy+spcb)
+        self.header_size = Vec2(self.size.x, spcy-2)
+        for chld in self.children:
+            chld.position = self.content_pos
+            chld.size = self.content_size
+        super().recalc_size()
+    
+    def handle_event(self, event: GUIEvent):
+        pass_event = True
+        if event.type == "mouse":
+            inside = event.pos.in_box(self.position, self.position+self.size)
+            if event.pressed:
+                self.ext_extra_priority = 1 if inside or self._dragged else 0
+            if inside:
+                event.used = True
+            controls_me = inside and not event.pos.in_box(self.content_pos, self.content_pos+self.content_size)
+            if controls_me or self._dragged:
+                event.used = True
+                pass_event = False
+                if event.pressed:
+                    self._dragged = True
+                    current_root_node.get().requires_size_recalculation = True
+                    if event.pos.y < self.content_pos.y + self.content_size.y / 2:
+                        delta = event.pos - self._last_mouse_pos
+                        self.position += delta
+                    else:
+                        delta = event.pos - self._last_mouse_pos
+                        self.size += delta
+                        point = self.position + self.size
+                        root = current_root_node.get()
+                        delta = point-(root.position+root.size)
+                        if delta.x > 0:
+                            self.size.x -= delta.x
+                        if delta.y > 0:
+                            self.size.y -= delta.y
+                        if self.size.x < self.min_size.x:
+                            self.size.x = self.min_size.x
+                        if self.size.y < self.min_size.y:
+                            self.size.y = self.min_size.y
+
+                else:
+                    self._dragged = False
+            self._last_mouse_pos = event.pos
+        
+        if pass_event:
+            super().handle_event(event)
+
+
+
 class RootNodeB(NodeB):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.layers = dict()
+        self.layer_priority = dict()
+        self.requires_size_recalculation = False
+        if current_root_node.get(None) is None:
+            self.make_current()
+    
+    def recalc_if_needed(self):
+        if self.requires_size_recalculation:
+            self.recalc_size()
+
+    @property
+    def main_node(self):
+        return self.layers["main"]
+
+    @main_node.setter
+    def main_node(self, value):
+        self.layers["main"] = value
+
+    def handle_event(self, event: GUIEvent):
+        for chld in self.children:
+            chld.handle_event(event)
+            if event.used:
+                break
+
+    @property
+    def children(self):
+        def get_layer_priority(layer):
+            pr = self.layer_priority.get(layer, 0) + getattr(self.layers[layer], "ext_extra_priority", 0)
+            if getattr(self.layers[layer], "ext_docked", True):
+                pr -= 10
+            return pr
+        children = list()
+        children_keys = list()
+        children_keys.extend(self.layers.keys())
+        children_keys.sort(key=get_layer_priority, reverse=True)
+        for key in children_keys:
+            children.append(self.layers[key])
+        return children
+    
+    def recalc_size(self):
+        self.requires_size_recalculation = False
+        my_corner = self.position + self.size
+        for chld in self.children:
+            if getattr(chld, "ext_docked", True):
+                chld.position = self.position
+                chld.size = self.size
+            else:
+                chld_corner = chld.position + Vec2(chld.size.x, 20)
+                if chld_corner.x > my_corner.x:
+                    chld.position.x -= chld_corner.x-my_corner.x
+                if chld_corner.y > my_corner.y:
+                    chld.position.y -= chld_corner.y-my_corner.y
+                if chld.position.x < self.position.x:
+                    chld.position.x = self.position.x
+                if chld.position.y < self.position.y:
+                    chld.position.y = self.position.y
+                if chld.size.x > self.size.x:
+                    chld.size.x = self.size.x
+                if chld.size.y > self.size.y:
+                    chld.size.y = self.size.y
+        super().recalc_size()
+    
+    def make_current(self):
+        current_root_node.set(self)
+    
+
+current_root_node: ContextVar[RootNodeB] = ContextVar("current_root_node")

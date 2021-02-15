@@ -1,9 +1,11 @@
+from typing import Callable
 import glfw
 from ...math import IVec
 from .events import *
 import logging
 logger = logging.getLogger("qlibs|window_controller")
 #logger.setLevel(logging.DEBUG)
+from contextvars import ContextVar
 
 from collections import deque
 
@@ -17,6 +19,8 @@ spec_key_traversion_dict_old = {
     glfw.KEY_C: "c",
     glfw.KEY_V: "v",
 }
+
+is_selected_cb: ContextVar[Callable] = ContextVar("is_selected_cb")
 
 spec_key_traversion_dict = {
     glfw.KEY_0: '0',
@@ -239,8 +243,15 @@ class WindowWidgetController:
         queue.append(self.get_window_node(window))
         cand = None
         mx, my = self.mouse_x, self.mouse_y
+        found_window = False
         while queue:
-            current = queue.popleft()
+            current = queue.pop()
+            if current.type == "window":
+                if found_window:
+                    break
+                if 0 < mx - current.position.x < current.size.x and 0 < my - current.position.y < current.size.y:
+                    found_window = True
+
             if current.selectable and 0 < mx - current.position.x < current.size.x and 0 < my - current.position.y < current.size.y:
                 cand = current
             for child in current.children:
@@ -287,5 +298,8 @@ class WindowWidgetController:
     
     def is_node_selected(self, node):
         return node in self.selected.values()
+    
+    def make_current(self):
+        is_selected_cb.set(self.is_node_selected)
     
     
