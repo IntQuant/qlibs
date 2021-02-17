@@ -626,7 +626,7 @@ class RadioButtonB(NodeB):
 
 class WindowNodeB(NodeB):
     type = "window"
-    def __init__(self, **kwargs):
+    def __init__(self, closeable=False, **kwargs):
         super().__init__(**kwargs)
         self._dragged = False
         self._last_mouse_pos = Vec2(0, 0)
@@ -634,8 +634,16 @@ class WindowNodeB(NodeB):
         self._docked = False
         self.size = (300, 300)
         self.min_size = Vec2(100, 100)
+        self.closeable = closeable
         self.recalc_size()
     
+    def set_child(self, node):
+        self.children = [node]
+        current_root_node.get().requires_size_recalculation = True
+    
+    def set_node(self, node):
+        self.set_child(node)
+
     @property
     def ext_docked(self):
         return self._docked
@@ -645,6 +653,9 @@ class WindowNodeB(NodeB):
         if value != self._docked:
             self._docked = value
             current_root_node.get().requires_size_recalculation = True
+
+    def ext_set_focus(self, focus):
+        self.ext_extra_priority = 1 if focus else 0
 
     def recalc_size(self):
         spcy = 20
@@ -657,15 +668,23 @@ class WindowNodeB(NodeB):
             chld.size = self.content_size
         super().recalc_size()
     
+    def close(self):
+        current_root_node.get().del_node(self)
+
     def handle_event(self, event: GUIEvent):
         pass_event = True
         if event.type == "mouse":
             inside = event.pos.in_box(self.position, self.position+self.size)
             if event.pressed:
-                self.ext_extra_priority = 1 if inside or self._dragged else 0
+                self.ext_set_focus(inside or self._dragged)
             if inside:
                 event.used = True
             controls_me = inside and not event.pos.in_box(self.content_pos, self.content_pos+self.content_size)
+            if controls_me:
+                if 1 in event.pressed_buttons:
+                    self.close()
+                if 2 in event.pressed_buttons:
+                    self.ext_docked = not self.ext_docked
             if controls_me or self._dragged:
                 event.used = True
                 pass_event = False
@@ -700,11 +719,13 @@ class WindowNodeB(NodeB):
 
 
 class RootNodeB(NodeB):
+    type = "root"
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.layers = dict()
         self.layer_priority = dict()
         self.requires_size_recalculation = False
+        self.requested_update = None
         if current_root_node.get(None) is None:
             self.make_current()
     
@@ -720,10 +741,34 @@ class RootNodeB(NodeB):
     def main_node(self, value):
         self.layers["main"] = value
 
+    def request_update_in(self, dt: float):
+        if self.requested_update is None:
+            self.requested_update = dt
+        else:
+            self.requested_update = min(self.requested_update, dt)
+
     def handle_event(self, event: GUIEvent):
         for chld in self.children:
             chld.handle_event(event)
             if event.used:
+                break
+    
+    def set_layer_node(self, node, layer, priority=0):
+        self.layers[layer] = node
+        self.layer_priority[layer] = priority
+        if not getattr(node, "ext_docked", True):
+            node.position = (self.size - node.size) / 2 
+        self.requires_size_recalculation = True
+        for nd in self.layers.values():
+            if hasattr(nd, "ext_set_focus"):
+                nd.ext_set_focus(False)
+        if hasattr(node, "ext_set_focus"):
+            node.ext_set_focus(True)
+
+    def del_node(self, node):
+        for k, v in self.layers.items():
+            if v is node:
+                del self.layers[k]
                 break
 
     @property

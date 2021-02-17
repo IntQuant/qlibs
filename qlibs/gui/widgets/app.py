@@ -24,14 +24,20 @@ class App:
         self.root_node.recalc_if_needed()
         self.rend.render(self.root_node)
         self.win.swap()
+        root_wait_time = self.root_node.requested_update
+        if root_wait_time is not None:
+            if wait_time is None:
+                wait_time = root_wait_time
+            else:
+                if wait_time > root_wait_time:
+                    wait_time = root_wait_time
         if wait_time is not None and wait_time <= 0:
             self.win.poll_events()
         else:
             self.win.wait_events(wait_time)
 
-    def set_node(self, node):
-        self.root_node.main_node = node
-        self.root_node.recalc_size()
+    def set_node(self, node, layer="main", **kwargs):
+        self.root_node.set_layer_node(node, layer, **kwargs)
         
     def disable(self):
         if self.enabled:

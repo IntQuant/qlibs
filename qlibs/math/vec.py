@@ -320,6 +320,11 @@ class Vec2(VecBase):
         c = self.angle + angle
         l = self.len()
         return Vec2(math.cos(c)*l, math.sin(c)*l)
+    
+    def perpendicular(self):
+        y = self.x
+        x = self.y
+        return Vec2(-x, y)
 
 
 MVec = Vec

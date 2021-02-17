@@ -1,7 +1,7 @@
 from collections import deque
 from enum import Enum
 from qlibs.gui.widgets.behaviors import NodeB
-from typing import Any, Tuple, Union
+from typing import Any, Callable, Tuple, Union
 import warnings
 
 import moderngl
@@ -30,6 +30,8 @@ class QueuedType(Enum):
     TEXT = "text"
     BG = "background"
     FGOUTLINE = "foreground_outline"
+    FGLINE = "foreground_line"
+    CUSTOM = "custom"
 
 
 @dataclass
@@ -50,12 +52,31 @@ class QueuedBG:
     size: Vec2
     color: Tuple[float, float, float] = (1.0, 1.0, 1.0)
 
+
 @dataclass
 class QueuedFGOutline:
     type = QueuedType.FGOUTLINE
     pos: Vec2
     size: Vec2
     color: Tuple[float, float, float] = (1.0, 1.0, 1.0)
+    width: float = 2
+
+
+@dataclass
+class QueuedFGLine:
+    type = QueuedType.FGLINE
+    p0: Vec2
+    p1: Vec2
+    color: Tuple[float, float, float] = (1.0, 1.0, 1.0)
+    width: float = 1
+
+
+@dataclass
+class QueuedCustom:
+    type = QueuedType.CUSTOM
+    func: Callable
+    viewport: tuple
+    args: tuple = tuple()
 
 
 class V1Generator:
@@ -138,8 +159,13 @@ class V1Generator:
             pos = node.position+Vec2(4, 4)
             pos.y += size.y * (node.pos*0.9)
             size.y *= 0.1
-
             self.render_queue.append(QueuedBG(pos=pos, size=size, color=self.param_fg_color))
+        
+        if node.type == "customrender":
+            self.render_queue.extend(self.text_queue)
+            self.text_queue.clear()
+            viewport = (node.position.x, self.window.height-node.position.y-node.size.y, node.size.x, node.size.y)
+            self.render_queue.append(QueuedCustom(node.render, args=(node,), viewport=viewport))
 
         if node.text is not None:
             if node.type == "text" or isinstance(node.text, FormattedText):
@@ -170,6 +196,11 @@ class V1Generator:
                     text_height = self.param_max_text_size
                 pos.y += text_height // 2
                 self.text_queue.append(QueuedText(text=text, pos=pos, scale=used_scale))
+                if node.type == "textinput" and is_selected_cb.get()(node):
+                    cpos = node.position.x + self.font_render.calc_size(text[:node.cursor], scale=used_scale) + align_ajust
+                    cy = node.position.y+node.size.y/2
+                    txh = min(text_height/2+5, (node.size.y)/2)
+                    self.render_queue.append(QueuedFGLine(p0=Vec2(cpos, cy-txh), p1=Vec2(cpos, cy+txh), color=self.param_fg_color_sel, width=1))
 
     def generate(self, node):
         self.render_queue.clear()
@@ -183,6 +214,7 @@ class V1Generator:
         self.render_queue.extend(self.text_queue)
         self.text_queue.clear()
         return self.render_queue
+
 
 class V1Renderer:
     def __init__(self, window=None, is_selected_cb=None):
@@ -213,9 +245,21 @@ class V1Renderer:
                 else:
                     self.font.render_string(el.text, *el.pos, scale=el.scale, mvp=self.matrix)
             if el.type is QueuedType.FGOUTLINE:
+                #self.drawer.add_line2d_rectangle(*el.pos, *el.size, color=el.color, width=el.width)
                 self.drawer.add_line_rectangle(*el.pos, *el.size, color=el.color)
+            if el.type is QueuedType.FGLINE:
+                self.drawer.add_line2d(el.p0, el.p1, color=el.color, width=el.width)
+            if el.type is QueuedType.CUSTOM:
+                self.drawer.render(mvp=self.matrix)
+                bak = self.ctx.viewport
+                try:
+                    self.ctx.viewport = el.viewport
+                    #self.ctx.scissor = el.viewport
+                    el.func(*el.args)
+                    self.ctx.enable_only(moderngl.BLEND)
+                finally:
+                    self.ctx.viewport = bak
+                    self.ctx.scissor = None
             last_state = el.type
 
         self.drawer.render(mvp=self.matrix)
-
-            

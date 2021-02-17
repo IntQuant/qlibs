@@ -45,6 +45,10 @@ class SearchLocationLoader(Loader):
         if os.path.exists(path):
             return path
     
+    @property
+    def search_paths(self):
+        return [self.location]
+    
 
 class MergerLoader(Loader):
     def __init__(self, loaders, prefix=None):
@@ -62,6 +66,13 @@ class MergerLoader(Loader):
             resolved = loader.resolve(path)
             if resolved is not None:
                 return resolved
+    
+    @property
+    def search_paths(self):
+        res = list()
+        for ld in self.loaders:
+            res.extend(ld.search_paths)
+        return res
 
 def get_lib_res_path():
     return os.path.join(os.path.dirname(__file__), "storage")
@@ -74,7 +85,7 @@ def get_res_path(path):
     #        return cand_path
     resolved = loader.resolve(path)
     if resolved is None:
-        raise FileNotFoundError(f"Can't find {path}")
+        raise FileNotFoundError(f"Can't find {path} (searched in ({loader.search_paths}))")
     else:
         return resolved
 
@@ -109,5 +120,4 @@ def add_location(rel, location, prefix=None):
     add_loader(SearchLocationLoader(os.path.join(os.path.dirname(rel), location), prefix))
 
 loader.loaders.append(SearchLocationLoader(get_lib_res_path(), prefix="qlibs/"))
-
 

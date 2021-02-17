@@ -39,6 +39,19 @@ class ShapeDrawer:
         self.li_buffer = array("f")
         self.li_amount = 0
 
+    def add_line2d(self, p0: Vec2, p1: Vec2, color=(1, 1, 1), width=1):
+        d = p1 - p0
+        p = d.perpendicular()
+        p.normalize()
+        p *= width
+        #(x, y), (x+w, y), (x+w, y+h), (x, y+h))
+        self.add_polygon((
+            (p0.x-p.x, p0.y-p.y),
+            (p0.x+p.x, p0.y+p.y),
+            (p1.x+p.x, p1.y+p.y),
+            (p1.x-p.x, p1.y-p.y),
+        ), color=color)
+
     def add_line(self, p0, p1, color=(1, 1, 1)):
         if len(color) == 3:
             color = list(color) + [1]
@@ -62,6 +75,12 @@ class ShapeDrawer:
     def add_line_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_line_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
 
+    def add_line2d_polygon(self, points, **kwargs):
+        for i in range(len(points)):
+            self.add_line2d(Vec2(*points[i-1]), Vec2(*points[i]), **kwargs)
+    
+    def add_line2d_rectangle(self, x, y, w, h, **kwargs):
+        self.add_line2d_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), **kwargs)
     
     def add_triangle(self, points, color=(1, 1, 1), additional_data=None):
         assert len(points) == 3
