@@ -17,13 +17,14 @@ class App:
         self.enabled = True
     
     def render(self, wait_time=None):
-        self.win.ctx.clear(0, 0, 0, 0)
-        self.win.make_context_current()
-        self.ctrl.make_current()
-        self.root_node.make_current()
-        self.root_node.recalc_if_needed()
-        self.rend.render(self.root_node)
-        self.win.swap()
+        if self.win.width == 0 or self.win.height == 0:
+            self.win.ctx.clear(0, 0, 0, 0)
+            self.win.make_context_current()
+            self.ctrl.make_current()
+            self.root_node.make_current()
+            self.root_node.recalc_if_needed()
+            self.rend.render(self.root_node)
+            self.win.swap()
         root_wait_time = self.root_node.requested_update
         if root_wait_time is not None:
             if wait_time is None:

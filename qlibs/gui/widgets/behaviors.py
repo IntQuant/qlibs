@@ -681,7 +681,7 @@ class WindowNodeB(NodeB):
                 event.used = True
             controls_me = inside and not event.pos.in_box(self.content_pos, self.content_pos+self.content_size)
             if controls_me:
-                if 1 in event.pressed_buttons:
+                if 1 in event.pressed_buttons and self.closeable:
                     self.close()
                 if 2 in event.pressed_buttons:
                     self.ext_docked = not self.ext_docked

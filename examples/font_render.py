@@ -5,7 +5,7 @@ from qlibs.math import Matrix4
 import time
 
 win = Window()
-rend = DirectFontRender(win.ctx, None, font_path=find_reasonable_font())
+rend = DirectFontRender(win.ctx)
 text = FormattedText(tokens=[FormattingData(color=(0.9, 0, 0)), "red", FormattingData(color=(0, 0.9, 0)), "green", FormattingData(color=(0, 0, 0.9)), "blue"])
 while not win.should_close:
     win.ctx.clear()
