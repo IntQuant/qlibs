@@ -1,6 +1,5 @@
 from qlibs.gui.window import Window
 from qlibs.fonts.font_render import DirectFontRender, FormattedText, FormattingData
-from qlibs.fonts.font_search import find_reasonable_font
 from qlibs.math import Matrix4
 import time
 

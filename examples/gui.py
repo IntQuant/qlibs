@@ -11,7 +11,8 @@ from qlibs.gui.widgets.behaviors import *
 from qlibs.gui.widgets.app import App
 from qlibs.highlevel.graphics import SpriteMaster
 
-
+import random
+random.seed(0)
 import time
 import moderngl
 
@@ -63,7 +64,15 @@ wnd2 = WindowNodeB()
 wnd2.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
 app.root_node.layers["wnd2"] = wnd2
 wnd3 = WindowNodeB()
-wnd3.add_child(TextNodeB("lalalalalalal sdfad asdf asdfas dfasdf sadf asdfasd fsadf sadf asdf adsf asdf das asd"))
+diagram = ColumnDiagramB()
+diagram.displayed_data.append(DiagramDatum(10, tag="hi"))
+diagram.displayed_data.append(DiagramDatum(5))
+diagram.displayed_data.append(DiagramDatum(20))
+diagram.displayed_data.append(DiagramDatum(0))
+for i in range(20):
+    diagram.displayed_data.append(DiagramDatum(random.randint(0, 20)))
+wnd3.add_child(diagram)
+wnd3.position.x += 300
 app.root_node.layers["wnd3"] = wnd3
 
 app.root_node.layers["main"].ext_docked = True

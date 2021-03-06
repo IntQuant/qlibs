@@ -1,6 +1,10 @@
+## Qlibs 0.4.3
+ - Feature: ColumnDiagram Behavior
+
 ## Qlibs 0.4.2
  - Fix: not every window can now be closed.
  - Fix: App skips rendering if window width or height is equal to zero. (Caused crash on windows)
+ - Fix(.2) App was broken
 
 ## Qlibs 0.4.-1
  - Font system being reworked.

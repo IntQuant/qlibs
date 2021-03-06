@@ -1,10 +1,14 @@
 from contextvars import ContextVar
+from typing import Union
 from ...math import Vec2
 from itertools import zip_longest
 import warnings
 from .events import GUIEvent
 import weakref
 from collections import defaultdict
+
+from enum import Enum
+from dataclasses import dataclass
 #TODO: handle negative size
 
 try:
@@ -43,6 +47,9 @@ __all__ = [
     "ToggleButtonB",
     "WindowNodeB",
     "RootNodeB",
+    "ColumnDiagramB",
+    "DiagramDatum",
+    "QlibsNodeTypes",
     "hint_func_rel",
     "hint_func_abs",
     "current_root_node",
@@ -63,6 +70,9 @@ def hint_func_abs(placer, hints):
     if placer.size[1-adv] == 0:
         return hints
     return [hint/placer.size[1-adv] if hint is not None else None for hint in hints]
+
+class QlibsNodeTypes(Enum):
+    COLUMN_DIAGRAM = "column_diagram"
 
 
 class NodeB:
@@ -624,6 +634,19 @@ class RadioButtonB(NodeB):
         super().handle_event(event)
 
 
+@dataclass
+class DiagramDatum:
+    value: float
+    tag: Union[str, None] = None
+
+
+class ColumnDiagramB(NodeB):
+    type = QlibsNodeTypes.COLUMN_DIAGRAM
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.displayed_data = []
+
+
 class WindowNodeB(NodeB):
     type = "window"
     def __init__(self, closeable=False, **kwargs):
@@ -639,7 +662,9 @@ class WindowNodeB(NodeB):
     
     def set_child(self, node):
         self.children = [node]
-        current_root_node.get().requires_size_recalculation = True
+        root = current_root_node.get(None)
+        if root is not None:
+            root.requires_size_recalculation = True
     
     def set_node(self, node):
         self.set_child(node)
@@ -652,7 +677,9 @@ class WindowNodeB(NodeB):
     def ext_docked(self, value):
         if value != self._docked:
             self._docked = value
-            current_root_node.get().requires_size_recalculation = True
+            root = current_root_node.get(None)
+            if root is not None:
+                root.requires_size_recalculation = True
 
     def ext_set_focus(self, focus):
         self.ext_extra_priority = 1 if focus else 0
@@ -695,19 +722,20 @@ class WindowNodeB(NodeB):
                         delta = event.pos - self._last_mouse_pos
                         self.position += delta
                     else:
-                        delta = event.pos - self._last_mouse_pos
-                        self.size += delta
-                        point = self.position + self.size
-                        root = current_root_node.get()
-                        delta = point-(root.position+root.size)
-                        if delta.x > 0:
-                            self.size.x -= delta.x
-                        if delta.y > 0:
-                            self.size.y -= delta.y
-                        if self.size.x < self.min_size.x:
-                            self.size.x = self.min_size.x
-                        if self.size.y < self.min_size.y:
-                            self.size.y = self.min_size.y
+                        if event.pos.x > self.content_pos.x + self.content_size.y / 2:
+                            delta = event.pos - self._last_mouse_pos
+                            self.size += delta
+                            point = self.position + self.size
+                            root = current_root_node.get()
+                            delta = point-(root.position+root.size)
+                            if delta.x > 0:
+                                self.size.x -= delta.x
+                            if delta.y > 0:
+                                self.size.y -= delta.y
+                            if self.size.x < self.min_size.x:
+                                self.size.x = self.min_size.x
+                            if self.size.y < self.min_size.y:
+                                self.size.y = self.min_size.y
 
                 else:
                     self._dragged = False

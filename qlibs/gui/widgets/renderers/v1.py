@@ -1,6 +1,6 @@
 from collections import deque
 from enum import Enum
-from qlibs.gui.widgets.behaviors import NodeB
+from qlibs.gui.widgets.behaviors import *
 from typing import Any, Callable, Tuple, Union
 import warnings
 
@@ -128,7 +128,7 @@ class V1Generator:
 
         bg_color = None
         spc = 2
-        if node.type in ["button", "textinput", "scrollbar", "togglebutton", "radiobutton", "progressbar"]:
+        if node.type in ["button", "textinput", "scrollbar", "togglebutton", "radiobutton", "progressbar", QlibsNodeTypes.COLUMN_DIAGRAM]:
             bg_color = self.param_bg_color_sel
         if node.type == "window":
             bg_color = self.param_bg_color
@@ -201,6 +201,39 @@ class V1Generator:
                     cy = node.position.y+node.size.y/2
                     txh = min(text_height/2+5, (node.size.y)/2)
                     self.render_queue.append(QueuedFGLine(p0=Vec2(cpos, cy-txh), p1=Vec2(cpos, cy+txh), color=self.param_fg_color_sel, width=1))
+            
+            if node.type is QlibsNodeTypes.COLUMN_DIAGRAM:
+                if node.displayed_data:
+                    mx = max((x.value for x in node.displayed_data))
+                    if mx == 0:
+                        scale_y = 1
+                    else:
+                        scale_y = 1/mx
+                    spx = 2
+                    bspy = 30
+                    diag_size_y = node.size.y - bspy
+                    scale_y *= diag_size_y
+                    size_x = min(node.size.x / len(node.displayed_data), 50)
+                    for i, datum in enumerate(node.displayed_data):
+                        datum_size = datum.value*scale_y
+                        pos = Vec2(node.position.x+i*size_x, node.position.y+node.size.y-datum_size)
+                        text = str(datum.value)
+                        text_scale = 20
+                        text_size = self.font_render.calc_size(text, scale=text_scale)
+                        self.render_queue.append(QueuedBG(pos, Vec2(size_x-spx, datum_size), color=self.param_fg_color))
+                        pos = Vec2(*pos)
+                        if datum.tag is not None and datum_size < text_scale:
+                            pos.y -= text_scale - datum_size
+                        self.text_queue.append(QueuedText(text, pos+Vec2((size_x-text_size)/2, -4), scale=text_scale))
+                        if datum.tag is not None:
+                            text = datum.tag
+                            text_size = self.font_render.calc_size(text, scale=text_scale)
+                            pos = Vec2(node.position.x+i*size_x, node.position.y+node.size.y)
+                            self.text_queue.append(QueuedText(text, pos+Vec2((size_x-text_size)/2, -4), scale=text_scale))
+
+                
+                
+                
 
     def generate(self, node):
         self.render_queue.clear()

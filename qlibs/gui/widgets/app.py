@@ -17,7 +17,7 @@ class App:
         self.enabled = True
     
     def render(self, wait_time=None):
-        if self.win.width == 0 or self.win.height == 0:
+        if self.win.width != 0 and self.win.height != 0:
             self.win.ctx.clear(0, 0, 0, 0)
             self.win.make_context_current()
             self.ctrl.make_current()
