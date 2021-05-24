@@ -111,6 +111,17 @@ class MatrixTestCase(unittest.TestCase):
         self.assertGreater(len(v), 10)
         self.assertIn("Matrix4", v)
     
+    def test_inverse(self):
+        mat = Matrix4([
+            0.0, 0.0, 1.0, 0.0,
+            1.0, 0.0, -0.0, 0.0,
+            -0.0, 1.0, -0.0, 0.0,
+            -0.0, -0.0, -10.0, 1.0,
+        ])
+        self.assertEqual(mat * mat.inverse(), Matrix4(IDENTITY))
+
+        
+    
 
 class LoaderTestCase(unittest.TestCase):
     def test_prefix_path(self):

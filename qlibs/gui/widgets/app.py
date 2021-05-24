@@ -16,9 +16,10 @@ class App:
             self.set_node(node)
         self.enabled = True
     
-    def render(self, wait_time=None):
+    def render(self, wait_time=None, do_clear=True):
         if self.win.width != 0 and self.win.height != 0:
-            self.win.ctx.clear(0, 0, 0, 0)
+            if do_clear:
+                self.win.ctx.clear(0, 0, 0, 0)
             self.win.make_context_current()
             self.ctrl.make_current()
             self.root_node.make_current()

@@ -29,6 +29,8 @@ def index_or_none(value):
       Maps OBJ file index to python 0-index scheme
     """
     try:
+        if not value.isnumeric():
+            return None
         v = int(value)
         if v > 0:
             return v - 1
@@ -100,7 +102,7 @@ class Material:
     """Object that describes material properties"""
 
     def __init__(self, name):
-        """Make new matereal"""
+        """Make new material"""
         self.raw_params = dict()
         self.prc_params = dict()
         self.name = name
@@ -286,7 +288,7 @@ class OBJLoader:
 
         mtl_loader = MTLLoader()
 
-        for line in f:
+        for i, line in enumerate(f):
             if line.startswith("#"):
                 continue
             try:
@@ -310,9 +312,10 @@ class OBJLoader:
             elif op == "f":
 
                 if triangulate:
-                    params = list(
-                        map(lambda x: tuple(map(index_or_none, x.split("/"))), params)
-                    )
+                    #params = list(
+                    #    map(lambda x: tuple(map(index_or_none, x.split("/"))), params)
+                    #)
+                    params = [[None if not v.isnumeric() else int(v)-1 if int(v)>0 else int(v) for v in x.split("/")] for x in params]
                     for i in range(len(params) - 2):
                         t = []
                         t.extend(params[0])
@@ -327,7 +330,7 @@ class OBJLoader:
             elif op == "usemtl":
                 self.current_material = params[0]
             elif op == "mtllib":
-                path = pathlib.Path(params[0])
+                path = pathlib.Path(line.split(maxsplit=1)[1].strip())
                 logger.info("Loading mtlib from %s", path)
                 if path.is_absolute():
                     pass
