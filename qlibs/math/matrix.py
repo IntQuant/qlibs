@@ -5,6 +5,7 @@
 from array import array
 from ctypes import string_at
 import math
+from copy import copy
 
 from .vec import IVec, MVec as Vec
 
@@ -12,6 +13,46 @@ ZEROS_16 = [0] * 16
 IDENTITY = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 
 __all__ = ["Matrix4"]
+
+def _gauss_jordan(m, eps = 1.0/(10**10)):
+  """Puts given matrix (2D array) into the Reduced Row Echelon Form.
+     Returns True if successful, False if 'm' is singular.
+     NOTE: make sure all the matrix items support fractions! Int matrix will NOT work!
+     Written by Jarno Elonen in April 2005, released into Public Domain"""
+  (h, w) = (len(m), len(m[0]))
+  for y in range(0,h):
+    maxrow = y
+    for y2 in range(y+1, h):    # Find max pivot
+      if abs(m[y2][y]) > abs(m[maxrow][y]):
+        maxrow = y2
+    (m[y], m[maxrow]) = (m[maxrow], m[y])
+    if abs(m[y][y]) <= eps:     # Singular?
+      return False
+    for y2 in range(y+1, h):    # Eliminate column y
+      c = m[y2][y] / m[y][y]
+      for x in range(y, w):
+        m[y2][x] -= m[y][x] * c
+  for y in range(h-1, 0-1, -1): # Backsubstitute
+    c  = m[y][y]
+    for y2 in range(0,y):
+      for x in range(w-1, y-1, -1):
+        m[y2][x] -=  m[y][x] * m[y2][y] / c
+    m[y][y] /= c
+    for x in range(h, w):       # Normalize row y
+      m[y][x] /= c
+  return True
+
+
+def _inv(M):
+  """
+  return the inv of the matrix M
+  """
+  #clone the matrix and append the identity matrix
+  # [int(i==j) for j in range_M] is nothing but the i(th row of the identity matrix
+  m2 = [row[:]+[int(i==j) for j in range(len(M) )] for i,row in enumerate(M) ]
+  # extract the appended matrix (kind of m2[m:,...]
+  return [row[len(M[0]):] for row in m2] if _gauss_jordan(m2) else None
+
 
 class Matrix4:
     """
@@ -266,7 +307,7 @@ class Matrix4:
     @classmethod
     def rotation_euler(cls, pitch, roll, yaw):
         """
-        Creates rotation matrix from 3 angles(*pith*, *roll* and *yaw*)
+        Creates rotation matrix from 3 angles(*pitch*, *roll* and *yaw*)
         """
 
         sP = math.sin(pitch)
@@ -304,6 +345,27 @@ class Matrix4:
         """
         return Matrix4([by, 0, 0, 0, 0, by, 0, 0, 0, 0, by, 0, 0, 0, 0, 1])
     
+    def transpose(self):
+        return Matrix4([
+            self[0,0], self[1,0], self[2,0], self[3,0],
+            self[0,1], self[1,1], self[2,1], self[3,1],
+            self[0,2], self[1,2], self[2,2], self[3,2],
+            self[0,3], self[1,3], self[2,3], self[3,3],
+        ])        
+
+    def inverse(self):
+        m = [[self[i,j] for j in range(4)] for i in range(4)]
+        r = []
+        res = _inv(m)
+        if res is None:
+            return None
+        for c in res:
+            r.extend(c)
+        return Matrix4(r)
+
+    def __bytes__(self):
+        return self.bytes()
+
     def bytes(self, dtype="f"):
         """
         Converts internal array to bytes
