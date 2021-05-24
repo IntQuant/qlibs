@@ -85,6 +85,10 @@ def get_res_path(path):
     #        return cand_path
     resolved = loader.resolve(path)
     if resolved is None:
+        if os.path.exists(path):
+            return path
+
+    if resolved is None:
         raise FileNotFoundError(f"Can't find {path} (searched in ({loader.search_paths}))")
     else:
         return resolved

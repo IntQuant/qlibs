@@ -1,5 +1,14 @@
+## Qlibs 0.5.1
+ - Fix: DirectFontRender can't find defult font on mac (Issue #1)
+
+## Qlibs 0.5.0
+ - Feature: support for sRGB textures.
+ - Fix: model loader was confused by spaces in filenames.
+ - Perfomance: model loader now loads models faster
+ - Feature: matrix inverse(slow))
+
 ## Qlibs 0.4.3
- - Feature: ColumnDiagram Behavior
+ - Feature: ColumnDiagram Behavior.
 
 ## Qlibs 0.4.2
  - Fix: not every window can now be closed.

@@ -1,3 +1,4 @@
+import warnings
 import freetype
 from .font_search import find_reasonable_font
 from contextvars import ContextVar
@@ -24,14 +25,18 @@ class FreetypeGlyphProvider(GlyphProvider):
 class FontLoader:
     def __init__(self):
         self.mapping = defaultdict(list)
-        self.mapping["default"].append(FreetypeGlyphProvider(find_reasonable_font()))
+        reasonable_font = find_reasonable_font()
+        if reasonable_font is None:
+            warnings.warn(RuntimeWarning("No default font found! (Could not find system font)"))
+        else:
+            self.mapping["default"].append(FreetypeGlyphProvider(reasonable_font))
     
     def get(self, font_name, char):
         for provider in self.mapping[font_name]:
             v = provider.get(char)
             if v is not None:
                 return v
-        raise RuntimeError(f"Character {char} in font {font_name} not found")
+        raise RuntimeError(f"Character '{char}' in font '{font_name}' not found")
 
 
 font_loader: ContextVar[FontLoader] = ContextVar("font_loader", default=FontLoader())

@@ -1,3 +1,4 @@
+import moderngl
 from .resource_loader import get_res_texture, get_res_data, get_res_path, get_image_data
 from ..models.modelloader import OBJLoader
 
@@ -44,11 +45,15 @@ class PerContextStorage:
         self.program_storage[identifier] = prog
         return prog
 
-    def get_texture(self, r_path):
-        texture = self.texture_storage.get(r_path, None)
+    def get_texture(self, r_path, srgb=False):
+        key = (r_path, srgb)
+        texture = self.texture_storage.get(key, None)
         if texture is None:
             img = get_image_data(r_path)
-            texture = self.ctx.texture(img.size, 4, img.data)
+            if srgb:
+                texture = self.ctx.texture(img.size, 4, img.data, internal_format=0x8C41)
+            else:
+                texture = self.ctx.texture(img.size, 4, img.data)
             texture.build_mipmaps()
-            self.texture_storage[r_path] = texture
+            self.texture_storage[key] = texture
         return texture
