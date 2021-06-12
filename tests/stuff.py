@@ -31,8 +31,8 @@ class VecTestCase(unittest.TestCase):
         self.assertTrue(MVec(1, 30) != 1)
 
     def test_as_n_d(self):
-        self.assertTrue(len(MVec(1, 3).as_n_d(4)) == 4)
-        self.assertTrue(len(MVec(1, 3).as_n_d(1)) == 1)
+        self.assertEqual(len(MVec(1, 3).as_n_d(4)), 4)
+        self.assertEqual(len(MVec(1, 3).as_n_d(1)), 1)
 
     def test_normalize(self):
         v = MVec(1, 2, 3)
@@ -45,12 +45,12 @@ class MatrixTestCase(unittest.TestCase):
         mat1 = Matrix4(IDENTITY)
         mat2 = Matrix4(IDENTITY)
         mat3 = Matrix4(IDENTITY)
-        self.assertTrue(mat1 * mat2 == mat3)
+        self.assertEqual(mat1 * mat2, mat3)
 
     def test_multiply_vector(self):
         mat = Matrix4(IDENTITY)
         vec = MVec(1, 2, 3, 1)
-        self.assertTrue(mat * vec == vec)
+        self.assertEqual(mat * vec, vec)
 
     def test_multiply_notimpl(self):
         mat = Matrix4(ZEROS_16)
@@ -68,8 +68,8 @@ class MatrixTestCase(unittest.TestCase):
                 -0.0, -0.0, -10.0, 1.0,
             ]
         )
-        self.assertTrue(
-            Matrix4.look_at(IVec(10, 0, 0), IVec(0, 0, 0), IVec(0, 0, 1)) == res
+        self.assertEqual(
+            Matrix4.look_at(IVec(10, 0, 0), IVec(0, 0, 0), IVec(0, 0, 1)), res
         )
     
     def test_bytes(self):
@@ -87,10 +87,6 @@ class MatrixTestCase(unittest.TestCase):
         m = Matrix4.scale_matrix(3)
         v = m*IVec(1, 0, 0)
         self.assertEqual(v, IVec(3, 0, 0, 1))
-
-    def test_raw_init(self):
-        from array import array
-        Matrix4(raw_init=array("f", [0]*16))
     
     def test_str(self):
         mat = Matrix4(IDENTITY)

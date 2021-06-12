@@ -3,9 +3,7 @@
 """
 
 from array import array
-from ctypes import string_at
 import math
-from copy import copy
 
 from .vec import IVec, MVec as Vec
 
@@ -53,26 +51,18 @@ def _inv(M):
   # extract the appended matrix (kind of m2[m:,...]
   return [row[len(M[0]):] for row in m2] if _gauss_jordan(m2) else None
 
-
-class Matrix4:
-    """
-    4 by 4 Matrix class which allows [i, j] indexing
-    """
+class _PyMatrix4Base:
     __slots__ = ("_data",)
 
-    def __init__(self, data=None, dtype="f", raw_init=None):
+    def __init__(self, data=None):
         """
         Initialize matrix with 16 elements array (*data*) of *dtype* type
         """
-        if raw_init is not None:
-            self._data = raw_init
-            return
-        
         if data is not None:
-            self._data = array(dtype, data)
+            self._data = array('f', data)
         else:
-            self._data = array(dtype, ZEROS_16)
-
+            self._data = array('f', ZEROS_16)
+    
     def __getitem__(self, key):
         x, y = key
         assert 0 <= x < 4 and 0 <= y < 4
@@ -83,6 +73,130 @@ class Matrix4:
         assert 0 <= x < 4 and 0 <= y < 4
         self._data[x * 4 + y] = value
 
+    def __eq__(self, other):
+        return self._data == other._data
+
+    def bytes(self, dtype="f"):
+        """
+        Converts internal array to bytes
+        """
+        return self._data.tobytes()
+
+    def __repr__(self):
+        if list(self._data) == IDENTITY:
+            return "Matrix4(IDENTITY)"
+        if list(self._data) == ZEROS_16:
+            return "Matrix4(ZEROS_16)"
+        return f"Matrix4({list(self._data)})"
+
+    def __matmul__(self, other):
+        res = Matrix4()
+
+        res._data[0] = (
+            other._data[0] * self._data[0]
+            + other._data[1] * self._data[4]
+            + other._data[2] * self._data[8]
+            + other._data[3] * self._data[12]
+        )
+        res._data[1] = (
+            other._data[0] * self._data[1]
+            + other._data[1] * self._data[5]
+            + other._data[2] * self._data[9]
+            + other._data[3] * self._data[13]
+        )
+        res._data[2] = (
+            other._data[0] * self._data[2]
+            + other._data[1] * self._data[6]
+            + other._data[2] * self._data[10]
+            + other._data[3] * self._data[14]
+        )
+        res._data[3] = (
+            other._data[0] * self._data[3]
+            + other._data[1] * self._data[7]
+            + other._data[2] * self._data[11]
+            + other._data[3] * self._data[15]
+        )
+        res._data[4] = (
+            other._data[4] * self._data[0]
+            + other._data[5] * self._data[4]
+            + other._data[6] * self._data[8]
+            + other._data[7] * self._data[12]
+        )
+        res._data[5] = (
+            other._data[4] * self._data[1]
+            + other._data[5] * self._data[5]
+            + other._data[6] * self._data[9]
+            + other._data[7] * self._data[13]
+        )
+        res._data[6] = (
+            other._data[4] * self._data[2]
+            + other._data[5] * self._data[6]
+            + other._data[6] * self._data[10]
+            + other._data[7] * self._data[14]
+        )
+        res._data[7] = (
+            other._data[4] * self._data[3]
+            + other._data[5] * self._data[7]
+            + other._data[6] * self._data[11]
+            + other._data[7] * self._data[15]
+        )
+        res._data[8] = (
+            other._data[8] * self._data[0]
+            + other._data[9] * self._data[4]
+            + other._data[10] * self._data[8]
+            + other._data[11] * self._data[12]
+        )
+        res._data[9] = (
+            other._data[8] * self._data[1]
+            + other._data[9] * self._data[5]
+            + other._data[10] * self._data[9]
+            + other._data[11] * self._data[13]
+        )
+        res._data[10] = (
+            other._data[8] * self._data[2]
+            + other._data[9] * self._data[6]
+            + other._data[10] * self._data[10]
+            + other._data[11] * self._data[14]
+        )
+        res._data[11] = (
+            other._data[8] * self._data[3]
+            + other._data[9] * self._data[7]
+            + other._data[10] * self._data[11]
+            + other._data[11] * self._data[15]
+        )
+        res._data[12] = (
+            other._data[12] * self._data[0]
+            + other._data[13] * self._data[4]
+            + other._data[14] * self._data[8]
+            + other._data[15] * self._data[12]
+        )
+        res._data[13] = (
+            other._data[12] * self._data[1]
+            + other._data[13] * self._data[5]
+            + other._data[14] * self._data[9]
+            + other._data[15] * self._data[13]
+        )
+        res._data[14] = (
+            other._data[12] * self._data[2]
+            + other._data[13] * self._data[6]
+            + other._data[14] * self._data[10]
+            + other._data[15] * self._data[14]
+        )
+        res._data[15] = (
+            other._data[12] * self._data[3]
+            + other._data[13] * self._data[7]
+            + other._data[14] * self._data[11]
+            + other._data[15] * self._data[15]
+        )
+
+        return res
+
+
+class _Matrix4Methods():
+    """
+    4 by 4 Matrix class which allows [i, j] indexing
+    """
+
     def __str__(self):
         lst = (
             f"{self[0,0]}\t\t{self[0,1]}\t\t{self[0,2]}\t\t{self[0,3]}",
@@ -92,119 +206,12 @@ class Matrix4:
         )
         return "\n".join(lst)
 
-    def __repr__(self):
-        if list(self._data) == IDENTITY:
-            return "Matrix4(IDENTITY)"
-        if list(self._data) == ZEROS_16:
-            return "Matrix4(ZEROS_16)"
-        return f"Matrix4({list(self._data)})"
-
     def __mul__(self, other):
         """
         Multiplies matrix with matrix or matrix with vector
         """
         if isinstance(other, Matrix4):
-            res = Matrix4()
-
-            res._data[0] = (
-                other._data[0] * self._data[0]
-                + other._data[1] * self._data[4]
-                + other._data[2] * self._data[8]
-                + other._data[3] * self._data[12]
-            )
-            res._data[1] = (
-                other._data[0] * self._data[1]
-                + other._data[1] * self._data[5]
-                + other._data[2] * self._data[9]
-                + other._data[3] * self._data[13]
-            )
-            res._data[2] = (
-                other._data[0] * self._data[2]
-                + other._data[1] * self._data[6]
-                + other._data[2] * self._data[10]
-                + other._data[3] * self._data[14]
-            )
-            res._data[3] = (
-                other._data[0] * self._data[3]
-                + other._data[1] * self._data[7]
-                + other._data[2] * self._data[11]
-                + other._data[3] * self._data[15]
-            )
-            res._data[4] = (
-                other._data[4] * self._data[0]
-                + other._data[5] * self._data[4]
-                + other._data[6] * self._data[8]
-                + other._data[7] * self._data[12]
-            )
-            res._data[5] = (
-                other._data[4] * self._data[1]
-                + other._data[5] * self._data[5]
-                + other._data[6] * self._data[9]
-                + other._data[7] * self._data[13]
-            )
-            res._data[6] = (
-                other._data[4] * self._data[2]
-                + other._data[5] * self._data[6]
-                + other._data[6] * self._data[10]
-                + other._data[7] * self._data[14]
-            )
-            res._data[7] = (
-                other._data[4] * self._data[3]
-                + other._data[5] * self._data[7]
-                + other._data[6] * self._data[11]
-                + other._data[7] * self._data[15]
-            )
-            res._data[8] = (
-                other._data[8] * self._data[0]
-                + other._data[9] * self._data[4]
-                + other._data[10] * self._data[8]
-                + other._data[11] * self._data[12]
-            )
-            res._data[9] = (
-                other._data[8] * self._data[1]
-                + other._data[9] * self._data[5]
-                + other._data[10] * self._data[9]
-                + other._data[11] * self._data[13]
-            )
-            res._data[10] = (
-                other._data[8] * self._data[2]
-                + other._data[9] * self._data[6]
-                + other._data[10] * self._data[10]
-                + other._data[11] * self._data[14]
-            )
-            res._data[11] = (
-                other._data[8] * self._data[3]
-                + other._data[9] * self._data[7]
-                + other._data[10] * self._data[11]
-                + other._data[11] * self._data[15]
-            )
-            res._data[12] = (
-                other._data[12] * self._data[0]
-                + other._data[13] * self._data[4]
-                + other._data[14] * self._data[8]
-                + other._data[15] * self._data[12]
-            )
-            res._data[13] = (
-                other._data[12] * self._data[1]
-                + other._data[13] * self._data[5]
-                + other._data[14] * self._data[9]
-                + other._data[15] * self._data[13]
-            )
-            res._data[14] = (
-                other._data[12] * self._data[2]
-                + other._data[13] * self._data[6]
-                + other._data[14] * self._data[10]
-                + other._data[15] * self._data[14]
-            )
-            res._data[15] = (
-                other._data[12] * self._data[3]
-                + other._data[13] * self._data[7]
-                + other._data[14] * self._data[11]
-                + other._data[15] * self._data[15]
-            )
-
-            return res
-
+            return self @ other            
         if isinstance(other, IVec):
             res = [0, 0, 0, 0]
             if len(other) != 4:
@@ -221,9 +228,6 @@ class Matrix4:
             return IVec(res)
 
         return NotImplemented
-
-    def __eq__(self, other):
-        return self._data == other._data
 
     @classmethod
     def translation_matrix(cls, x, y, z):
@@ -366,14 +370,23 @@ class Matrix4:
     def __bytes__(self):
         return self.bytes()
 
-    def bytes(self, dtype="f"):
-        """
-        Converts internal array to bytes
-        """
-        assert self._data.typecode == dtype #TODO Proper error handling
-        return self._data.tobytes()
-        #if isinstance(self._data, array):
-        #    assert self._data.typecode == dtype
-        #    return self._data.tobytes()
-        #else:
-        #    return string_at(self._data, 64)
+
+class Matrix4(_PyMatrix4Base, _Matrix4Methods):
+    pass
+
+
+PyMatrix4 = Matrix4
+
+try:
+    from .mat4 import Matrix4 as _CMatrix4Base
+except ImportError:
+    pass #Might want to add a warning
+else:
+    class Matrix4(_CMatrix4Base, _Matrix4Methods):
+        def __init__(self, data=None):
+            if data is not None:
+                ind = 0
+                for i in range(4):
+                    for j in range(4):
+                        self[i,j] = data[ind]
+                        ind += 1

@@ -1,4 +1,5 @@
 import setuptools
+from setuptools import Extension
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -24,4 +25,5 @@ setuptools.setup(
     extras_require={
         "full": ["pillow", "freetype-py"]
     },
+    ext_modules=[Extension("qlibs.math.mat4", ["qlibs/math/cmatrix/mat4.c"])],
 )
