@@ -90,7 +90,7 @@ class _PyMatrix4Base:
         return f"Matrix4({list(self._data)})"
 
     def __matmul__(self, other):
-        res = Matrix4()
+        res = self.__class__()
 
         res._data[0] = (
             other._data[0] * self._data[0]
@@ -210,7 +210,7 @@ class _Matrix4Methods():
         """
         Multiplies matrix with matrix or matrix with vector
         """
-        if isinstance(other, Matrix4):
+        if isinstance(other, (_PyMatrix4Base, Matrix4)):
             return self @ other            
         if isinstance(other, IVec):
             res = [0, 0, 0, 0]
@@ -371,11 +371,11 @@ class _Matrix4Methods():
         return self.bytes()
 
 
-class Matrix4(_PyMatrix4Base, _Matrix4Methods):
+class PyMatrix4(_PyMatrix4Base, _Matrix4Methods):
     pass
 
 
-PyMatrix4 = Matrix4
+Matrix4 = PyMatrix4
 
 try:
     from .mat4 import Matrix4 as _CMatrix4Base
