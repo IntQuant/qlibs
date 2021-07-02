@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 def do_setup(ext_modules):
     setuptools.setup(
         name="qlibs",
-        version="0.5.1",
+        version="0.5.2",
         author="IQuant",
         author_email="quant3234@gmail.com",
         description="Networking, gui, math and more",
@@ -30,10 +30,5 @@ def do_setup(ext_modules):
         ext_modules=ext_modules,
     )
 
-try:
-    do_setup([Extension("qlibs.math.mat4", ["qlibs/math/cmatrix/mat4.c"])])
-except Exception as e:
-    print("Installation failed because of the following reason:")
-    traceback.print_exc()
-    print("Retrying with C modules disables")
-    do_setup([])
+#do_setup([Extension("qlibs.math.mat4", ["qlibs/math/cmatrix/mat4.c"])])
+do_setup([])
