@@ -28,9 +28,12 @@ class ShapeDrawer:
             SHADER_VERTEX, SHADER_FRAGMENT
         )
         self.default_z = 0.
-        self.ctx= ctx
-        self.buffer = None
+        self.ctx = ctx
         self.additional_inputs = additional_inputs
+        self.buffer = self.ctx.buffer(reserve=4, dynamic=True)
+        self.vao = self.ctx.simple_vertex_array(
+            self.program, self.buffer, "in_vert", "color", *self.additional_inputs
+        )
         self.prepare()
 
     def prepare(self):
@@ -118,16 +121,10 @@ class ShapeDrawer:
             self.ctx.enable_only(moderngl.NOTHING)
         try_write(self.program, "mvp", mvp.bytes())
         target_len = max(len(self.tr_buffer), len(self.li_buffer))
-        amortized_len = 2 ** (target_len.bit_length() + 1)
-        min_amortized_len = 2 ** (target_len.bit_length() + 2)
-        if (self.buffer is None 
-            or self.buffer.size < 4*target_len 
-            or self.buffer.size > 4*min_amortized_len
-            ):
-            self.buffer = self.ctx.buffer(reserve=4*amortized_len, dynamic=True)
-            self.vao = self.ctx.simple_vertex_array(
-                self.program, self.buffer, "in_vert", "color", *self.additional_inputs
-            )
+        armortized_len = 2 ** (target_len.bit_length() + 1)
+        min_armortized_len = 2 ** (target_len.bit_length() + 2)
+        if self.buffer.size < 4*target_len or self.buffer.size > 4*min_armortized_len:
+            self.buffer.orphan(4*armortized_len)            
         self.buffer.write(self.tr_buffer)
         self.vao.render(moderngl.TRIANGLES, vertices=self.tr_amount*3)
         self.buffer.write(self.li_buffer)
@@ -135,3 +132,7 @@ class ShapeDrawer:
         
         if reset:
             self.prepare()
+
+    def __del__(self):
+        self.buffer.release()
+        self.vao.release()
