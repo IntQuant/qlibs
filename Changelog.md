@@ -1,6 +1,9 @@
+## Qlibs 0.5.3
+ - Fix: leaking in basic_shapes
+ - Matrix4 C module temporaly disabled
+
 ## Qlibs 0.5.2
  - Perfomance: Matrix4 C module
- 
 
 ## Qlibs 0.5.1
  - Fix: DirectFontRender can't find defult font on mac (Issue #1)

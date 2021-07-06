@@ -1,8 +1,8 @@
 import unittest
 try:
-    from qlibs.math.mat4 import Matrix4
+    from qlibs_cyan.math.mat4 import Matrix4
 except:
-    pass
+    print("Skipping C matrix tests")
 else:
     class Matrix4TestCase(unittest.TestCase):
         def test_creation(self):

@@ -378,9 +378,9 @@ class PyMatrix4(_PyMatrix4Base, _Matrix4Methods):
 Matrix4 = PyMatrix4
 
 try:
-    from .mat4 import Matrix4 as _CMatrix4Base
+    from qlibs_cyan.math.mat4 import Matrix4 as _CMatrix4Base
 except ImportError:
-    pass #Might want to add a warning
+    print("It appears that Qlibs Cyan is not installed, performace will be worse without it", file=sys.stderr) #TODO think of something better
 else:
     class Matrix4(_CMatrix4Base, _Matrix4Methods):
         def __init__(self, data=None):

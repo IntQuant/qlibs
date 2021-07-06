@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 def do_setup(ext_modules):
     setuptools.setup(
         name="qlibs",
-        version="0.5.2",
+        version="0.5.4",
         author="IQuant",
         author_email="quant3234@gmail.com",
         description="Networking, gui, math and more",
@@ -28,6 +28,7 @@ def do_setup(ext_modules):
             "full": ["pillow", "freetype-py"]
         },
         ext_modules=ext_modules,
+        zip_safe=False,
     )
 
 #do_setup([Extension("qlibs.math.mat4", ["qlibs/math/cmatrix/mat4.c"])])
