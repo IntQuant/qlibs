@@ -25,7 +25,8 @@ def do_setup(ext_modules):
         include_package_data=True,
         install_requires=["moderngl", "glfw"],
         extras_require={
-            "full": ["pillow", "freetype-py"]
+            "full": ["pillow", "freetype-py"],
+            "cyan": ["qlibs-cyan==0.1.0"],
         },
         ext_modules=ext_modules,
         zip_safe=False,

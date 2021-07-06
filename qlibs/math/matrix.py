@@ -4,6 +4,7 @@
 
 from array import array
 import math
+import sys
 
 from .vec import IVec, MVec as Vec
 

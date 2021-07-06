@@ -1,3 +1,6 @@
+## Qlibs 0.5.4
+ - C modules are now in a separete module, Qlibs Cyan
+
 ## Qlibs 0.5.3
  - Fix: leaking in basic_shapes
  - Matrix4 C module temporaly disabled
