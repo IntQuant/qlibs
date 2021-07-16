@@ -5,6 +5,8 @@ from contextvars import ContextVar
 import logging
 logger = logging.getLogger("qlibs.gui.window")
 
+__all__ = ["Window", "default_hint_conf", "fallback_hint_conf", "current_context", "current_window"]
+
 default_hint_conf = {
     glfw.CONTEXT_VERSION_MAJOR: 3,
     glfw.CONTEXT_VERSION_MINOR: 3,
@@ -30,6 +32,7 @@ fallback_hint_conf = {
 }
 
 class Window:
+    """A wrapper on top of glfw window"""
     def __init__(self, width=800, height=600, title="QLibs window", swap_interval=1, hint_conf=default_hint_conf, resizable=True, fullscreen=False, transparent=False):
         self.width = width
         self.height = height

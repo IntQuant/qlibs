@@ -28,11 +28,11 @@ except ImportError:
 #TODO
 #__all__ = ["hint_func_rel", "NodeB", "ButtonB", "CentererB", "ColumnPlacerB", "CustomRenderB", "ProgressBarB", "RadioButtonB", "RadioButtonGroup"]
 __all__ = [
+    "NodeB",
     "ButtonB",
     "CentererB",
     "ColumnPlacerB",
     "CustomRenderB",
-    "NodeB",
     "ProgressBarB",
     "RadioButtonB",
     "RadioButtonGroup",

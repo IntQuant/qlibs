@@ -1,3 +1,6 @@
+## Qlibs 0.5.5
+ - Fix: V1 node renderer sometimess messed up draw order
+
 ## Qlibs 0.5.4
  - C modules are now in a separete module, Qlibs Cyan
 

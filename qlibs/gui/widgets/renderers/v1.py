@@ -267,7 +267,7 @@ class V1Renderer:
             if el.type is QueuedType.BG:
                 self.drawer.add_rectangle(*el.pos, *el.size, color=el.color)
             if el.type is QueuedType.TEXT:
-                if last_state in [QueuedType.BG, QueuedType.FGOUTLINE]:
+                if last_state in [QueuedType.BG, QueuedType.FGOUTLINE, QueuedType.FGLINE]:
                     self.drawer.render(mvp=self.matrix)
                 if el.multiline:
                     try:

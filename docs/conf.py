@@ -22,14 +22,16 @@ copyright = '2021, Nikita "IQuant" Tomashevich'
 author = 'Nikita "IQuant" Tomashevich'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.4-pre'
+import qlibs
+release = qlibs.__version__
 
+from sphinx.application import Sphinx
 import sys
 import os
 
 sys.path.insert(0, os.path.abspath('..'))
 
-import m2r
+import m2r2 as m2r
 
 def docstring(app, what, name, obj, options, lines):
     md  = '\n'.join(lines)
@@ -37,8 +39,18 @@ def docstring(app, what, name, obj, options, lines):
     lines.clear()
     lines += rst.splitlines()
 
+def do_skip(app: Sphinx, what, name, obj, skip, options):
+    try:
+        if not obj.__module__.startswith("qlibs"):
+            return True
+    except AttributeError:
+        return True
+    print(what, name, skip, options)
+    return name.startswith("_")
+
 def setup(app):
     app.connect('autodoc-process-docstring', docstring)
+    #app.connect('autodoc-skip-member', do_skip)
 
 # -- General configuration ---------------------------------------------------
 
