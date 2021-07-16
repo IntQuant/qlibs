@@ -123,7 +123,7 @@ class V1Generator:
         highlighted = False
         selected = is_selected_cb.get()(node)
         if node.type in ["button", "togglebutton", "radiobutton"]:
-            highlighted = node.hovered
+            highlighted = node.hovered or getattr(node, "state", False)
             selected = node.pressed
 
         bg_color = None
@@ -171,7 +171,7 @@ class V1Generator:
             if node.type == "text" or isinstance(node.text, FormattedText):
                 pos = Vec2(*node.position)
                 pos.y = self.window.height - pos.y - node.size.y
-                scissor = (*pos, *node.size)
+                scissor = tuple(map(int, (*pos, *node.size)))
                 self.text_queue.append(QueuedText(
                     text=node.text, 
                     pos=Vec2(node.position.x+4, node.position.y+node.scale), 
@@ -271,7 +271,7 @@ class V1Renderer:
                     self.drawer.render(mvp=self.matrix)
                 if el.multiline:
                     try:
-                        self.ctx.scissor = el.scissor
+                        self.ctx.scissor = tuple(map(int, el.scissor))
                         self.font.render_multiline(el.text, el.pos.x, el.pos.y, el.multiline, mvp=self.matrix, scale=el.scale)
                     finally:
                         self.ctx.scissor = None

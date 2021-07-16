@@ -1,6 +1,4 @@
 import setuptools
-from setuptools import Extension
-import traceback
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -8,13 +6,13 @@ with open("README.md", "r") as fh:
 def do_setup(ext_modules):
     setuptools.setup(
         name="qlibs",
-        version="0.5.4",
+        version="0.5.6",
         author="IQuant",
         author_email="quant3234@gmail.com",
         description="Networking, gui, math and more",
         long_description=long_description,
         long_description_content_type="text/markdown",
-        url="https://bitbucket.org/IntQuant/qlibs/",
+        url="https://github.com/IntQuant/qlibs",
         packages=setuptools.find_packages(),
         license="MIT",
         classifiers=[

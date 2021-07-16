@@ -1,3 +1,7 @@
+## Qlibs 0.5.6
+ - Fix: use integer values for scissor test
+ - Ref: use enum instead of str in node types
+
 ## Qlibs 0.5.5
  - Fix: V1 node renderer sometimess messed up draw order
 
@@ -12,7 +16,7 @@
  - Perfomance: Matrix4 C module
 
 ## Qlibs 0.5.1
- - Fix: DirectFontRender can't find defult font on mac (Issue #1)
+ - Fix: DirectFontRender can't find default font on mac (Issue #1)
 
 ## Qlibs 0.5.0
  - Feature: support for sRGB textures.

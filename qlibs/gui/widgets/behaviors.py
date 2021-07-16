@@ -1,14 +1,14 @@
-from contextvars import ContextVar
-from typing import Union
-from ...math import Vec2
-from itertools import zip_longest
 import warnings
-from .events import GUIEvent
 import weakref
-from collections import defaultdict
-
-from enum import Enum
+from contextvars import ContextVar
 from dataclasses import dataclass
+from enum import Enum
+from itertools import zip_longest
+from typing import Union
+
+from qlibs.math import Vec2
+from .events import GUIEvent
+
 #TODO: handle negative size
 
 try:
@@ -29,6 +29,7 @@ except ImportError:
 #__all__ = ["hint_func_rel", "NodeB", "ButtonB", "CentererB", "ColumnPlacerB", "CustomRenderB", "ProgressBarB", "RadioButtonB", "RadioButtonGroup"]
 __all__ = [
     "NodeB",
+    "TextNodeB",
     "ButtonB",
     "CentererB",
     "ColumnPlacerB",
@@ -43,7 +44,6 @@ __all__ = [
     "ScrollBarB",
     "SizeLimitB",
     "TextInputB",
-    "TextNodeB",
     "ToggleButtonB",
     "WindowNodeB",
     "RootNodeB",
@@ -71,7 +71,20 @@ def hint_func_abs(placer, hints):
         return hints
     return [hint/placer.size[1-adv] if hint is not None else None for hint in hints]
 
-class QlibsNodeTypes(Enum):
+class QlibsNodeTypes(str, Enum):
+    NODE = "node"
+    TEXT = "text"
+    BUTTON = "button"
+    CENTERER = "centerer"
+    CUSTOM_RENDER = "customrender"
+    PROGRESS_BAR = "progressbar"
+    RADIO_BUTTON = "radiobutton"
+    RC_PLACER = "rcplacer"
+    SCROLLABLE_LIST = "scrollable_list"
+    TEXT_INPUT = "textinput"
+    TOGGLE_BUTTON = "togglebutton"
+    WINDOW = "window"
+    ROOT = "root"
     COLUMN_DIAGRAM = "column_diagram"
 
 
@@ -80,7 +93,7 @@ class NodeB:
     Basic node behavior, does not do any anything to position it's children
     Rendering is separate from behaviors, which only handles events(including resizing)
     """
-    type = "node"
+    type = QlibsNodeTypes.NODE
     selectable = False
     def __init__(self, name=None, text=None):
         if not hasattr(self, "name"):
@@ -162,7 +175,7 @@ class NodeB:
         return v
 
 class TextNodeB(NodeB):
-    type="text"
+    type = QlibsNodeTypes.TEXT
     def __init__(self, text, *, scale=32, name=None):
         super().__init__()
         self.name = name
@@ -174,7 +187,7 @@ class ButtonB(NodeB):
     """
       Basic button. Callback will be called with button's name as parameter. **text** is displayed text
     """
-    type = "button"
+    type = QlibsNodeTypes.BUTTON
     def __init__(self, name: str, callback, text=None):
         super().__init__()
         self.callback = callback
@@ -208,7 +221,7 @@ class CentererB(NodeB):
     """
       Makes it's children smaller by **sep_x** and **sep_y** from each side
     """
-    type = "centerer"
+    type = QlibsNodeTypes.CENTERER
     def __init__(self, sep_x, sep_y, child=None, **kwargs):
         super().__init__(**kwargs)
         self.sep_x = sep_x
@@ -241,7 +254,7 @@ class SizeLimitB(NodeB):
     """
       Limits size of it's children.
     """
-    type = "centerer"
+    type = QlibsNodeTypes.CENTERER
     def __init__(self, targ_x, targ_y, child=None, **kwargs):
         super().__init__(**kwargs)
         self.targ_x = targ_x
@@ -266,7 +279,7 @@ class RCPlacerB(NodeB):
     """
       Places it's children either horizontally or vertically, with size_hint controlling their (relative) size.
     """
-    type = "rcplacer"
+    type = QlibsNodeTypes.RC_PLACER
     def __init__(self, spacing=0, vertical=True, max_size=1, size_hint_func=None, **kwargs):
         super().__init__(**kwargs)
         self.spc = spacing
@@ -328,7 +341,7 @@ class ColumnPlacerB(RCPlacerB):
       Places children vertically.
       See RCPlacerB for more.
     """
-    type = "columnplacer"
+    type = QlibsNodeTypes.RC_PLACER
     def __init__(self, spacing=0, **kwargs):
         super().__init__(spacing, vertical=True, **kwargs)
 
@@ -338,7 +351,7 @@ class RowPlacerB(RCPlacerB):
       Places children horizontally.
       See RCPlacerB for more.
     """
-    type = "rowplacer"
+    type = QlibsNodeTypes.RC_PLACER
     def __init__(self, spacing=0, **kwargs):
         super().__init__(spacing, vertical=False, **kwargs)
 
@@ -348,7 +361,7 @@ class TextInputB(NodeB):
       Allows to edit it's *text*. 
       *callback* is called on enter and gets current text as an argument.
     """
-    type = "textinput"
+    type = QlibsNodeTypes.TEXT_INPUT
     selectable = True
     def __init__(self, text="", name="default", callback=None, **kwargs):
         super().__init__(**kwargs)
@@ -410,7 +423,7 @@ class ToggleButtonB(NodeB):
     """
       Just like button, but toggleable. Callback also recieves **self.state**, which is True is button is active
     """
-    type = "togglebutton"
+    type = QlibsNodeTypes.TOGGLE_BUTTON
     def __init__(self, name, callback, text=None, state=False, **kwargs):
         super().__init__(**kwargs)
         self.callback = callback
@@ -443,7 +456,7 @@ class ProgressBarB(NodeB):
     """
       Progress bar. **self.fraction** is how full it is, with value from 0 to 1 inclusively.
     """
-    type = "progressbar"
+    type = QlibsNodeTypes.PROGRESS_BAR
     def __init__(self, name=None, **kwargs):
         super().__init__(**kwargs)
         self.fraction = 0
@@ -455,7 +468,7 @@ class ScrollableListB(NodeB):
       List which can be scrolled.
       If *target_size* is not None(default), amount of shown items will be adjusted automatically.
     """
-    type = "scrollablelist"
+    type = QlibsNodeTypes.SCROLLABLE_LIST
     def __init__(self, shown_items=10, target_size=50, **kwargs):
         super().__init__(**kwargs)
         self.full_list = []
@@ -609,7 +622,7 @@ class RadioButtonB(NodeB):
     """
       Just like ToggleButtonB, but only one button from the group can be active at once.
     """
-    type = "radiobutton"
+    type = QlibsNodeTypes.RADIO_BUTTON
     def __init__(self, group: RadioButtonGroup, **kwargs):
         super().__init__(**kwargs)
         self.group = group
@@ -648,7 +661,7 @@ class ColumnDiagramB(NodeB):
 
 
 class WindowNodeB(NodeB):
-    type = "window"
+    type = QlibsNodeTypes.WINDOW
     def __init__(self, closeable=False, **kwargs):
         super().__init__(**kwargs)
         self._dragged = False
@@ -747,7 +760,7 @@ class WindowNodeB(NodeB):
 
 
 class RootNodeB(NodeB):
-    type = "root"
+    type = QlibsNodeTypes.ROOT
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.layers = dict()
