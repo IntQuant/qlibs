@@ -1,5 +1,5 @@
 # Welcome to QLibs
-QLibs is a multipurpose library, suited for making games.
+QLibs is a multipurpose library, suitable for making graphical applications and games.
 
 # Features
 There are quite a lot of them!

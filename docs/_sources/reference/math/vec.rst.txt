@@ -1,0 +1,8 @@
+Module qlibs.math.vec
+~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.math.vec
+
+.. automodule:: qlibs.math.vec
+   :members:
+   :undoc-members:

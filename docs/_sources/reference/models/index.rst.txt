@@ -1,0 +1,10 @@
+Models reference
+----------------
+
+
+.. toctree::
+   :maxdepth: 2
+
+   compoundmodel.rst
+   modelloader.rst
+   modelrenderer.rst

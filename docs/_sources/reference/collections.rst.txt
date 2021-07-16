@@ -1,0 +1,8 @@
+Module qlibs.collections
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.collections
+
+.. automodule:: qlibs.collections
+   :members:
+   :undoc-members:

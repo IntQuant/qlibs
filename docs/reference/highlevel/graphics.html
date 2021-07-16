@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Module qlibs.highlevel.graphics &mdash; QLibs 0.5.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module qlibs.collections" href="../collections.html" />
+    <link rel="prev" title="Highlevel reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QLibs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gui/index.html">Gui reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fonts/index.html">Fonts reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html">Module qlibs.util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util/index.html">Util reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../net/index.html">Net reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Math reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resources/index.html">Resources reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Highlevel reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module qlibs.highlevel.graphics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../collections.html">Module qlibs.collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections/index.html">Collections reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QLibs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Highlevel reference</a> &raquo;</li>
+        
+      <li>Module qlibs.highlevel.graphics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reference/highlevel/graphics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-qlibs.highlevel.graphics">
+<span id="module-qlibs-highlevel-graphics"></span><h1>Module qlibs.highlevel.graphics<a class="headerlink" href="#module-qlibs.highlevel.graphics" title="Permalink to this headline">¶</a></h1>
+<p>Highlevel graphics things</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.ObjectSpriteMaster">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.highlevel.graphics.</span></span><span class="sig-name descname"><span class="pre">ObjectSpriteMaster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.ObjectSpriteMaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like the usual sprite master, but uses “Objects” to manipulate buffers.</p>
+<p>More effient when you don’t need to update everything. (TODO)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.ObjectSpriteMaster.add_sprite">
+<span class="sig-name descname"><span class="pre">add_sprite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.ObjectSpriteMaster.add_sprite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.ObjectSpriteMaster.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">mvp=&lt;qlibs.math.matrix.Matrix4</span> <span class="pre">object&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.ObjectSpriteMaster.render" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.ObjectSpriteMaster.render_centered">
+<span class="sig-name descname"><span class="pre">render_centered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.ObjectSpriteMaster.render_centered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMaster">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.highlevel.graphics.</span></span><span class="sig-name descname"><span class="pre">SpriteMaster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">program</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does loading, managing and drawing. All at once.</p>
+<p>Can also calculate mvps.</p>
+<p>Quite effient in terms of draw calls.</p>
+<p>See <strong>SpriteMasterBase</strong> for more.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMaster.fork">
+<span class="sig-name descname"><span class="pre">fork</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMaster.fork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create another sprite master with it’s own set of buffers(their content is not copied)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMaster.init">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMaster.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init. Call this after loading all required sprites.
+Uploads sprites to gpu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMaster.load_file">
+<span class="sig-name descname"><span class="pre">load_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMaster.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a sprite from file, using build-in resource system.
+Sprite from <strong>file_id</strong> will be mapped to <strong>sprite_id</strong></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.highlevel.graphics.</span></span><span class="sig-name descname"><span class="pre">SpriteMasterBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base SpriteMaster class which does not handle drawers.
+Used for forking</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_centered">
+<span class="sig-name descname"><span class="pre">add_sprite_centered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">((0,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">1),</span> <span class="pre">(0,</span> <span class="pre">1))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_centered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add sprite, specified by the rectangle, centered</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_rect">
+<span class="sig-name descname"><span class="pre">add_sprite_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">((0,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">1),</span> <span class="pre">(0,</span> <span class="pre">1))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add sprite, specified by the rectangle</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_rotated">
+<span class="sig-name descname"><span class="pre">add_sprite_rotated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">((0,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">1),</span> <span class="pre">(0,</span> <span class="pre">1))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.add_sprite_rotated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add sprite, specified by the rectangle, centered and rotated by <strong>r</strong></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets buffers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.fork">
+<span class="sig-name descname"><span class="pre">fork</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.fork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create another sprite master with it’s own set of buffers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">mvp=&lt;qlibs.math.matrix.Matrix4</span> <span class="pre">object&gt;</span></em>, <em class="sig-param"><span class="pre">reset=True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders everything.
+When <strong>reset</strong> is True, resets buffers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.render_centered">
+<span class="sig-name descname"><span class="pre">render_centered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.render_centered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically calculates orthogonal projection and renders, using it.
+Area with center at <strong>center</strong> and of size <strong>size</strong> will be seen.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.render_like">
+<span class="sig-name descname"><span class="pre">render_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.render_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders with the same matrix another <strong>master</strong> did.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.highlevel.graphics.SpriteMasterBase.render_rescaled">
+<span class="sig-name descname"><span class="pre">render_rescaled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.highlevel.graphics.SpriteMasterBase.render_rescaled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates orthogonal projection with the given parameters and renders, using it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../collections.html" class="btn btn-neutral float-right" title="Module qlibs.collections" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Highlevel reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Nikita &#34;IQuant&#34; Tomashevich.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

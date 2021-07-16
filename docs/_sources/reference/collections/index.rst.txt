@@ -1,0 +1,7 @@
+Collections reference
+---------------------
+
+
+.. toctree::
+   :maxdepth: 2
+

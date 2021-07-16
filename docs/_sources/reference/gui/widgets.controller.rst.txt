@@ -1,0 +1,8 @@
+Module qlibs.gui.widgets.controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.widgets.controller
+
+.. automodule:: qlibs.gui.widgets.controller
+   :members:
+   :undoc-members:

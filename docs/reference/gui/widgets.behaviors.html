@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Module qlibs.gui.widgets.behaviors &mdash; QLibs 0.5.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module qlibs.gui.widgets.controller" href="widgets.controller.html" />
+    <link rel="prev" title="Module qlibs.gui.widgets.app" href="widgets.app.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QLibs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Gui reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic_shapes.html">Module qlibs.gui.basic_shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite_drawer.html">Module qlibs.gui.sprite_drawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.app.html">Module qlibs.gui.widgets.app</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module qlibs.gui.widgets.behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.controller.html">Module qlibs.gui.widgets.controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.events.html">Module qlibs.gui.widgets.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.render.html">Module qlibs.gui.widgets.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.renderers.v0.html">Module qlibs.gui.widgets.renderers.v0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.renderers.v1.html">Module qlibs.gui.widgets.renderers.v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window.html">Module qlibs.gui.window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fonts/index.html">Fonts reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html">Module qlibs.util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util/index.html">Util reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../net/index.html">Net reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Math reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resources/index.html">Resources reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highlevel/index.html">Highlevel reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections.html">Module qlibs.collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections/index.html">Collections reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QLibs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Gui reference</a> &raquo;</li>
+        
+      <li>Module qlibs.gui.widgets.behaviors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reference/gui/widgets.behaviors.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-qlibs.gui.widgets.behaviors">
+<span id="module-qlibs-gui-widgets-behaviors"></span><h1>Module qlibs.gui.widgets.behaviors<a class="headerlink" href="#module-qlibs.gui.widgets.behaviors" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ButtonB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ButtonB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ButtonB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic button. Callback will be called with button’s name as parameter. <strong>text</strong> is displayed text</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ButtonB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ButtonB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ButtonB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'button'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ButtonB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CentererB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">CentererB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CentererB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes it’s children smaller by <strong>sep_x</strong> and <strong>sep_y</strong> from each side</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CentererB.child">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">child</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CentererB.child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CentererB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CentererB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CentererB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'centerer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CentererB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ColumnDiagramB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ColumnDiagramB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ColumnDiagramB" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ColumnDiagramB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'column_diagram'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ColumnDiagramB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ColumnPlacerB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ColumnPlacerB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ColumnPlacerB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places children vertically.
+See RCPlacerB for more.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ColumnPlacerB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rcplacer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ColumnPlacerB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CustomRenderB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">CustomRenderB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">render</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CustomRenderB" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>render</em> is a callback. This will be called by rendering, with viewport set to node’s position and size. Recieves this node as an argument.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.CustomRenderB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'customrender'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.CustomRenderB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.DiagramDatum">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">DiagramDatum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.DiagramDatum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.DiagramDatum.tag">
+<span class="sig-name descname"><span class="pre">tag</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.DiagramDatum.tag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.DiagramDatum.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.DiagramDatum.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">NodeB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic node behavior, does not do any anything to position it’s children
+Rendering is separate from behaviors, which only handles events(including resizing)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qlibs.gui.widgets.behaviors.NodeB" title="qlibs.gui.widgets.behaviors.NodeB"><span class="pre">qlibs.gui.widgets.behaviors.NodeB</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.add_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.get_node_by_name">
+<span class="sig-name descname"><span class="pre">get_node_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.get_node_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.position">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.selectable">
+<span class="sig-name descname"><span class="pre">selectable</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.selectable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.size">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.text">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.NodeB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'node'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.NodeB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ProgressBarB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ProgressBarB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ProgressBarB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Progress bar. <strong>self.fraction</strong> is how full it is, with value from 0 to 1 inclusively.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ProgressBarB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'progressbar'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ProgressBarB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">QlibsNodeTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.BUTTON">
+<span class="sig-name descname"><span class="pre">BUTTON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'button'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.BUTTON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.CENTERER">
+<span class="sig-name descname"><span class="pre">CENTERER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'centerer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.CENTERER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.COLUMN_DIAGRAM">
+<span class="sig-name descname"><span class="pre">COLUMN_DIAGRAM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'column_diagram'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.COLUMN_DIAGRAM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.CUSTOM_RENDER">
+<span class="sig-name descname"><span class="pre">CUSTOM_RENDER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'customrender'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.CUSTOM_RENDER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.NODE">
+<span class="sig-name descname"><span class="pre">NODE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'node'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.NODE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.PROGRESS_BAR">
+<span class="sig-name descname"><span class="pre">PROGRESS_BAR</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'progressbar'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.PROGRESS_BAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.RADIO_BUTTON">
+<span class="sig-name descname"><span class="pre">RADIO_BUTTON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'radiobutton'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.RADIO_BUTTON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.RC_PLACER">
+<span class="sig-name descname"><span class="pre">RC_PLACER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rcplacer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.RC_PLACER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.ROOT">
+<span class="sig-name descname"><span class="pre">ROOT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'root'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.ROOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.SCROLLABLE_LIST">
+<span class="sig-name descname"><span class="pre">SCROLLABLE_LIST</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'scrollable_list'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.SCROLLABLE_LIST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.TEXT">
+<span class="sig-name descname"><span class="pre">TEXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'text'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.TEXT_INPUT">
+<span class="sig-name descname"><span class="pre">TEXT_INPUT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'textinput'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.TEXT_INPUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.TOGGLE_BUTTON">
+<span class="sig-name descname"><span class="pre">TOGGLE_BUTTON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'togglebutton'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.TOGGLE_BUTTON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.QlibsNodeTypes.WINDOW">
+<span class="sig-name descname"><span class="pre">WINDOW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'window'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.QlibsNodeTypes.WINDOW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RCPlacerB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">RCPlacerB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_hint_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RCPlacerB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places it’s children either horizontally or vertically, with size_hint controlling their (relative) size.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RCPlacerB.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RCPlacerB.add_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RCPlacerB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RCPlacerB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RCPlacerB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rcplacer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RCPlacerB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RadioButtonB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">RadioButtonB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qlibs.gui.widgets.behaviors.RadioButtonGroup" title="qlibs.gui.widgets.behaviors.RadioButtonGroup"><span class="pre">qlibs.gui.widgets.behaviors.RadioButtonGroup</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RadioButtonB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just like ToggleButtonB, but only one button from the group can be active at once.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RadioButtonB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RadioButtonB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RadioButtonB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'radiobutton'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RadioButtonB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RadioButtonGroup">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">RadioButtonGroup</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RadioButtonGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group of buttons.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">RootNodeB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.children">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">children</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.del_node">
+<span class="sig-name descname"><span class="pre">del_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.del_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.main_node">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">main_node</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.main_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.make_current">
+<span class="sig-name descname"><span class="pre">make_current</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.make_current" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.recalc_if_needed">
+<span class="sig-name descname"><span class="pre">recalc_if_needed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.recalc_if_needed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.request_update_in">
+<span class="sig-name descname"><span class="pre">request_update_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.request_update_in" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.set_layer_node">
+<span class="sig-name descname"><span class="pre">set_layer_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.set_layer_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RootNodeB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'root'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RootNodeB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RowPlacerB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">RowPlacerB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RowPlacerB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places children horizontally.
+See RCPlacerB for more.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.RowPlacerB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'rcplacer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.RowPlacerB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollBarB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ScrollBarB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vertical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollBarB" title="Permalink to this definition">¶</a></dt>
+<dd><p>ScrollBar.
+<em>direction</em> can be one of [“vertical”, “horizontal”].
+<em>callback</em> is called when updated, with <strong>self.pos</strong> as an argument.
+<strong>self.pos</strong> is a position (ranges from 0 to 1 inclusive).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollBarB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollBarB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollBarB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'scrollbar'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollBarB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ScrollableListB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shown_items</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB" title="Permalink to this definition">¶</a></dt>
+<dd><p>List which can be scrolled.
+If <em>target_size</em> is not None(default), amount of shown items will be adjusted automatically.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.add_child">
+<span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.add_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.scrollbar_cb">
+<span class="sig-name descname"><span class="pre">scrollbar_cb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.scrollbar_cb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'scrollable_list'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableListB.update_view">
+<span class="sig-name descname"><span class="pre">update_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableListB.update_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableStringListB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ScrollableStringListB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shown_items</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_node_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableStringListB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scrollable list of strings. Has <strong>full_list</strong> property which contains used list.
+Callback should be a function with one argument - index of clicked string.
+<strong>override_node_type</strong> changes type of buttons to node, so that they are renderer like usual NodeB.
+Call <code class="docutils literal notranslate"><span class="pre">self.update_view()</span></code> after changing <strong>self.full_list</strong> to update.
+If <em>target_size</em> is not None(default), amount of shown items will be adjusted automatically.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableStringListB.callback_adapter">
+<span class="sig-name descname"><span class="pre">callback_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableStringListB.callback_adapter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ScrollableStringListB.update_view">
+<span class="sig-name descname"><span class="pre">update_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ScrollableStringListB.update_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.SizeLimitB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">SizeLimitB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targ_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targ_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.SizeLimitB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limits size of it’s children.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.SizeLimitB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.SizeLimitB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.SizeLimitB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'centerer'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.SizeLimitB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextInputB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">TextInputB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextInputB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows to edit it’s <em>text</em>. 
+<em>callback</em> is called on enter and gets current text as an argument.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextInputB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextInputB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextInputB.selectable">
+<span class="sig-name descname"><span class="pre">selectable</span></span><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextInputB.selectable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextInputB.text">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextInputB.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextInputB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'textinput'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextInputB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextNodeB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">TextNodeB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextNodeB" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.TextNodeB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'text'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.TextNodeB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ToggleButtonB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">ToggleButtonB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ToggleButtonB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just like button, but toggleable. Callback also recieves <strong>self.state</strong>, which is True is button is active</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ToggleButtonB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ToggleButtonB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.ToggleButtonB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'togglebutton'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.ToggleButtonB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">WindowNodeB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closeable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.ext_docked">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ext_docked</span></span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.ext_docked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.ext_set_focus">
+<span class="sig-name descname"><span class="pre">ext_set_focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.ext_set_focus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.events.html#qlibs.gui.widgets.events.GUIEvent" title="qlibs.gui.widgets.events.GUIEvent"><span class="pre">qlibs.gui.widgets.events.GUIEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.handle_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.recalc_size">
+<span class="sig-name descname"><span class="pre">recalc_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.recalc_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.set_child">
+<span class="sig-name descname"><span class="pre">set_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.set_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.set_node">
+<span class="sig-name descname"><span class="pre">set_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.set_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.WindowNodeB.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'window'</span></em><a class="headerlink" href="#qlibs.gui.widgets.behaviors.WindowNodeB.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.hint_func_abs">
+<span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">hint_func_abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">placer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hints</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.hint_func_abs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.behaviors.hint_func_rel">
+<span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.behaviors.</span></span><span class="sig-name descname"><span class="pre">hint_func_rel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">placer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hints</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.behaviors.hint_func_rel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="widgets.controller.html" class="btn btn-neutral float-right" title="Module qlibs.gui.widgets.controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="widgets.app.html" class="btn btn-neutral float-left" title="Module qlibs.gui.widgets.app" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Nikita &#34;IQuant&#34; Tomashevich.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

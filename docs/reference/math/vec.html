@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Module qlibs.math.vec &mdash; QLibs 0.5.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Resources reference" href="../resources/index.html" />
+    <link rel="prev" title="Module qlibs.math.matrix" href="matrix.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QLibs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gui/index.html">Gui reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fonts/index.html">Fonts reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html">Module qlibs.util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util/index.html">Util reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../net/index.html">Net reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Math reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="matrix.html">Module qlibs.math.matrix</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module qlibs.math.vec</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-vectors">Creating vectors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#indexing">Indexing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operators">Operators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../resources/index.html">Resources reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highlevel/index.html">Highlevel reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections.html">Module qlibs.collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections/index.html">Collections reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QLibs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Math reference</a> &raquo;</li>
+        
+      <li>Module qlibs.math.vec</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reference/math/vec.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-qlibs.math.vec">
+<span id="module-qlibs-math-vec"></span><h1>Module qlibs.math.vec<a class="headerlink" href="#module-qlibs.math.vec" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Vectors are collections of numbers. They can be added, substracted, multiplied and divided, in addition to several useful methods. Because of that they are great for representing locations and directions.</p>
+</div>
+<div class="section" id="creating-vectors">
+<h2>Creating vectors<a class="headerlink" href="#creating-vectors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Vec(iterable)</span></code> - creates vector from iterable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Vec(*args)</span></code> - creates vector as if args were an iterable, so that <code class="docutils literal notranslate"><span class="pre">Vec([0,</span> <span class="pre">1])</span></code> and <code class="docutils literal notranslate"><span class="pre">Vec(0,</span> <span class="pre">1)</span></code> are equal.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Vec2(x,</span> <span class="pre">y)</span></code> - specialized vector class, which is faster(direct access to <strong>x</strong> and <strong>y</strong> fields) and is always two-dimensional.</p></li>
+</ul>
+</div>
+<div class="section" id="indexing">
+<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<p>First 4 components of vector can be accessed when they are present like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlibs.math</span> <span class="kn">import</span> <span class="n">Vec</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vec</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">vec</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">vec</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">vec</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+<span class="c1">#Also possible to index like list</span>
+<span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">vec</span><span class="o">.</span><span class="n">w</span> <span class="o">==</span> <span class="n">vec</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="operators">
+<h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qlibs.math</span> <span class="kn">import</span> <span class="n">Vec</span>
+
+<span class="n">v0</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">Vec</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">#Addition and substraction work elementwise</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">+</span><span class="n">v1</span><span class="p">)</span> <span class="c1">#Vec(10, 25)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">-</span><span class="n">v1</span><span class="p">)</span> <span class="c1">#Vec(10, -15)</span>
+
+<span class="c1">#You can multiply or divide vectors by vectors, only by numbers</span>
+<span class="c1">#Resulting vector will have elements of first array with operations applied</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">#Vec(20, 10)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">#Vec(5.0, 2.5)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span> <span class="c1">#Vec(5, 2)</span>
+
+<span class="c1">#Unary minus is also supported</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">-</span><span class="n">v0</span><span class="p">)</span>   <span class="c1">#Vec(-10, -5)</span>
+
+<span class="c1">#As well as abs()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="n">v0</span><span class="p">))</span> <span class="c1"># Vec(10, 5)</span>
+
+<span class="c1">#It is also possible to iterate for each element in vector, like list</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="c1">#Length of the vector (Note: to get number of dimensions len(vec) is required)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">len</span><span class="p">())</span>    <span class="c1">#equal to math.hypot(v0.x, v0.y), but also works for more dimensions</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">len_sq</span><span class="p">())</span> <span class="c1">#v0.len()**2</span>
+
+<span class="c1">#Calculates dot product of vectors</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
+
+<span class="c1">#Normalize divides vector by it&#39;s length, so it will have length of 1</span>
+<span class="n">v0</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">v0</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.math.vec.</span></span><span class="sig-name descname"><span class="pre">Vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.Vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any-dimensional vector. Inherits <strong>VecBase</strong>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.Vec.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes vector in-place.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.math.vec.</span></span><span class="sig-name descname"><span class="pre">Vec2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.Vec2" title="Permalink to this definition">¶</a></dt>
+<dd><p>2-dimensional vector. Faster than <strong>Vec</strong>. Inherits <strong>VecBase</strong>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2.angle">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">angle</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#qlibs.math.vec.Vec2.angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2.perpendicular">
+<span class="sig-name descname"><span class="pre">perpendicular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.Vec2.perpendicular" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2.rotate">
+<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></span><a class="headerlink" href="#qlibs.math.vec.Vec2.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate vector by <em>angle</em> degrees</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#qlibs.math.vec.Vec2.x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.math.vec.Vec2.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#qlibs.math.vec.Vec2.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.math.vec.</span></span><span class="sig-name descname"><span class="pre">VecBase</span></span><a class="headerlink" href="#qlibs.math.vec.VecBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for vectors</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.as_n_d">
+<span class="sig-name descname"><span class="pre">as_n_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.as_n_d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.bytes">
+<span class="sig-name descname"><span class="pre">bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.bytes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.cross" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.dot">
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qlibs.math.vec.VecBase" title="qlibs.math.vec.VecBase"><span class="pre">qlibs.math.vec.VecBase</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector dot product</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.in_box">
+<span class="sig-name descname"><span class="pre">in_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.in_box" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.len">
+<span class="sig-name descname"><span class="pre">len</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.len" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector length.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.len_sqr">
+<span class="sig-name descname"><span class="pre">len_sqr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.len_sqr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vector length, squared.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.map_by_verticle">
+<span class="sig-name descname"><span class="pre">map_by_verticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">callable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.map_by_verticle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes vector in-place.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.normalized">
+<span class="sig-name descname"><span class="pre">normalized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a normalized copy of vector.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.math.vec.VecBase.to_tuple">
+<span class="sig-name descname"><span class="pre">to_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.math.vec.VecBase.to_tuple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../resources/index.html" class="btn btn-neutral float-right" title="Resources reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="matrix.html" class="btn btn-neutral float-left" title="Module qlibs.math.matrix" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Nikita &#34;IQuant&#34; Tomashevich.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

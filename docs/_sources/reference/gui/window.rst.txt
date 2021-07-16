@@ -1,0 +1,8 @@
+Module qlibs.gui.window
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.window
+
+.. automodule:: qlibs.gui.window
+   :members:
+   :undoc-members:

@@ -1,0 +1,8 @@
+Module qlibs.fonts.font_loader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.fonts.font_loader
+
+.. automodule:: qlibs.fonts.font_loader
+   :members:
+   :undoc-members:

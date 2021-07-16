@@ -1,0 +1,8 @@
+Module qlibs.math.matrix
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.math.matrix
+
+.. automodule:: qlibs.math.matrix
+   :members:
+   :undoc-members:

@@ -1,0 +1,8 @@
+Module qlibs.fonts.font_search
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.fonts.font_search
+
+.. automodule:: qlibs.fonts.font_search
+   :members:
+   :undoc-members:

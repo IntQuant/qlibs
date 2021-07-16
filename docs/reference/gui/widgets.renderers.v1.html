@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Module qlibs.gui.widgets.renderers.v1 &mdash; QLibs 0.5.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module qlibs.gui.window" href="window.html" />
+    <link rel="prev" title="Module qlibs.gui.widgets.renderers.v0" href="widgets.renderers.v0.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QLibs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Gui reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic_shapes.html">Module qlibs.gui.basic_shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite_drawer.html">Module qlibs.gui.sprite_drawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.app.html">Module qlibs.gui.widgets.app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.behaviors.html">Module qlibs.gui.widgets.behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.controller.html">Module qlibs.gui.widgets.controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.events.html">Module qlibs.gui.widgets.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.render.html">Module qlibs.gui.widgets.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.renderers.v0.html">Module qlibs.gui.widgets.renderers.v0</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module qlibs.gui.widgets.renderers.v1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="window.html">Module qlibs.gui.window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fonts/index.html">Fonts reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html">Module qlibs.util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util/index.html">Util reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../net/index.html">Net reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Math reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resources/index.html">Resources reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highlevel/index.html">Highlevel reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections.html">Module qlibs.collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections/index.html">Collections reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QLibs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Gui reference</a> &raquo;</li>
+        
+      <li>Module qlibs.gui.widgets.renderers.v1</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reference/gui/widgets.renderers.v1.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-qlibs.gui.widgets.renderers.v1">
+<span id="module-qlibs-gui-widgets-renderers-v1"></span><h1>Module qlibs.gui.widgets.renderers.v1<a class="headerlink" href="#module-qlibs.gui.widgets.renderers.v1" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedBG">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedBG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedBG" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedBG.color">
+<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedBG.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedBG.pos">
+<span class="sig-name descname"><span class="pre">pos</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedBG.pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedBG.size">
+<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedBG.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedBG.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'background'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedBG.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedCustom">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedCustom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedCustom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedCustom.args">
+<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="pre">:</span> <span class="pre">tuple</span></em><em class="property"> <span class="pre">=</span> <span class="pre">()</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedCustom.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedCustom.func">
+<span class="sig-name descname"><span class="pre">func</span></span><em class="property"><span class="pre">:</span> <span class="pre">Callable</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedCustom.func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedCustom.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'custom'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedCustom.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedCustom.viewport">
+<span class="sig-name descname"><span class="pre">viewport</span></span><em class="property"><span class="pre">:</span> <span class="pre">tuple</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedCustom.viewport" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedFGLine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine.color">
+<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine.p0">
+<span class="sig-name descname"><span class="pre">p0</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine.p0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine.p1">
+<span class="sig-name descname"><span class="pre">p1</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine.p1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'foreground_line'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGLine.width">
+<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGLine.width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedFGOutline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline.color">
+<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline.pos">
+<span class="sig-name descname"><span class="pre">pos</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline.pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline.size">
+<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'foreground_outline'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedFGOutline.width">
+<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedFGOutline.width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scissor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiline</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.color">
+<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.multiline">
+<span class="sig-name descname"><span class="pre">multiline</span></span><em class="property"><span class="pre">:</span> <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.multiline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.pos">
+<span class="sig-name descname"><span class="pre">pos</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.scale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.scissor">
+<span class="sig-name descname"><span class="pre">scissor</span></span><em class="property"><span class="pre">:</span> <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="../math/vec.html#qlibs.math.vec.Vec2" title="qlibs.math.vec.Vec2"><span class="pre">qlibs.math.vec.Vec2</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.scissor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.text">
+<span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedText.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'text'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedText.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">QueuedType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType.BG">
+<span class="sig-name descname"><span class="pre">BG</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'background'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType.BG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType.CUSTOM">
+<span class="sig-name descname"><span class="pre">CUSTOM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'custom'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType.CUSTOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType.FGLINE">
+<span class="sig-name descname"><span class="pre">FGLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'foreground_line'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType.FGLINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType.FGOUTLINE">
+<span class="sig-name descname"><span class="pre">FGOUTLINE</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'foreground_outline'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType.FGOUTLINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.QueuedType.TEXT">
+<span class="sig-name descname"><span class="pre">TEXT</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'text'</span></em><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.QueuedType.TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">V1Generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_renderer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.param_bg_color">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param_bg_color</span></span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.param_bg_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.param_bg_color_sel">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param_bg_color_sel</span></span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.param_bg_color_sel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.param_fg_color">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param_fg_color</span></span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.param_fg_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.param_fg_color_sel">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">param_fg_color_sel</span></span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.param_fg_color_sel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Generator.render_node">
+<span class="sig-name descname"><span class="pre">render_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="widgets.behaviors.html#qlibs.gui.widgets.behaviors.NodeB" title="qlibs.gui.widgets.behaviors.NodeB"><span class="pre">qlibs.gui.widgets.behaviors.NodeB</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Generator.render_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Renderer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.widgets.renderers.v1.</span></span><span class="sig-name descname"><span class="pre">V1Renderer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_selected_cb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Renderer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.widgets.renderers.v1.V1Renderer.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.widgets.renderers.v1.V1Renderer.render" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="window.html" class="btn btn-neutral float-right" title="Module qlibs.gui.window" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="widgets.renderers.v0.html" class="btn btn-neutral float-left" title="Module qlibs.gui.widgets.renderers.v0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Nikita &#34;IQuant&#34; Tomashevich.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

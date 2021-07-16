@@ -1,0 +1,8 @@
+Module qlibs.highlevel.graphics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.highlevel.graphics
+
+.. automodule:: qlibs.highlevel.graphics
+   :members:
+   :undoc-members:

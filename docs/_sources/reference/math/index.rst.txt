@@ -1,0 +1,9 @@
+Math reference
+--------------
+
+
+.. toctree::
+   :maxdepth: 2
+
+   matrix.rst
+   vec.rst

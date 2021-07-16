@@ -1,0 +1,9 @@
+Resources reference
+-------------------
+
+
+.. toctree::
+   :maxdepth: 2
+
+   resource_loader.rst
+   resource_manager.rst

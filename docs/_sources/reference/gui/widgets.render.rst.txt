@@ -1,0 +1,8 @@
+Module qlibs.gui.widgets.render
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.widgets.render
+
+.. automodule:: qlibs.gui.widgets.render
+   :members:
+   :undoc-members:

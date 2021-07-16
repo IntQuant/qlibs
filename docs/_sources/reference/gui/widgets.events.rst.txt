@@ -1,0 +1,8 @@
+Module qlibs.gui.widgets.events
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.widgets.events
+
+.. automodule:: qlibs.gui.widgets.events
+   :members:
+   :undoc-members:

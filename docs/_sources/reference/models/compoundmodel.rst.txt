@@ -1,0 +1,8 @@
+Module qlibs.models.compoundmodel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.models.compoundmodel
+
+.. automodule:: qlibs.models.compoundmodel
+   :members:
+   :undoc-members:

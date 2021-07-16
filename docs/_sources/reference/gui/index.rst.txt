@@ -1,0 +1,17 @@
+Gui reference
+-------------
+
+
+.. toctree::
+   :maxdepth: 2
+
+   basic_shapes.rst
+   sprite_drawer.rst
+   widgets.app.rst
+   widgets.behaviors.rst
+   widgets.controller.rst
+   widgets.events.rst
+   widgets.render.rst
+   widgets.renderers.v0.rst
+   widgets.renderers.v1.rst
+   window.rst

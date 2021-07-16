@@ -1,0 +1,8 @@
+Module qlibs.gui.widgets.behaviors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.widgets.behaviors
+
+.. automodule:: qlibs.gui.widgets.behaviors
+   :members:
+   :undoc-members:

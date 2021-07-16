@@ -1,0 +1,8 @@
+Module qlibs.resources.resource_manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.resources.resource_manager
+
+.. automodule:: qlibs.resources.resource_manager
+   :members:
+   :undoc-members:

@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Module qlibs.gui.window &mdash; QLibs 0.5.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Fonts reference" href="../fonts/index.html" />
+    <link rel="prev" title="Module qlibs.gui.widgets.renderers.v1" href="widgets.renderers.v1.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QLibs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Gui reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="basic_shapes.html">Module qlibs.gui.basic_shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sprite_drawer.html">Module qlibs.gui.sprite_drawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.app.html">Module qlibs.gui.widgets.app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.behaviors.html">Module qlibs.gui.widgets.behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.controller.html">Module qlibs.gui.widgets.controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.events.html">Module qlibs.gui.widgets.events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.render.html">Module qlibs.gui.widgets.render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.renderers.v0.html">Module qlibs.gui.widgets.renderers.v0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.renderers.v1.html">Module qlibs.gui.widgets.renderers.v1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Module qlibs.gui.window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fonts/index.html">Fonts reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html">Module qlibs.util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util/index.html">Util reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../net/index.html">Net reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Math reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resources/index.html">Resources reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../highlevel/index.html">Highlevel reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections.html">Module qlibs.collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../collections/index.html">Collections reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QLibs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Gui reference</a> &raquo;</li>
+        
+      <li>Module qlibs.gui.window</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/reference/gui/window.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-qlibs.gui.window">
+<span id="module-qlibs-gui-window"></span><h1>Module qlibs.gui.window<a class="headerlink" href="#module-qlibs.gui.window" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qlibs.gui.window.</span></span><span class="sig-name descname"><span class="pre">Window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">800</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QLibs</span> <span class="pre">window'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swap_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hint_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{135173:</span> <span class="pre">24,</span> <span class="pre">135181:</span> <span class="pre">4,</span> <span class="pre">135183:</span> <span class="pre">60,</span> <span class="pre">135184:</span> <span class="pre">True,</span> <span class="pre">139265:</span> <span class="pre">196609,</span> <span class="pre">139266:</span> <span class="pre">3,</span> <span class="pre">139267:</span> <span class="pre">3,</span> <span class="pre">139270:</span> <span class="pre">True,</span> <span class="pre">139272:</span> <span class="pre">204801,</span> <span class="pre">139275:</span> <span class="pre">221185}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resizable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullscreen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper on top of glfw window</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.enable_sticky_mouse">
+<span class="sig-name descname"><span class="pre">enable_sticky_mouse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.enable_sticky_mouse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.is_key_pressed">
+<span class="sig-name descname"><span class="pre">is_key_pressed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.is_key_pressed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.is_mouse_pressed">
+<span class="sig-name descname"><span class="pre">is_mouse_pressed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.is_mouse_pressed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.make_context_current">
+<span class="sig-name descname"><span class="pre">make_context_current</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.make_context_current" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.mouse_pos">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mouse_pos</span></span><a class="headerlink" href="#qlibs.gui.window.Window.mouse_pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.mouse_pos_flipped">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mouse_pos_flipped</span></span><a class="headerlink" href="#qlibs.gui.window.Window.mouse_pos_flipped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.mouse_pos_normal">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mouse_pos_normal</span></span><a class="headerlink" href="#qlibs.gui.window.Window.mouse_pos_normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.poll_events">
+<span class="sig-name descname"><span class="pre">poll_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.poll_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.should_close">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">should_close</span></span><a class="headerlink" href="#qlibs.gui.window.Window.should_close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.size">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#qlibs.gui.window.Window.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.swap">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.swap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qlibs.gui.window.Window.wait_events">
+<span class="sig-name descname"><span class="pre">wait_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qlibs.gui.window.Window.wait_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../fonts/index.html" class="btn btn-neutral float-right" title="Fonts reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="widgets.renderers.v1.html" class="btn btn-neutral float-left" title="Module qlibs.gui.widgets.renderers.v1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Nikita &#34;IQuant&#34; Tomashevich.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

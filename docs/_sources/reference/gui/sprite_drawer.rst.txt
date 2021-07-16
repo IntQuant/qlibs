@@ -1,0 +1,8 @@
+Module qlibs.gui.sprite_drawer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.sprite_drawer
+
+.. automodule:: qlibs.gui.sprite_drawer
+   :members:
+   :undoc-members:

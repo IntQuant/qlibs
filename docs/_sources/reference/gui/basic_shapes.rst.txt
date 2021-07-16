@@ -1,0 +1,8 @@
+Module qlibs.gui.basic_shapes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:currentmodule:: qlibs.gui.basic_shapes
+
+.. automodule:: qlibs.gui.basic_shapes
+   :members:
+   :undoc-members:
