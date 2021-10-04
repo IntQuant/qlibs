@@ -1,3 +1,6 @@
+## Qlibs 0.5.7
+ - Fix: turns out glyph.bearing.x was ignored. Not anymore, resulting in a more correct font rendering.
+
 ## Qlibs 0.5.6
  - Fix: use integer values for scissor test
  - Ref: use enum instead of str in node types

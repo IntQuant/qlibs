@@ -135,23 +135,25 @@ class DirectFontRender:
             else:
                 posy = pos.y - (glyph.size.y - glyph.bearing.y) * scale
             
+            x_shift = glyph.bearing.x * scale
+
             if self.flip_y:
                 data = array("f", (
-                    pos.x, posy + h, 0, 1,
-                    pos.x, posy, 0, 0,
-                    pos.x + w, posy, 1, 0,
-                    pos.x, posy + h, 0, 1,
-                    pos.x + w, posy, 1, 0,
-                    pos.x + w, posy + h, 1, 1
+                    pos.x + x_shift, posy + h, 0, 1,
+                    pos.x + x_shift, posy, 0, 0,
+                    pos.x + x_shift + w, posy, 1, 0,
+                    pos.x + x_shift, posy + h, 0, 1,
+                    pos.x + x_shift + w, posy, 1, 0,
+                    pos.x + x_shift + w, posy + h, 1, 1
                 ))
             else:
                 data = array("f", (
-                    pos.x, posy + h, 0, 0,
-                    pos.x, posy, 0, 1,
-                    pos.x + w, posy, 1, 1,
-                    pos.x, posy + h, 0, 0,
-                    pos.x + w, posy, 1, 1,
-                    pos.x + w, posy + h, 1, 0
+                    pos.x + x_shift, posy + h, 0, 0,
+                    pos.x + x_shift, posy, 0, 1,
+                    pos.x + x_shift + w, posy, 1, 1,
+                    pos.x + x_shift, posy + h, 0, 0,
+                    pos.x + x_shift + w, posy, 1, 1,
+                    pos.x + x_shift + w, posy + h, 1, 0
                 ))
             
             if self.vao is None:

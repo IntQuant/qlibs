@@ -2,15 +2,15 @@
   Contains drawers of simple shapes.
 """
 
+import math
 from array import array
 
 import moderngl
 
-from ..resources.resource_manager import get_storage_of_context
-from ..math.matrix import Matrix4, IDENTITY
 from ..math import Vec2
+from ..math.matrix import IDENTITY, Matrix4
+from ..resources.resource_manager import get_storage_of_context
 from ..util import try_write
-
 from .window import current_context
 
 SHADER_VERTEX = "qlibs/shaders/drawer.vert"
@@ -77,6 +77,12 @@ class ShapeDrawer:
     
     def add_line_rectangle(self, x, y, w, h, color=(1, 1, 1)):
         self.add_line_polygon(((x, y), (x+w, y), (x+w, y+h), (x, y+h)), color)
+    
+    def add_line_circle(self, x, y, r, color=(1, 1, 1), segments=16):
+        for i in range(segments):
+            v1 = i / segments * math.pi * 2
+            v2 = (i+1) / segments * math.pi * 2
+            self.add_line((x+math.sin(v1)*r, y+math.cos(v1)*r), (x+math.sin(v2)*r, y+math.cos(v2)*r))
 
     def add_line2d_polygon(self, points, **kwargs):
         for i in range(len(points)):

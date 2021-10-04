@@ -165,7 +165,7 @@ class V1Generator:
             self.render_queue.extend(self.text_queue)
             self.text_queue.clear()
             viewport = (node.position.x, self.window.height-node.position.y-node.size.y, node.size.x, node.size.y)
-            self.render_queue.append(QueuedCustom(node.render, args=(node,), viewport=viewport))
+            self.render_queue.append(QueuedCustom(node.render, viewport=viewport))
 
         if node.text is not None:
             if node.type == "text" or isinstance(node.text, FormattedText):

@@ -325,6 +325,9 @@ class Vec2(VecBase):
         y = self.x
         x = self.y
         return Vec2(-x, y)
+    
+    def copy(self):
+        return Vec2(self.x, self.y)
 
 
 MVec = Vec

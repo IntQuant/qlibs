@@ -12,7 +12,7 @@ There are quite a lot of them!
 * More to come.
 
 # Documentation
-See qlibs.handtruth.com
+See https://intquant.github.io/qlibs/
 Also there are examples.
 
 # Installation

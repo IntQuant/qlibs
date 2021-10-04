@@ -604,10 +604,13 @@ class CustomRenderB(NodeB):
     """
       *render* is a callback. This will be called by rendering, with viewport set to node's position and size. Recieves this node as an argument.
     """
-    type = "customrender"
+    type = QlibsNodeTypes.CUSTOM_RENDER
     def __init__(self, render, **kwargs):
         super().__init__(**kwargs)
-        self.render = render
+        self._render = render
+    
+    def render(self):
+        self._render(self)
 
 
 class RadioButtonGroup:
