@@ -3,9 +3,17 @@
 """
 
 from ..gui.sprite_drawer import SpriteDrawer, TEXTURE_POINTS
-from ..resources.resource_loader import get_image_data
+from ..resources.resource_loader import ImageData, get_image_data
 from ..math import Matrix4, IDENTITY
 import weakref
+import moderngl
+
+_pil_loaded = False
+try:
+    from PIL import Image
+    _pil_loaded = True
+except ImportError:
+    pass
 
 class SpriteMasterBase:
     """
@@ -121,7 +129,7 @@ class SpriteMaster(SpriteMasterBase):
 
     See **SpriteMasterBase** for more.
     """
-    def __init__(self, ctx, program=None):
+    def __init__(self, ctx, program=None, texture_filter=(moderngl.LINEAR, moderngl.LINEAR)):
         self.ctx = ctx
         self.drawers = list()
         self.id_map = dict()
@@ -131,6 +139,7 @@ class SpriteMaster(SpriteMasterBase):
         self.forks = weakref.WeakValueDictionary()
         self.last_used_matrix = None
         self.program = program
+        self._texture_filter = texture_filter
 
     def load_file(self, sprite_id, file_id):
         """
@@ -139,6 +148,19 @@ class SpriteMaster(SpriteMasterBase):
         """
         self.images[sprite_id] = get_image_data(file_id, mode="RGBA")
         #self.load_calls.append((sprite_id, file_id))
+    
+    def load_image(self, sprite_id, image):
+        """
+        Load a PIL Image or ImageData directly, bypassing resource system.
+        """
+        if _pil_loaded and isinstance(image, Image.Image):
+            image = image.transpose(Image.FLIP_TOP_BOTTOM)
+            image = ImageData(image.size, image.tobytes())
+        if not isinstance(image, ImageData):
+            raise TypeError(f"Could not convert image to ImageData object and image is not an ImageData object")
+        if image.size[0] * image.size[1] * 4 != len(image.data):
+            raise ValueError("Wrong image format (Should be RGBA, 1 byte per color value, 4 bytes per pixel)")
+        self.images[sprite_id] = image
 
     def init(self):
         """
@@ -164,7 +186,7 @@ class SpriteMaster(SpriteMasterBase):
                 drawer_id = len(self.drawers)
                 am = min(len(images)-i, self.max_sprites_per_drawer)
                 data = b"".join((img.data for img in images[i:i+am]))
-                self.drawers.append(SpriteDrawer(self.ctx, (*size, am), data, program=self.program))
+                self.drawers.append(SpriteDrawer(self.ctx, (*size, am), data, program=self.program, texture_filter=self._texture_filter))
                 for j, img in enumerate(images[i:i+am]):
                     self.id_map[img.sprite.pop()] = (drawer_id, j)
         

@@ -207,10 +207,11 @@ class ObjectDrawer():
 
 
 class SpriteDrawer(SpriteDrawerBase):
-    def __init__(self, ctx, size, data, components=4, program=None):
+    def __init__(self, ctx, size, data, components=4, program=None, texture_filter=(moderngl.LINEAR, moderngl.LINEAR)):
         self.ctx = ctx
         self.program = program or get_storage_of_context(self.ctx).get_program(SHADER_VERTEX, SHADER_FRAGMENT)
         self.texture = self.ctx.texture_array(size, components, data=data)
+        self.texture.filter = texture_filter
         self.texture.repeat_x = False
         self.texture.repeat_y = False
         self.size = size

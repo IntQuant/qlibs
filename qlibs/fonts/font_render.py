@@ -31,7 +31,7 @@ class FormattedTextToken(Enum):
 
 class FormattingData(dict):
     def __getattr__(self, name):
-        return self[name]
+        return self.get(name, None)
     
     def copy(self):
         return FormattingData(**self)
@@ -96,8 +96,8 @@ class DirectFontRender:
     
     def get_glyph(self, char, font_name=None):
         font_name = font_name or self.font
-        glyph = self.cache.get(char, None)
         global_key = (font_name, id(self.ctx), self.pixel_size, char)
+        glyph = self.cache.get(global_key, None)
         if glyph is None:
             try:
                 glyph = global_cache[global_key]
@@ -105,7 +105,7 @@ class DirectFontRender:
                 glyph = None
         if glyph is None:
             glyph = GGlyph(self.ctx, font_loader.font_loader.get().get(font_name, char))
-            self.cache[char] = glyph
+            self.cache[global_key] = glyph
             global_cache[global_key] = glyph
         return glyph
 
@@ -173,10 +173,10 @@ class DirectFontRender:
         else:
             ftext = text
         
+        min_sep *= scale/32
         formatting_data = FormattingData(align=TextAlign.LEFT, **kwargs)
         words = list(ftext.tokens)
-        
-        i = -1
+
         line = list()
         cur_line_len = 0
         words.reverse()
@@ -186,7 +186,7 @@ class DirectFontRender:
         while words:
             is_word = isinstance(words[-1], str)
             if is_word:
-                word_len = self.calc_size(words[-1], scale)
+                word_len = self.calc_size(words[-1], scale=scale, font=formatting_data.font)
             else:
                 word_len = 0
             finish_line = word_len + cur_line_len > max_line_len
@@ -208,24 +208,24 @@ class DirectFontRender:
                     cx = x
                 for word, formatting in line:
                     self.render_string(word, cx, cy, scale=scale, **formatting)
-                    cx += self.calc_size(word, scale=scale) + min_sep
+                    cx += self.calc_size(word, scale=scale, font=formatting.font) + min_sep
                 line.clear()
                 cur_line_len = 0
                 cy += vertical_advance
             
     @lru_cache(1024)
-    def calc_size(self, text, scale=1):
+    def calc_size(self, text, scale=1, font=None):
         x = 0
         for char in text:
-            x += self.get_glyph(char).advance.x
+            x += self.get_glyph(char, font_name=font).advance.x
         return x / 64 * scale / self.pixel_size
     
     @lru_cache(1024)
-    def calc_height(self, text, scale=1, full=False):
+    def calc_height(self, text, scale=1, full=False, font=None):
         max_y = 0
         min_y = 0
         for char in text:
-            glyph = self.get_glyph(char)
+            glyph = self.get_glyph(char, font_name=font)
             max_y = max(max_y, glyph.bearing.y)
             if full:
                 min_y = min(min_y, -glyph.size.y - glyph.bearing.y)

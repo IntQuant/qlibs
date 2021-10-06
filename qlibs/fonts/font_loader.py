@@ -1,5 +1,7 @@
 import warnings
 import freetype
+
+from qlibs.resources.resource_loader import get_res_path
 from .font_search import find_reasonable_font
 from contextvars import ContextVar
 from collections import defaultdict
@@ -29,7 +31,11 @@ class FontLoader:
         if reasonable_font is None:
             warnings.warn(RuntimeWarning("No default font found! (Could not find system font)"))
         else:
-            self.mapping["default"].append(FreetypeGlyphProvider(reasonable_font))
+            self.load_freetype_font("default", reasonable_font)
+    
+    def load_freetype_font(self, font_name, path):
+        path = get_res_path(path)
+        self.mapping[font_name].append(FreetypeGlyphProvider(path))
     
     def get(self, font_name, char):
         for provider in self.mapping[font_name]:

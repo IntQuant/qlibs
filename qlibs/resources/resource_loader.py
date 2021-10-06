@@ -83,6 +83,9 @@ def get_res_path(path):
     #    cand_path = os.path.join(c_path, path)
     #    if os.path.exists(cand_path):
     #        return cand_path
+    if os.path.isabs(path):
+        return path
+
     resolved = loader.resolve(path)
     if resolved is None:
         if os.path.exists(path):
