@@ -8,12 +8,10 @@ from functools import lru_cache
 from html.parser import HTMLParser
 import itertools
 import warnings
-from qlibs.fonts import font_loader, font_search
-from typing import Text
+from qlibs.fonts import font_loader
 import weakref
 from enum import Enum, auto
 
-import freetype
 import moderngl
 
 from ..resources.resource_manager import get_storage_of_context

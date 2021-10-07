@@ -1,5 +1,4 @@
-import moderngl
-from .resource_loader import get_res_texture, get_res_data, get_res_path, get_image_data
+from .resource_loader import get_res_data, get_res_path, get_image_data
 from ..models.modelloader import OBJLoader
 
 pcs_storage = dict()
