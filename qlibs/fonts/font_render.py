@@ -4,6 +4,7 @@
 
 from array import array
 from functools import lru_cache
+import itertools
 import warnings
 from qlibs.fonts import font_loader, font_search
 from typing import Text
@@ -104,12 +105,16 @@ class DirectFontRender:
             except KeyError:
                 glyph = None
         if glyph is None:
-            glyph = GGlyph(self.ctx, font_loader.font_loader.get().get(font_name, char))
+            glyph = GGlyph(self.ctx, font_loader.font_loader.get().get(font_name, char, pixel_size=self.pixel_size))
             self.cache[global_key] = glyph
             global_cache[global_key] = glyph
         return glyph
+    
+    def get_kerning(self, left_char, right_char, font_name=None):
+        font_name = font_name or self.font
+        return font_loader.font_loader.get().get_kerning(font_name, left_char, right_char, pixel_size=self.pixel_size)
 
-    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True, font=None, **kwargs):
+    def render_string(self, text, x, y, scale=1, color=(1, 1, 1), mvp=Matrix4(IDENTITY), enable_blending=True, font=None, kerning_enabled=True, **kwargs):
         """
         Render text with given parameters
         """
@@ -124,7 +129,7 @@ class DirectFontRender:
         pos = Vec2(x, y)
         try_write(self.program, "mvp", mvp.bytes())
         try_write(self.program, "text_color", IVec(color).bytes())
-        for char in text:
+        for char, next_char in itertools.zip_longest(text, text[1:]):
             glyph = self.get_glyph(char, font_name=font) 
             glyph.texture.use()
             h = glyph.size.y * scale
@@ -164,7 +169,11 @@ class DirectFontRender:
             else:
                 self.buffer.write(data)    
             self.vao.render()
-            pos += glyph.advance * (scale / 64)
+            if kerning_enabled and next_char is not None:
+                kerning = self.get_kerning(char, next_char, font_name=font)
+            else:
+                kerning = Vec2(0, 0)
+            pos += (glyph.advance + kerning) * (scale / 64)
 
     def render_multiline(self, text, x, y, max_line_len, *, scale=32, vertical_advance=None, min_sep=15, **kwargs):
         if not isinstance(text, FormattedText):
@@ -214,10 +223,14 @@ class DirectFontRender:
                 cy += vertical_advance
             
     @lru_cache(1024)
-    def calc_size(self, text, scale=1, font=None):
+    def calc_size(self, text, scale=1, font=None, kerning_enabled=True):
         x = 0
-        for char in text:
-            x += self.get_glyph(char, font_name=font).advance.x
+        for char, next_char in itertools.zip_longest(text, text[1:]):
+            if kerning_enabled and next_char is not None:
+                kerning = self.get_kerning(char, next_char, font_name=font).x
+            else:
+                kerning = 0
+            x += self.get_glyph(char, font_name=font).advance.x + kerning
         return x / 64 * scale / self.pixel_size
     
     @lru_cache(1024)
