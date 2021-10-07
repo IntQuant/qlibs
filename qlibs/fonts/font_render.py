@@ -185,7 +185,7 @@ class DirectFontRender:
         """
         if self.adaptive_pixel_size:
             #We always want to have a bit bigger texture for safety, so we add SCALE_SAFETY_MARGIN to scale
-            larger_power_of_two = 2**max(8, scale+SCALE_SAFETY_MARGIN).bit_length()
+            larger_power_of_two = 2**max(8, int(scale+SCALE_SAFETY_MARGIN)).bit_length()
             self.pixel_size = max(larger_power_of_two, self.base_pixel_size)
 
         if enable_blending:
