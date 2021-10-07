@@ -1,7 +1,9 @@
 ## Qlibs 0.6.0
  - Feature: SpriteMaster can now load PIL images and ImageData directly.
  - Feature: texture filter can now be specified for SpriteMaster.
- - Feature: absolute paths can be used instead of resource paths everywhere.
+ - Feature: absolute paths can be used instead of resource paths everywhere. Relative paths are also used directly when they couldn't be resolved to anything else.
+ - Feature: font kerning.
+ - Feature: a new way to set up text formatting.
  - Fix: multiple fonts not working. At all.
 
 ## Qlibs 0.5.7

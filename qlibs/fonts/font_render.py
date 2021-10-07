@@ -3,7 +3,9 @@
 """
 
 from array import array
+from collections import deque
 from functools import lru_cache
+from html.parser import HTMLParser
 import itertools
 import warnings
 from qlibs.fonts import font_loader, font_search
@@ -20,6 +22,8 @@ from ..math.matrix import Matrix4, IDENTITY
 from ..util import try_write
 from ..gui.window import current_context
 
+SCALE_SAFETY_MARGIN = 8
+
 global_cache = weakref.WeakValueDictionary()
 
 class TextAlign(Enum):
@@ -28,6 +32,7 @@ class TextAlign(Enum):
 
 class FormattedTextToken(Enum):
     LINEBREAK = auto()
+    POP_FORMAT = auto()
 
 
 class FormattingData(dict):
@@ -36,6 +41,53 @@ class FormattingData(dict):
     
     def copy(self):
         return FormattingData(**self)
+
+
+class HTMLFormatParser(HTMLParser):
+    CDATA_CONTENT_ELEMENTS = ("raw",)
+    def __init__(self, color_converter):
+        super().__init__()
+        self.result = []
+        self._color_converter = color_converter
+        self._is_raw = False
+    
+    def handle_starttag(self, tag: str, attrs):
+        attrs = {k: v for (k, v) in attrs}
+        if tag == "br":
+            self.result.append(FormattedTextToken.LINEBREAK)
+        elif tag == "style":
+            fmt = FormattingData()
+            if "color" in attrs:
+                color_str = attrs["color"]
+                if color_str.startswith("#"):
+                    color_val = int(color_str[1:], base=16)
+                    r = (color_val & 0xFF0000) / 0xFF0000
+                    g = (color_val & 0x00FF00) / 0x00FF00
+                    b = (color_val & 0x0000FF) / 0x0000FF
+                    fmt["color"] = (r, g, b)
+                else:
+                    if self._color_converter is not None:
+                        fmt["color"] = self._color_converter(color_str)
+                    else:
+                        raise ValueError(f"Unknown color '{color_str}'")
+            if "font" in attrs:
+                fmt["font"] = attrs["font"]
+            self.result.append(fmt)
+        elif tag == "raw":
+            self._is_raw = True
+    
+    def handle_data(self, data: str) -> None:
+        if self._is_raw:
+            self.result.append(data)
+        else:
+            self.result.extend(data.split())
+    
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "style":
+            self.result.append(FormattedTextToken.POP_FORMAT)
+        elif tag == "raw":
+            self._is_raw = False
+
 
 
 class FormattedText:
@@ -50,6 +102,12 @@ class FormattedText:
         for line in text.splitlines():
             self.tokens.extend(line.split())
             self.tokens.append(FormattedTextToken.LINEBREAK)
+    
+    @classmethod
+    def from_html(cls, text, color_converter=None):
+        parser = HTMLFormatParser(color_converter)
+        parser.feed(text)
+        return cls(tokens=parser.result)
 
 
 class GGlyph:
@@ -66,6 +124,7 @@ class GGlyph:
         self.bearing = Vec2(glyph.bitmap_left, glyph.bitmap_top)
         data = glyph.bitmap.buffer
         self.texture = ctx.texture(tuple(self.size), 1, bytes(data), dtype="f1", alignment=1)
+        #self.texture.build_mipmaps()
         self.texture.repeat_x = False
         self.texture.repeat_y = False
 
@@ -77,19 +136,24 @@ class DirectFontRender:
     """
       Render text using font
     """
-    def __init__(self, ctx=None, font=None, font_path=None, pixel_size=48, flip_y=False, default_font="default"):
+    def __init__(self, ctx=None, font=None, font_path=None, pixel_size=48, flip_y=False, default_font="default", adaptive_pixel_size=True, base_pixel_size=8):
         """
         *ctx* is a moderngl context.
         *font_path* and *font* are deprecated and ignored.
         *default_font* - name of default font.
+        *adaptive_pixel_size* - whether to use different glyph sizes or not. True results in better performance.
         """
         ctx = ctx or current_context.get()
         if font is not None or font_path is not None:
             warnings.warn("font and font_path are not supported anymore", category=DeprecationWarning)
         self.ctx = ctx
         self.font = default_font
+        self.base_pixel_size = base_pixel_size
         self.pixel_size = pixel_size
+        self.adaptive_pixel_size = adaptive_pixel_size
         self.cache = dict()
+        self._last_added_to_cache = deque()
+        self.max_cache_size = 256
         self.program = get_storage_of_context(ctx).get_program("qlibs/shaders/text.vert", "qlibs/shaders/text.frag")
         self.vao = None
         self.buffer = None
@@ -106,7 +170,10 @@ class DirectFontRender:
                 glyph = None
         if glyph is None:
             glyph = GGlyph(self.ctx, font_loader.font_loader.get().get(font_name, char, pixel_size=self.pixel_size))
+            self._last_added_to_cache.append(global_key)
             self.cache[global_key] = glyph
+            while len(self.cache) > self.max_cache_size:
+                del self.cache[self._last_added_to_cache.popleft()]
             global_cache[global_key] = glyph
         return glyph
     
@@ -118,6 +185,11 @@ class DirectFontRender:
         """
         Render text with given parameters
         """
+        if self.adaptive_pixel_size:
+            #We always want to have a bit bigger texture for safety, so we add SCALE_SAFETY_MARGIN to scale
+            larger_power_of_two = 2**max(8, scale+SCALE_SAFETY_MARGIN).bit_length()
+            self.pixel_size = max(larger_power_of_two, self.base_pixel_size)
+
         if enable_blending:
             self.ctx.enable_only(moderngl.BLEND)
         
@@ -190,6 +262,7 @@ class DirectFontRender:
         cur_line_len = 0
         words.reverse()
         cy = y
+        format_stack = list()
         if vertical_advance is None:
             vertical_advance = scale * (1 if self.flip_y else -1)
         while words:
@@ -206,7 +279,10 @@ class DirectFontRender:
                 token = words.pop()
                 if token is FormattedTextToken.LINEBREAK:
                     finish_line = True
+                if token is FormattedTextToken.POP_FORMAT:
+                    formatting_data = format_stack.pop()
                 if isinstance(token, FormattingData):
+                    format_stack.append(formatting_data)
                     formatting_data = formatting_data.copy()
                     formatting_data.update(token)
 
