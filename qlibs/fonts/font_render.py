@@ -253,7 +253,9 @@ class DirectFontRender:
             ftext = text
         
         min_sep *= scale/32
-        formatting_data = FormattingData(align=TextAlign.LEFT, **kwargs)
+        fmt_params = dict(align=TextAlign.LEFT)
+        fmt_params.update(kwargs)
+        formatting_data = FormattingData(**fmt_params)
         words = list(ftext.tokens)
 
         line = list()
