@@ -70,6 +70,13 @@ class HTMLFormatParser(HTMLParser):
                         raise ValueError(f"Unknown color '{color_str}'")
             if "font" in attrs:
                 fmt["font"] = attrs["font"]
+            #Note: value only matters at line breaks or when there are no tokens anymore
+            #You might want to consider adding addional linebreaks before the text align is switched
+            if "align" in attrs: 
+                fmt["align"] = {
+                    "left": TextAlign.LEFT,
+                    "center": TextAlign.CENTER,
+                }[attrs["align"]]
             self.result.append(fmt)
         elif tag == "raw":
             self._is_raw = True
