@@ -3,10 +3,13 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("version.txt", "r") as f:
+    version = f.read().strip('\n')
+
 def do_setup(ext_modules):
     setuptools.setup(
         name="qlibs",
-        version="0.6.1",
+        version=version,
         author="IQuant",
         author_email="quant3234@gmail.com",
         description="Networking, gui, math and more",
