@@ -1,10 +1,8 @@
+version = '0.6.2.1'
 import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
-
-with open("version.txt", "r") as f:
-    version = f.read().strip('\n')
 
 def do_setup(ext_modules):
     setuptools.setup(
@@ -35,3 +33,5 @@ def do_setup(ext_modules):
 
 #do_setup([Extension("qlibs.math.mat4", ["qlibs/math/cmatrix/mat4.c"])])
 do_setup([])
+
+
