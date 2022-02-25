@@ -42,7 +42,7 @@ class Window:
         self.scroll_callback = None
         self.key_callback = None
         self.spec_key_callback = None
-        self.flip_mouse_y = False #flipped relativly to usual math-y respresentation
+        self.flip_mouse_y = False #flipped relatively to usual math-y representation
 
         glfw.init()
         glfw.window_hint(glfw.RESIZABLE, resizable and not fullscreen)

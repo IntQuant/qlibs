@@ -36,7 +36,15 @@ class SpriteDrawerBase:
     def prepare(self):
         self.buffer_data = array("f")
     
+    def _normalize_color(self, color):
+        if len(color) == 3:
+            color = color + (1,)
+        if len(color) != 4:
+            raise ValueError("color should have either three or four components")
+        return color
+
     def add_sprite_rect(self, id_, x, y, w, h, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        color = self._normalize_color(color)
         data = [
             #First triangle
             x,   y,   *tpoints[0], id_, z, *color,
@@ -53,6 +61,8 @@ class SpriteDrawerBase:
         self.add_sprite_rect(id_, x - w/2, y - h/2, w, h, z, color, tpoints)
 
     def add_sprite_rotated(self, id_, x, y, w, h, r, z=0, color=(1, 1, 1, 1), tpoints=TEXTURE_POINTS):
+        color = self._normalize_color(color)
+        
         at = math.atan2(w, h)
         rot = r + math.pi
         d = math.sqrt(w*w + h*h) / 2

@@ -1,4 +1,4 @@
-version = '0.6.2.1'
+version = '0.6.3'
 import setuptools
 
 with open("README.md", "r") as fh:

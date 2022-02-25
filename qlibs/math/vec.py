@@ -66,6 +66,7 @@ assert v0.len() == 1
 import math
 from numbers import Number
 from array import array
+from typing import Iterable
 
 import warnings
 #from ..net.qpacket import conv_lookup, convert, make_qlibs_obj_id
@@ -116,13 +117,19 @@ class VecBase:
 
     def __add__(self, other):
         #return self.map_by_verticle(other, lambda x, y: x + y)
-        return self.__class__(*[v1+v2 for v1, v2 in zip(self, other)])
+        try:
+            return self.__class__(*[v1+v2 for v1, v2 in zip(self, other)])
+        except Exception as e:
+            raise ValueError(f"Could not add {repr(self)} to {repr(other)}") from e
 
     def __iadd__(self, other):
         return self.__add__(other)
 
     def __sub__(self, other):
-        return self.map_by_verticle(other, lambda x, y: x - y)
+        try:
+            return self.map_by_verticle(other, lambda x, y: x - y)
+        except Exception as e:
+            raise ValueError(f"Could not substract {self} from {other}") from e
 
     def __isub__(self, other):
         return self.__sub__(other)
@@ -220,7 +227,7 @@ class Vec(VecBase):  # Making those immutable is a good idea, right? (No)
     __slots__ = ("_v",)
 
     def __init__(self, *args):
-        if len(args) == 1:
+        if isinstance(args[0], Iterable):
             self._v = list(args[0])
         else:
             self._v = list(args)
