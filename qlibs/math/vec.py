@@ -129,7 +129,7 @@ class VecBase:
         try:
             return self.map_by_verticle(other, lambda x, y: x - y)
         except Exception as e:
-            raise ValueError(f"Could not substract {self} from {other}") from e
+            raise ValueError(f"Could not substract {other} from {self}") from e
 
     def __isub__(self, other):
         return self.__sub__(other)
